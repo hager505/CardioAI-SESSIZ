@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Profile - Cardio AI</title>
+    <style>
+  
+/* Sidebar */
+.sidebar {
+    background: rgba(170, 213, 42, 0.56);
+    border-right: 1px solid var(--medium-gray);
+    padding: 20px 0;
+}
+
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 24px;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-item:hover {
+    background: rgba(0, 59, 133, 0.1);
+    color: var(--primary-blue);
+}
+
+.sidebar-item.active {
+    background: rgba(45, 104, 175, 0.1);
+    color: var(--primary-blue);
+    border-left-color: var(--primary-blue);
+}
+
+.sidebar-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.sidebar-item span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+</style>
+</head>
+<body>
+    <div class="profile-page">
+        <!-- Top Header -->
+        <div class="top-header">
+            <div class="logo-container">
+                <div class="logo">
+                    <span class="logo-blue"><b>Cardio</b></span>
+                    <span class="logo-green">AI</span>
+                </div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search medical records, appointments...">
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <button class="icon-btn" id="notificationsBtn">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="icon-btn" id="settingsBtn">
+                    <i class="fas fa-cog"></i>
+                </button>
+                
+                <!-- Profile Avatar -->
+                <div class="profile-avatar-container" id="profileAvatarContainer">
+                    <div class="profile-avatar" id="profileAvatar">
+                        <img src="default-avatar.png" alt="Profile" id="avatarImage">
+                        <div class="avatar-overlay">
+                            <i class="fas fa-camera"></i>
+                            <span>Change Photo</span>
+                        </div>
+                    </div>
+                    <input type="file" id="avatarUpload" accept="image/*" hidden>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-menu">
+        <a href="../dashboard/dashboard.html" class="sidebar-item ">
+          <i class="fas fa-home"></i><span>Dashboard</span>
+        </a>
+        <a href="../profile/profile.html" class="sidebar-item active">
+          <i class="fas fa-user"></i><span>Profile</span>
+        </a>
+        <a href="../MedicalRecords/medicalrecords1.html" class="sidebar-item">
+          <i class="fas fa-file-medical"></i><span>Medical Records</span>
+        </a>
+        <a href="../appointments/appiontment.html" class="sidebar-item">
+          <i class="fas fa-calendar-check"></i><span>Appointments</span>
+        </a>
+        <a href="../medications/medications.html" class="sidebar-item">
+          <i class="fas fa-pills"></i><span>Medications</span>
+        </a>
+        <a href="../notifications/notification.html" class="sidebar-item">
+          <i class="fas fa-bell"></i><span>Notifications</span>
+        </a>
+      </div>
+    </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1>Patient Profile</h1>
+            </div>
+
+            <!-- Personal Information Section -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2>Personal Information</h2>
+                    <div class="user-info-header">
+                        <div class="user-avatar-large" id="userAvatarLarge">
+                            <img src="default-avatar.png" alt="Jane Doe" id="largeAvatarImage">
+                            <div class="avatar-upload-btn" id="avatarUploadBtn">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <div class="user-name">
+                            <h3 id="userFullName">Jane Doe</h3>
+                            <button class="change-photo-btn" id="changePhotoBtn">
+                                <i class="fas fa-upload"></i>
+                                Change Profile Photo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Editable Form -->
+                <form id="profileForm">
+                    <div class="form-grid">
+                        <!-- Row 1 -->
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" value="Jane Doe" class="editable-field">
+                            <button type="button" class="edit-field-btn" data-field="fullName">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateOfBirth">Date of Birth</label>
+                            <input type="date" id="dateOfBirth" value="1990-05-15" class="editable-field">
+                            <button type="button" class="edit-field-btn" data-field="dateOfBirth">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+
+                        <!-- Row 2 -->
+                        <div class="form-group">
+                            <label for="nationalId">National ID</label>
+                            <input type="text" id="nationalId" value="89123456789" class="editable-field">
+                            <button type="button" class="edit-field-btn" data-field="nationalId">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" class="editable-field">
+                                <option value="female" selected>Female</option>
+                                <option value="male">Male</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Row 3 -->
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input type="tel" id="phoneNumber" value="+1 (555) 123-4567" class="editable-field">
+                            <button type="button" class="edit-field-btn" data-field="phoneNumber">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bloodType">Blood Type</label>
+                            <select id="bloodType" class="editable-field">
+                                <option value="O+">O+</option>
+                                <option value="A+" selected>A+</option>
+                                <option value="B+">B+</option>
+                                <option value="AB+">AB+</option>
+                                <option value="O-">O-</option>
+                                <option value="A-">A-</option>
+                                <option value="B-">B-</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+
+                        <!-- Row 4 -->
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" value="jane.doe@example.com" class="editable-field">
+                            <button type="button" class="edit-field-btn" data-field="email">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Address (City, Street)</label>
+                            <input type="text" id="address" value="123 Health Ave, Medical City" class="editable-field">
+                            <button type="button" class="edit-field-btn" data-field="address">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelChangesBtn">Cancel</button>
+                        <button type="submit" class="save-btn" id="saveChangesBtn">
+                            <i class="fas fa-save"></i>
+                            Save All Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Medical Information Section -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2>Medical Information</h2>
+                </div>
+
+                <div class="medical-grid">
+                    <div class="medical-column">
+                        <div class="medical-info-group">
+                            <h4>Chronic Diseases</h4>
+                            <div class="tags-container" id="chronicDiseasesContainer">
+                                <div class="tag">
+                                    <span>Hypertension</span>
+                                    <button type="button" class="remove-tag">&times;</button>
+                                </div>
+                                <div class="tag">
+                                    <span>Type 2 Diabetes</span>
+                                    <button type="button" class="remove-tag">&times;</button>
+                                </div>
+                                <button type="button" class="add-tag-btn" data-category="chronicDiseases" data-type="disease">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="medical-info-group">
+                            <h4>Allergies</h4>
+                            <div class="tags-container" id="allergiesContainer">
+                                <div class="tag">
+                                    <span>Penicillin</span>
+                                    <button type="button" class="remove-tag">&times;</button>
+                                </div>
+                                <div class="tag">
+                                    <span>Dust Mites</span>
+                                    <button type="button" class="remove-tag">&times;</button>
+                                </div>
+                                <button type="button" class="add-tag-btn" data-category="allergies" data-type="allergy">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="medical-column">
+                        <div class="medical-info-group">
+                            <h4>Past Surgeries</h4>
+                            <div class="list-container" id="surgeriesContainer">
+                                <div class="list-item">
+                                    <i class="fas fa-circle"></i>
+                                    <span>Appendectomy (2010)</span>
+                                    <button type="button" class="remove-item">&times;</button>
+                                </div>
+                                <div class="list-item">
+                                    <i class="fas fa-circle"></i>
+                                    <span>Cataract Surgery (2022)</span>
+                                    <button type="button" class="remove-item">&times;</button>
+                                </div>
+                                <button type="button" class="add-item-btn" data-category="surgeries" data-type="surgery">
+                                    <i class="fas fa-plus"></i> Add Surgery
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="medical-info-group">
+                            <h4>Current Medications</h4>
+                            <div class="list-container" id="medicationsContainer">
+                                <div class="list-item">
+                                    <i class="fas fa-circle"></i>
+                                    <span>Lisinopril 10mg (daily)</span>
+                                    <button type="button" class="remove-item">&times;</button>
+                                </div>
+                                <div class="list-item">
+                                    <i class="fas fa-circle"></i>
+                                    <span>Metformin 500mg (twice daily)</span>
+                                    <button type="button" class="remove-item">&times;</button>
+                                </div>
+                                <button type="button" class="add-item-btn" data-category="medications" data-type="medication">
+                                    <i class="fas fa-plus"></i> Add Medication
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="medical-actions">
+                    <button class="action-btn" id="viewMedicalHistoryBtn">
+                        <i class="fas fa-history"></i>
+                        View Medical History
+                    </button>
+                    <button class="action-btn" id="manageMedicationsBtn">
+                        <i class="fas fa-pills"></i>
+                        Manage Medications
+                    </button>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2>Security</h2>
+                </div>
+
+                <div class="security-settings">
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h4>Two-Factor Authentication (2FA)</h4>
+                            <p>Enhance your account security with 2FA, requiring a second verification step to log in.</p>
+                        </div>
+                        <div class="security-toggle">
+                            <label class="switch">
+                                <input type="checkbox" id="twoFactorToggle">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="toggle-status" id="twoFactorStatus">OFF</span>
+                        </div>
+                    </div>
+
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h4>Change Password</h4>
+                            <p>Update your password regularly to keep your account secure.</p>
+                        </div>
+                        <button class="security-action-btn" id="changePasswordBtn">
+                            <i class="fas fa-key"></i>
+                            Change Password
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-blue">Cardio</span>
+                    <span class="logo-green">AI</span>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="links-menu">
+                        <a href="/startpage/home.html">Home</a>
+                        <a href="/startpage/home.html">Features</a>
+                        <a href="/startpage/home.html">About</a>
+                        <a href="/chatbot/mainpage.html">Chatbot</a>
+                    </div>
+                </div>
+                
+                <a href="/registeration/doctor/patient/logout.html" class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Log out
+                </a>
+            </div>
+        </div>
+
+        <!-- Floating Chatbot Icon -->
+        <div class="floating-chatbot">
+            <a href="/chatbot/mainpage.html" class="chatbot-link">
+                <img src="chatbot.png" alt="AI Chatbot" class="chatbot-logo">
+            </a>
+        </div>
+
+        <!-- Add Tag/Item Modal -->
+        <div class="modal" id="addItemModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Add New Item</h3>
+                    <button class="close-btn" id="closeModalBtn">&times;</button>
+                </div>
+                <form id="addItemForm">
+                    <div class="form-group">
+                        <label for="modalItemName">Item Name</label>
+                        <div id="modalInputContainer">
+                            <!-- سيتم إضافة الحقل المناسب هنا ديناميكيًا -->
+                        </div>
+                    </div>
+                    <div class="form-group" id="modalAdditionalFieldContainer" style="display: none;">
+                        <label for="modalAdditionalInfo">Additional Information</label>
+                        <input type="text" id="modalAdditionalInfo" placeholder="e.g., Year or Dosage">
+                    </div>
+                    <input type="hidden" id="modalItemCategory">
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelAddBtn">Cancel</button>
+                        <button type="submit" class="save-btn" id="submitAddBtn">Add Item</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Change Password Modal -->
+        <div class="modal" id="passwordModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Change Password</h3>
+                    <button class="close-btn" id="closePasswordBtn">&times;</button>
+                </div>
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelPasswordBtn">Cancel</button>
+                        <button type="submit" class="save-btn">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

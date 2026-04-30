@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="patient/style.css" />
+    <title>Login</title>
+</head>
+<body>
+        <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-part1">Cardio</span>
+                <span class="logo-part2">AI</span>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-item"><a href="../index.html">Home</a></div>
+                <div class="nav-item"><a href="../index.html">Features</a></div>
+                <div class="nav-item"><a href="../index.html">About</a></div>
+                <div class="nav-item"><a href="../index.html">Contact</a></div>
+            </div>
+          
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Login Form Card -->
+        <div class="login-card">
+            <div class="login-card__header">
+                <h2 class="login-card__title">Welcome Back</h2>
+                <p class="login-card__subtitle">Please enter your details to login</p>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="login-form" id="loginForm">
+                <!-- Email/Phone Input -->
+                <div class="form-group">
+                    <label for="emailOrPhone" class="form-label">Email or Phone Number</label>
+                    <div class="input-container">
+                        <input type="text" 
+                               id="emailOrPhone" 
+                               class="form-input"
+                               placeholder="your.email@example.com or +1234567890"
+                               required>
+                    </div>
+                </div>
+                
+                <!-- Password Input -->
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-container">
+                        <input type="password" 
+                               id="password" 
+                               class="form-input"
+                               placeholder="••••••••"
+                               required>
+                    </div>
+                </div>
+                
+                <!-- Remember Me & Forgot Password -->
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="rememberMe" class="checkbox-input">
+                        <label for="rememberMe" class="checkbox-label">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Remember me</span>
+                        </label>
+                    </div>
+                    
+                    <a href="#" class="forgot-password" id="forgotPasswordLink">
+                        Forgot Password?
+                    </a>
+                </div>
+                
+                <!-- Login Button -->
+                <button type="submit" class="submit-btn" id="loginBtn">
+                    Log In
+                </button>
+                
+                <!-- Sign Up Section -->
+                <div class="signup-section">
+                    <span class="signup-text">Don't have an account?</span>
+                    <!-- <button type="button" class="signup-btn" id="signupBtn">
+                        Sign Up
+                    </button> -->
+                    <a href="./doctor/RegisterDoctor.html">
+                        <button type="button" class="signup-btn" id="signupBtn">
+                            Sign Up As A doctor
+                        </button>
+
+                    </a>
+                    <a href="./patient/RegisterPatient.html">
+                    <button type="button" class="signup-btn" id="signupBtn">
+                        Sign Up As A Patient
+                    </button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <script src="login.js"></script>
+</body>
+</html>

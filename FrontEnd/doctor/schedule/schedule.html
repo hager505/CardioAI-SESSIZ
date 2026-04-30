@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule - CardioAI</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #003785;
+            --primary-green: #87af12;
+            --light-green: #779f00;
+            --danger-red: #de3b40;
+            --warning-orange: #f59e0b;
+            --teal: #1c8a8e;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --bg-light: #e8f0f8;
+            --bg-sidebar: rgba(178, 215, 66, 0.56);
+            --shadow-sm: 0px 1px 3px rgba(0, 0, 0, 0.1);
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--white); height: 100vh; display: flex; overflow: hidden; }
+
+        .sidebar {
+            width: 270px; background: var(--bg-sidebar); height: 100%; flex-shrink: 0;
+            display: flex; flex-direction: column; padding: 24px 16px; overflow-y: auto;
+            border-right: 1px solid rgba(0,0,0,0.05); z-index: 20;
+        }
+        .sidebar-logo { margin-bottom: 40px; padding-left: 10px; cursor: pointer; }
+        
+        .nav-list { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+        
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+            border-radius: var(--radius-md); color: var(--gray-700); text-decoration: none;
+            font-weight: 500; font-size: 14px; transition: all 0.2s; cursor: pointer;
+        }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.4); transform: translateX(4px); }
+        .nav-item.active { background: rgba(0, 55, 133, 0.1); color: var(--primary-blue); }
+        
+        .nav-icon { width: 20px; height: 20px; object-fit: contain; }
+
+        .main-content {
+            flex-grow: 1; height: 100vh; background-color: var(--bg-light);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+
+        header {
+            flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 32px; background-color: var(--bg-light); z-index: 10;
+        }
+        .header-text h1 { color: var(--primary-blue); font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+        .header-text p { color: var(--gray-500); font-size: 16px; }
+        
+        .header-actions { display: flex; gap: 16px; align-items: center; }
+        
+        .date-display {
+            display: flex; align-items: center; gap: 8px; background: white; padding: 8px 16px; 
+            border-radius: var(--radius-md); border: 1px solid var(--gray-200); font-weight: 500; color: var(--gray-700);
+        }
+
+        .btn-primary {
+            background: var(--primary-blue); color: white; padding: 10px 20px; border-radius: var(--radius-md);
+            border: none; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 8px; transition: background 0.3s;
+        }
+        .btn-primary:hover { background: #002a66; }
+
+        .scrollable-content {
+            flex-grow: 1; overflow-y: auto; padding: 0 32px 24px 32px;
+            display: flex; flex-direction: column; gap: 24px;
+        }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        @media(max-width: 1000px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+
+        .stat-card {
+            background: var(--white); padding: 20px; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 10px;
+        }
+        .stat-header { display: flex; justify-content: space-between; align-items: center; color: var(--gray-500); font-size: 14px; font-weight: 500; }
+        .stat-value { font-size: 28px; font-weight: 700; color: var(--gray-900); }
+        .stat-sub { font-size: 12px; color: var(--gray-500); }
+
+        .calendar-container {
+            background: var(--white); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);
+            flex-grow: 1; display: flex; flex-direction: column;
+        }
+
+        .calendar-controls {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .view-toggles {
+            display: flex; background: var(--gray-100); padding: 4px; border-radius: 8px;
+        }
+        .toggle-btn {
+            padding: 8px 16px; border: none; background: transparent; cursor: pointer; font-weight: 500; color: var(--gray-500); border-radius: 6px; transition: all 0.2s;
+        }
+        .toggle-btn.active { background: var(--white); color: var(--primary-blue); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+        .calendar-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        
+        th {
+            text-align: center; padding: 16px; background: var(--gray-50); color: var(--gray-700); font-weight: 600;
+            border-bottom: 1px solid var(--gray-200); border-right: 1px solid var(--gray-100);
+        }
+        th:first-child { width: 80px; text-align: right; padding-right: 20px; }
+
+        td {
+            height: 60px; border-bottom: 1px solid var(--gray-100); border-right: 1px solid var(--gray-100);
+            position: relative; vertical-align: top; padding: 5px;
+        }
+        td.time-cell {
+            text-align: right; padding-right: 20px; color: var(--gray-500); font-size: 13px; font-weight: 500;
+            vertical-align: middle; background: var(--white); border-right: 1px solid var(--gray-200);
+        }
+
+        .appointment-block {
+            background: #e0f2fe; border-left: 3px solid var(--primary-blue); color: var(--primary-blue);
+            padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; transition: transform 0.2s;
+            position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; z-index: 5;
+        }
+        .appointment-block:hover { transform: scale(1.02); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .app-time { font-weight: 700; display: block; margin-bottom: 2px; }
+        .app-name { font-weight: 500; }
+
+        footer { flex-shrink: 0; padding: 16px 32px; background-color: var(--bg-light); border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+
+        .chat-bot-icon {
+            position: fixed;
+            bottom: 80px;
+            right: 32px;
+            width: 60px;
+            height: 60px;
+            background: #003785;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0px 4px 12px rgba(0, 55, 133, 0.3);
+            transition: all 0.3s;
+            z-index: 999;
+            overflow: hidden;
+            padding: 8px;
+        }
+
+        .chat-bot-icon:hover {
+            background: #6b9137;
+            transform: scale(1.1);
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        #chatBotImage {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-logo" onclick="window.location.href='../dashboard/dashboard.html'">
+            <h2 style="color:var(--primary-blue); font-weight:800; font-family:'Poppins', sans-serif;">Cardio<span style="color:var(--primary-green)">AI</span></h2>
+        </div>
+
+        <div class="nav-list">
+            <div class="nav-item" onclick="window.location.href='../dashboard/dashboard.html'">
+                <img src="Home 3.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1946/1946488.png'">
+                <span>Dashboard</span>
+            </div>
+            
+            <div class="nav-item" onclick="window.location.href='../patient-search/patient-search/patient-search.html'">
+                <img src="Search.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149852.png'">
+                <span>Patient Search</span>
+            </div>
+            
+            <div class="nav-item" onclick="window.location.href='../my-patients/my-patients.html'">
+                <img src="Users.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/681/681494.png'">
+                <span>My Patients</span>
+            </div>
+            
+            <div class="nav-item" onclick="window.location.href='../my-requests/my-requests.html'">
+                <img src="File text.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1150/1150612.png'">
+                <span>Requests</span>
+            </div>
+            
+            <div class="nav-item active" onclick="window.location.href='schedule.html'">
+                <img src="Schedule.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2693/2693507.png'">
+                <span>Schedule</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        
+        <header>
+            <div class="header-text">
+                <h1>Schedule Management</h1>
+                <p>Manage your appointments and availability</p>
+            </div>
+            <div class="header-actions">
+                <div class="date-display">
+                    <img src="Calendar (8).png" width="16" onerror="this.style.display='none'">
+                    <span>09 Feb 2025</span>
+                </div>
+                <button class="btn-primary" onclick="window.location.href='../schedule/add-schedule.html'">
+                    <span>+</span> New Appointment
+                </button>
+                <div style="display:flex; align-items:center; gap:10px; margin-left:10px;">
+                    <span id="doctorNamePill" style="font-weight:600; color:var(--primary-blue);">Doctor</span>
+                    <img id="doctorAvatarPill" src="" style="width:40px; height:40px; border-radius:50%; object-fit:cover;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+                </div>
+            </div>
+        </header>
+
+        <div class="scrollable-content">
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Today's Appts</span>
+                        <img src="Today's Appointments.png" width="20" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2693/2693507.png'">
+                    </div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-sub" style="color:var(--primary-green)">0 confirmed</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Upcoming</span>
+                        <img src="Upcoming.png" width="20" onerror="this.src='https://cdn-icons-png.flaticon.com/512/747/747310.png'">
+                    </div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-sub">Next 7 days</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Completed</span>
+                        <img src="Completed.png" width="20" onerror="this.src='https://cdn-icons-png.flaticon.com/512/190/190411.png'">
+                    </div>
+                    <div class="stat-value" style="color:var(--primary-green)">4</div>
+                    <div class="stat-sub">This month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Available Slots</span>
+                        <img src="Available Slots.png" width="20" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4202/4202611.png'">
+                    </div>
+                    <div class="stat-value" style="color:var(--warning-orange)">20</div>
+                    <div class="stat-sub">Today remaining</div>
+                </div>
+            </div>
+
+            <div class="calendar-container">
+                <div class="calendar-controls">
+                    <h3 style="color:var(--primary-blue); font-size:18px;">Weekly Overview</h3>
+                    <div class="view-toggles">
+                        <button class="toggle-btn">Today</button>
+                        <button class="toggle-btn">Upcoming</button>
+                        <button class="toggle-btn active">Calendar View</button>
+                    </div>
+                </div>
+
+                <div class="calendar-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Mon 10</th>
+                                <th>Tue 11</th>
+                                <th>Wed 12</th>
+                                <th>Thu 13</th>
+                                <th>Fri 14</th>
+                                <th>Sat 15</th>
+                                <th>Sun 16</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="time-cell">08:00</td>
+                                <td>
+                                    <div class="appointment-block" onclick="alert('Patient: Sarah Johnson')">
+                                        <span class="app-time">08:00 - 09:00</span>
+                                        <span class="app-name">Sarah Johnson</span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">09:00</td>
+                                <td></td>
+                                <td>
+                                    <div class="appointment-block" style="background:#fef2f2; border-color:var(--danger-red); color:var(--danger-red);">
+                                        <span class="app-time">09:00 - 09:30</span>
+                                        <span class="app-name">Robert Wilson</span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">10:00</td>
+                                <td></td><td></td>
+                                <td>
+                                    <div class="appointment-block" style="background:#f0fdf4; border-color:var(--primary-green); color:#166534;">
+                                        <span class="app-time">10:00 - 11:00</span>
+                                        <span class="app-name">Hager Osama</span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">11:00</td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">12:00</td>
+                                <td colspan="7" style="background:#fafafa; text-align:center; color:#999; font-size:12px; padding-top:20px;">Lunch Break</td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">13:00</td>
+                                <td></td><td></td><td></td>
+                                <td>
+                                    <div class="appointment-block">
+                                        <span class="app-time">13:00 - 13:30</span>
+                                        <span class="app-name">Ahmed Ali</span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer>
+            <div>
+                <h3 style="color:var(--primary-blue); margin-bottom:5px;">Cardio<span style="color:var(--primary-green)">AI</span></h3>
+                <span style="font-size:12px; color:var(--gray-500);">© 2025 CardioAI System</span>
+            </div>
+            <button style="background:transparent; color:var(--danger-red); border:1px solid var(--danger-red); padding:8px 16px; border-radius:6px; cursor:pointer;" onclick="if(confirm('Log out?')) { sessionStorage.clear(); localStorage.removeItem('isLoggedIn'); window.location.href='../../auth/login.html'; }">Log out</button>
+        </footer>
+
+    </main>
+
+    <div class="chat-bot-icon" id="chatBotBtn" onclick="window.location.href='../../cahtbot/mainpage.html'">
+        <img src="chatbot.png" alt="Chat Bot" id="chatBotImage">
+    </div>
+
+    <!-- Load schedule.js with API module support -->
+    <script  src="./schedule.js"></script>
+</body>
+</html>

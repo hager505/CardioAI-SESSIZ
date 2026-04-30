@@ -1,0 +1,478 @@
+<!-- medications.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a, button, input, select, h1, h2, h3, h4, h5, * {
+            text-decoration: none;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        menu, ol, ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <style>
+  
+/* Sidebar */
+.sidebar {
+    background: rgba(170, 213, 42, 0.56);
+    border-right: 1px solid var(--medium-gray);
+    padding: 20px 0;
+}
+
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 24px;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-item:hover {
+    background: rgba(0, 59, 133, 0.1);
+    color: var(--primary-blue);
+}
+
+.sidebar-item.active {
+    background: rgba(45, 104, 175, 0.1);
+    color: var(--primary-blue);
+    border-left-color: var(--primary-blue);
+}
+
+.sidebar-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.sidebar-item span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+</style>
+    <title>Medications - Cardio AI</title>
+</head>
+<body>
+    <div class="medications-page">
+        <!-- Top Header -->
+        <div class="top-header">
+            <div class="logo-container">
+                <div class="logo">
+                    <span class="logo-blue"><b>Cardio</b></span>
+                    <span class="logo-green">AI</span>
+                </div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="globalSearch" placeholder="Search medications, prescriptions...">
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <button class="icon-btn" id="notificationsBtn">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="icon-btn" id="settingsBtn">
+                    <i class="fas fa-cog"></i>
+                </button>
+                
+                
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-menu">
+        <a href="../dashboard/dashboard.html" class="sidebar-item ">
+          <i class="fas fa-home"></i><span>Dashboard</span>
+        </a>
+        <a href="../profile/profile.html" class="sidebar-item">
+          <i class="fas fa-user"></i><span>Profile</span>
+        </a>
+        <a href="../MedicalRecords/medicalrecords1.html" class="sidebar-item">
+          <i class="fas fa-file-medical"></i><span>Medical Records</span>
+        </a>
+        <a href="../appointments/appiontment.html" class="sidebar-item">
+          <i class="fas fa-calendar-check"></i><span>Appointments</span>
+        </a>
+        <a href="../medications/medications.html" class="sidebar-item active">
+          <i class="fas fa-pills"></i><span>Medications</span>
+        </a>
+        <a href="../notifications/notification.html" class="sidebar-item">
+          <i class="fas fa-bell"></i><span>Notifications</span>
+        </a>
+      </div>
+    </div>
+
+    
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1>Medications Management</h1>
+                <button class="add-btn" id="addNewMedicationBtn">
+                    <i class="fas fa-plus-circle"></i>
+                    Add New Medication
+                </button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <button class="tab active" data-tab="active">Active Medications</button>
+                <button class="tab" data-tab="past">Past Medications</button>
+                <button class="tab" data-tab="refill-due">Refill Due</button>
+                <button class="tab" data-tab="all">All Medications</button>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-filter-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchMedications" placeholder="Search medications...">
+                </div>
+                <div class="filter-dropdown">
+                    <select id="filterStatus">
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="past">Past</option>
+                        <option value="refill-due">Refill Due</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Active Medications Section -->
+            <div class="medications-section active-tab" id="activeMedications">
+                <div class="section-title">
+                    <h2>Active Medications</h2>
+                    <span class="count-badge" id="activeCount">2</span>
+                </div>
+                
+                <div class="medications-grid" id="activeMedicationsGrid">
+                    <!-- Active medications will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Past Medications Section -->
+            <div class="medications-section" id="pastMedications" style="display: none;">
+                <div class="section-title">
+                    <h2>Past Medications</h2>
+                    <span class="count-badge" id="pastCount">5</span>
+                </div>
+                
+                <div class="medications-table-container">
+                    <table class="medications-table" id="pastMedicationsTable">
+                        <thead>
+                            <tr>
+                                <th>Medication</th>
+                                <th>Dosage</th>
+                                <th>Date Prescribed</th>
+                                <th>Doctor</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pastMedicationsBody">
+                            <!-- Past medications will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Refill Due Section -->
+            <div class="medications-section" id="refillDue" style="display: none;">
+                <div class="section-title">
+                    <h2>Refill Due</h2>
+                    <span class="count-badge" id="refillCount">1</span>
+                </div>
+                
+                <div class="medications-grid" id="refillDueGrid">
+                    <!-- Refill due medications will be loaded here -->
+                </div>
+            </div>
+
+            <!-- All Medications Section -->
+            <div class="medications-section" id="allMedications" style="display: none;">
+                <div class="section-title">
+                    <h2>All Medications</h2>
+                    <span class="count-badge" id="allCount">8</span>
+                </div>
+                
+                <div class="medications-grid" id="allMedicationsGrid">
+                    <!-- All medications will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Pharmacy Integration Section -->
+            <div >
+                
+                   
+                  
+                </div>
+               
+             
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-blue">Cardio</span>
+                    <span class="logo-green">AI</span>
+                </div>
+                
+                <div class="footer-links">
+                  
+                    <div class="links-menu">
+                        <a href="/startpage/home.html">Home</a>
+                        <a href="/startpage/home.html">Features</a>
+                        <a href="/startpage/home.html">About</a>
+                        <a href="/chatbot/mainpage.html">Chatbot</a>
+                    </div>
+                </div>
+                
+                <a href="/registeration/doctor/patient/logout.html" class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Log out
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Floating Chatbot Icon -->
+        <div class="floating-chatbot">
+            <a href="/chatbot/mainpage.html" class="chatbot-link">
+                <img src="chatbot.png" alt="AI Chatbot" class="chatbot-logo">
+            </a>
+        </div>
+
+        <!-- Add/Edit Medication Modal -->
+        <div class="modal" id="medicationModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Add New Medication</h3>
+                    <button class="close-btn" id="closeModalBtn">&times;</button>
+                </div>
+                <form id="medicationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="medicationName">Medication Name *</label>
+                            <input type="text" id="medicationName" placeholder="e.g., Enertrop" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dosage">Dosage *</label>
+                            <input type="text" id="dosage" placeholder="e.g., 5 mg" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="frequency">Frequency *</label>
+                            <select id="frequency" required>
+                                <option value="">Select frequency</option>
+                                <option value="once-daily">Once daily</option>
+                                <option value="twice-daily">Twice daily</option>
+                                <option value="thrice-daily">Three times daily</option>
+                                <option value="as-needed">As needed</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="timeOfDay">Time of Day</label>
+                            <select id="timeOfDay">
+                                <option value="">Select time</option>
+                                <option value="morning">Morning</option>
+                                <option value="afternoon">Afternoon</option>
+                                <option value="evening">Evening</option>
+                                <option value="bedtime">Bedtime</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startDate">Start Date *</label>
+                            <input type="date" id="startDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">End Date</label>
+                            <input type="date" id="endDate">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructions">Instructions</label>
+                        <textarea id="instructions" rows="3" placeholder="e.g., Take with food, Avoid grapefruit juice..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prescribingDoctor">Prescribing Doctor</label>
+                        <input type="text" id="prescribingDoctor" placeholder="e.g., Dr. Emily White">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status *</label>
+                        <select id="status" required>
+                            <option value="active">Active</option>
+                            <option value="past">Past</option>
+                            <option value="refill-due">Refill Due</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="medicationImage">Medication Image</label>
+                        <div class="image-upload-area" id="imageUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload medication image</p>
+                            <p class="file-info">Supported: JPG, PNG (Max: 5MB)</p>
+                            <input type="file" id="medicationImage" hidden accept="image/*">
+                        </div>
+                        <div class="image-preview" id="imagePreview"></div>
+                    </div>
+
+                    <input type="hidden" id="medicationId">
+
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="save-btn">
+                            <i class="fas fa-save"></i>
+                            Save Medication
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- View Medication Details Modal -->
+        <div class="modal" id="detailsModal">
+            <div class="modal-content details-modal">
+                <div class="modal-header">
+                    <h3 id="detailsTitle">Medication Details</h3>
+                    <button class="close-btn" id="closeDetailsBtn">&times;</button>
+                </div>
+                <div class="details-content">
+                    <div class="details-header">
+                        <div class="medication-image-large" id="detailsImage">
+                            <img src="default-medication.png" alt="Medication">
+                        </div>
+                        <div class="medication-info">
+                            <h4 id="detailsName">Enertrop</h4>
+                            <div class="status-badge" id="detailsStatus">
+                                <span>Active</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h5>Instructions</h5>
+                        <p id="detailsInstructions">Take with or without food. Do not chew or crush.</p>
+                    </div>
+
+                    <div class="details-actions">
+                        <button class="action-btn set-reminder" id="setReminderBtn">
+                            <i class="fas fa-bell"></i>
+                            Set Reminder
+                        </button>
+                        <button class="action-btn refill" id="requestRefillBtn">
+                            <i class="fas fa-prescription"></i>
+                            Request Refill
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Set Reminder Modal -->
+        <div class="modal" id="reminderModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Set Reminder</h3>
+                    <button class="close-btn" id="closeReminderBtn">&times;</button>
+                </div>
+                <form id="reminderForm">
+                    <div class="form-group">
+                        <label for="reminderTime">Reminder Time *</label>
+                        <input type="time" id="reminderTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reminderDays">Days *</label>
+                        <div class="days-selector">
+                            <label class="day-checkbox">
+                                <input type="checkbox" value="mon"> Mon
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" value="tue"> Tue
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" value="wed"> Wed
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" value="thu"> Thu
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" value="fri"> Fri
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" value="sat"> Sat
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" value="sun"> Sun
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reminderSound">Reminder Sound</label>
+                        <select id="reminderSound">
+                            <option value="default">Default</option>
+                            <option value="gentle">Gentle</option>
+                            <option value="alert">Alert</option>
+                            <option value="vibrate">Vibrate Only</option>
+                        </select>
+                    </div>
+                    <input type="hidden" id="reminderMedicationId">
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelReminderBtn">Cancel</button>
+                        <button type="submit" class="save-btn">
+                            <i class="fas fa-bell"></i>
+                            Set Reminder
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

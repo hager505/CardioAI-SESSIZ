@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardioAI Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="chatbot.png" type="image/png">
+</head>
+<body>
+    <div class="chatbot-main-page">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Header -->
+            <div class="header-section">
+                <div class="logo-container">
+                    <img src="chatbot.png" alt="CardioAI Logo" class="logo-img" id="logoImage">
+                    <div class="logo-text">
+                        <span class="blue">Cardio</span>
+                        <span class="green">AI</span>
+                    </div>
+                </div>
+                <div class="back-button" id="backButton">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="menu-button" id="menuButton">
+                    <i class="fas fa-bars"></i>
+                    <span>Menu</span>
+                </div>
+                <div class="new-chat-button" id="newChatButton">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>New Chat</span>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search" id="searchInput">
+                </div>
+            </div>
+
+            <!-- Chats List -->
+            <div class="chats-section">
+                <div class="section-title">Chats</div>
+                <div class="chats-list" id="chatsList">
+                    <!-- Chats will be loaded here -->
+                </div>
+            </div>
+
+            <!-- User Section -->
+            <div class="user-section">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <div class="avatar-placeholder"></div>
+                    </div>
+                    <div class="user-details">
+                        <div class="username" id="username">Hager-abdelnaser</div>
+                        <div class="user-status" id="userStatus">Online</div>
+                    </div>
+                </div>
+                <div class="settings-button" id="settingsButton">
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Header -->
+            <div class="content-header">
+                <div class="page-title">
+                    <span class="blue">Cardio</span>
+                    <span class="green">AI</span>
+                    <span class="title-sub">AI Assistant</span>
+                </div>
+                <div class="header-controls">
+                    <div class="exit-button" id="exitButton">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="chat-area" id="chatArea">
+                <!-- Welcome Message -->
+                <div class="welcome-message" id="welcomeMessage">
+                    <div class="welcome-logo">
+                        <img src="chatbot.png" alt="CardioAI Logo">
+                    </div>
+                    <div class="welcome-text" id="welcomeText">What can I help you today?</div>
+                    <div class="welcome-suggestions">
+                        <button class="suggestion-btn" data-text="What are heart disease symptoms?">
+                            <i class="fas fa-heartbeat"></i>
+                            Heart disease symptoms
+                        </button>
+                        <button class="suggestion-btn" data-text="How to maintain heart health?">
+                            <i class="fas fa-heart"></i>
+                            Heart health tips
+                        </button>
+                        <button class="suggestion-btn" data-text="What tests do I need?">
+                            <i class="fas fa-stethoscope"></i>
+                            Medical tests
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Messages Container -->
+                <div class="messages-container" id="messagesContainer"></div>
+            </div>
+
+            <!-- Message Input Container -->
+            <div class="message-input-container">
+                <input type="text" placeholder="What can I help you today?" id="messageInput">
+                <div class="input-controls">
+                    <div class="media-controls">
+                        <div class="media-button" id="voiceButton" title="Voice Message">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <div class="media-button" id="imageUploadButton" title="Upload Image">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="media-button" id="cameraButton" title="Take Photo">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="media-button" id="fileUploadButton" title="Upload File">
+                            <i class="fas fa-paperclip"></i>
+                        </div>
+                    </div>
+                    <div class="send-button" id="sendButton" title="Send Message">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating New Chat Button -->
+            <div class="new-chat-fab pulse" id="newChatFab" title="New Chat">
+                <i class="fas fa-plus"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="upload-modal" id="uploadModal">
+        <div class="upload-content">
+            <div class="upload-header">
+                <div class="upload-title" id="uploadTitle">Upload File</div>
+                <div class="close-upload" id="closeUpload">&times;</div>
+            </div>
+            <div class="upload-options">
+                <div class="upload-option" id="uploadImageOption">
+                    <i class="fas fa-image"></i>
+                    <span>Upload Image</span>
+                    <input type="file" id="imageInput" class="file-input" accept="image/*">
+                </div>
+                <div class="upload-option" id="takePhotoOption">
+                    <i class="fas fa-camera"></i>
+                    <span>Take Photo</span>
+                </div>
+                <div class="upload-option" id="uploadFileOption">
+                    <i class="fas fa-file"></i>
+                    <span>Upload File</span>
+                    <input type="file" id="fileInput" class="file-input" accept="*/*">
+                </div>
+                <div class="upload-option" id="uploadAudioOption">
+                    <i class="fas fa-microphone"></i>
+                    <span>Record Audio</span>
+                </div>
+            </div>
+            <div class="upload-preview" id="uploadPreview">
+                <!-- Preview will be shown here -->
+            </div>
+            <div class="upload-actions">
+                <button class="upload-cancel-btn" id="uploadCancel">Cancel</button>
+                <button class="upload-send-btn" id="uploadSend" disabled>Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Camera Modal -->
+    <div class="camera-modal" id="cameraModal">
+        <div class="camera-content">
+            <div class="camera-header">
+                <div class="camera-title">Take Photo</div>
+                <div class="close-camera" id="closeCamera">&times;</div>
+            </div>
+            <div class="camera-view">
+                <video id="cameraVideo" autoplay playsinline></video>
+                <canvas id="cameraCanvas" style="display: none;"></canvas>
+            </div>
+            <div class="camera-controls">
+                <button class="camera-capture-btn" id="captureButton">
+                    <i class="fas fa-camera"></i>
+                </button>
+                <button class="camera-switch-btn" id="switchCamera">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Recorder Modal -->
+    <div class="audio-modal" id="audioModal">
+        <div class="audio-content">
+            <div class="audio-header">
+                <div class="audio-title">Record Audio</div>
+                <div class="close-audio" id="closeAudio">&times;</div>
+            </div>
+            <div class="audio-visualizer">
+                <canvas id="audioVisualizer"></canvas>
+            </div>
+            <div class="audio-timer" id="audioTimer">00:00</div>
+            <div class="audio-controls">
+                <button class="audio-record-btn" id="recordButton">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="audio-stop-btn" id="stopButton" disabled>
+                    <i class="fas fa-stop"></i>
+                </button>
+                <button class="audio-play-btn" id="playButton" disabled>
+                    <i class="fas fa-play"></i>
+                </button>
+            </div>
+            <div class="audio-actions">
+                <button class="audio-cancel-btn" id="audioCancel">Cancel</button>
+                <button class="audio-send-btn" id="audioSend" disabled>Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-content">
+            <div class="settings-header">
+                <div class="settings-title" id="settingsTitle">Settings</div>
+                <div class="close-settings" id="closeSettings">&times;</div>
+            </div>
+            <div class="settings-body">
+                <div class="setting-option">
+                    <div class="setting-label">
+                        <i class="fas fa-moon"></i>
+                        <span id="darkModeLabel">Dark Mode</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="setting-label">
+                        <i class="fas fa-language"></i>
+                        <span id="languageLabel">Language</span>
+                    </div>
+                    <select class="language-select" id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </div>
+                <div class="setting-option">
+                    <div class="setting-label">
+                        <i class="fas fa-volume-up"></i>
+                        <span>Notification Sound</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="soundToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <div class="setting-label">
+                        <i class="fas fa-bell"></i>
+                        <span>Desktop Notifications</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="notificationsToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Settings Modal (الجديدة) -->
+    <div class="profile-settings-modal" id="profileSettingsModal">
+        <div class="profile-settings-content">
+            <div class="profile-settings-header">
+                <div class="profile-settings-title" id="profileSettingsTitle">Profile Settings</div>
+                <div class="close-profile-settings" id="closeProfileSettings">&times;</div>
+            </div>
+            <div class="profile-settings-body">
+                <!-- Theme Toggle -->
+                <div class="profile-setting-option">
+                    <div class="profile-setting-label">
+                        <i class="fas fa-moon"></i>
+                        <span id="profileDarkModeLabel">Dark Mode</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="profileDarkModeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <!-- Language Selection -->
+                <div class="profile-setting-option">
+                    <div class="profile-setting-label">
+                        <i class="fas fa-language"></i>
+                        <span id="profileLanguageLabel">Language</span>
+                    </div>
+                    <div class="profile-language-options">
+                        <button class="lang-btn active" data-lang="en">English</button>
+                        <button class="lang-btn" data-lang="ar">العربية</button>
+                    </div>
+                </div>
+                
+                <!-- Apply/Cancel Buttons -->
+                <div class="profile-settings-actions">
+                    <button class="profile-settings-cancel" id="profileSettingsCancel">Cancel</button>
+                    <button class="profile-settings-save" id="profileSettingsSave">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file inputs -->
+    <input type="file" id="hiddenImageInput" style="display: none;" accept="image/*">
+    <input type="file" id="hiddenFileInput" style="display: none;" accept="*/*">
+    <input type="file" id="hiddenAudioInput" style="display: none;" accept="audio/*">
+
+    <!-- Audio element for playback -->
+    <audio id="audioPlayer" style="display: none;"></audio>
+
+    <!-- Notification sound -->
+    <audio id="notificationSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="chat.js"></script>
+</body>
+</html>

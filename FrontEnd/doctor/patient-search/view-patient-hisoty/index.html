@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
+
+  <style>
+    a,
+    button,
+    input,
+    select,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: none;
+      text-decoration: none;
+      background: none;
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    menu,
+    ol,
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Section visibility control - hide all sections by default */
+    .section-content {
+      display: none;
+    }
+
+    .section-content.active {
+      display: block;
+    }
+
+    /* Clinical Notes visibility control */
+    .clinical-notes-hidden {
+      display: none !important;
+    }
+
+    /* Subtle button/tab animations */
+    .overview-records__button2,
+    .overview-records__button3,
+    .overview-records__button4,
+    .overview-records__button5,
+    .overview-records__button6,
+    .patient-medical-lab-results__button2,
+    .patient-medical-lab-results__button3,
+    .patient-medical-lab-results__button4,
+    .patient-medical-lab-results__button5,
+    .patient-medical-lab-results__button6,
+    .patient-medical-medications__button2,
+    .patient-medical-medications__button3,
+    .patient-medical-medications__button4,
+    .patient-medical-medications__button5,
+    .patient-medical-medications__button6,
+    .patient-medical-vist-hostory__button2,
+    .patient-medical-vist-hostory__button3,
+    .patient-medical-vist-hostory__button4,
+    .patient-medical-vist-hostory__button5,
+    .patient-medical-vist-hostory__button6,
+    .add-clinical-notes__button2,
+    .add-clinical-notes__button3,
+    .add-clinical-notes__button4,
+    .add-clinical-notes__button5,
+    .add-clinical-notes__button6 {
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .overview-records__button2:hover,
+    .overview-records__button3:hover,
+    .overview-records__button4:hover,
+    .overview-records__button5:hover,
+    .overview-records__button6:hover,
+    .patient-medical-lab-results__button2:hover,
+    .patient-medical-lab-results__button3:hover,
+    .patient-medical-lab-results__button4:hover,
+    .patient-medical-lab-results__button5:hover,
+    .patient-medical-lab-results__button6:hover,
+    .patient-medical-medications__button2:hover,
+    .patient-medical-medications__button3:hover,
+    .patient-medical-medications__button4:hover,
+    .patient-medical-medications__button5:hover,
+    .patient-medical-medications__button6:hover,
+    .patient-medical-vist-hostory__button2:hover,
+    .patient-medical-vist-hostory__button3:hover,
+    .patient-medical-vist-hostory__button4:hover,
+    .patient-medical-vist-hostory__button5:hover,
+    .patient-medical-vist-hostory__button6:hover,
+    .add-clinical-notes__button2:hover,
+    .add-clinical-notes__button3:hover,
+    .add-clinical-notes__button4:hover,
+    .add-clinical-notes__button5:hover,
+    .add-clinical-notes__button6:hover {
+      transform: translateY(-3px);
+    }
+
+    .overview-records__button2.active,
+    .overview-records__button3.active,
+    .overview-records__button4.active,
+    .overview-records__button5.active,
+    .overview-records__button6.active,
+    .patient-medical-lab-results__button2.active,
+    .patient-medical-lab-results__button3.active,
+    .patient-medical-lab-results__button4.active,
+    .patient-medical-lab-results__button5.active,
+    .patient-medical-lab-results__button6.active,
+    .patient-medical-medications__button2.active,
+    .patient-medical-medications__button3.active,
+    .patient-medical-medications__button4.active,
+    .patient-medical-medications__button5.active,
+    .patient-medical-medications__button6.active,
+    .patient-medical-vist-hostory__button2.active,
+    .patient-medical-vist-hostory__button3.active,
+    .patient-medical-vist-hostory__button4.active,
+    .patient-medical-vist-hostory__button5.active,
+    .patient-medical-vist-hostory__button6.active,
+    .add-clinical-notes__button2.active,
+    .add-clinical-notes__button3.active,
+    .add-clinical-notes__button4.active,
+    .add-clinical-notes__button5.active,
+    .add-clinical-notes__button6.active {
+      transform: translateY(-3px);
+    }
+
+    /* Sidebar buttons hover effect */
+    .overview-records__button7,
+    .overview-records__button8,
+    .overview-records__button9,
+    .overview-records__button10,
+    .overview-records__button11,
+    .overview-records__container-279 {
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .overview-records__button7:hover,
+    .overview-records__button8:hover,
+    .overview-records__button9:hover,
+    .overview-records__button10:hover,
+    .overview-records__button11:hover,
+    .overview-records__container-279:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Action buttons hover effect */
+    .overview-records__button,
+    .add-clinical-notes__button7,
+    .add-clinical-notes__button8,
+    .add-clinical-notes__button9,
+    .add-clinical-notes__button10,
+    .overview-records__button-109 {
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .overview-records__button:hover,
+    .add-clinical-notes__button7:hover,
+    .add-clinical-notes__button8:hover,
+    .add-clinical-notes__button9:hover,
+    .add-clinical-notes__button10:hover,
+    .overview-records__button-109:hover {
+      transform: translateY(-3px);
+    }
+  </style>
+  <title>Patient Records</title>
+</head>
+
+<body>
+  <!-- Main Container using overview-records as base -->
+  <div class="overview-records">
+    <!-- Shared Header Container -->
+    <div class="overview-records__container"></div>
+
+    <!-- Shared Patient Info Header -->
+    <div class="overview-records__container2">
+      <img class="overview-records__image" src="Image (5).png" alt="" />
+      <div class="overview-records__sarah-johnson">Hager Osama</div>
+      <div class="overview-records__tag">
+        <div class="overview-records__frame">
+          <div class="overview-records__active">active</div>
+        </div>
+      </div>
+      <div class="overview-records__user">
+        <img class="overview-records__group" src="Age.png" alt="" />
+      </div>
+      <div class="overview-records__age-40-female-o">
+        Age 19 • female • O+
+      </div>
+      <div class="overview-records__mail">
+        <img class="overview-records__group2" src="email.png" alt="" />
+      </div>
+      <div class="overview-records__sarah-johnson-email-com">
+        Hager.Osama@email.com
+      </div>
+      <div class="overview-records__phone">
+        <img class="overview-records__group3" src="phone.png" alt="" />
+      </div>
+      <div class="overview-records___1-555-123-4567">+1 (555) 123-4567</div>
+      <div class="overview-records__map-pin">
+        <img class="overview-records__group4" src="location.png" alt="" />
+      </div>
+      <div class="overview-records___123-main-st-anytown-st-12345">
+        123 Main St, Anytown, ST 12345
+      </div>
+      <div class="overview-records__heart-pulse">
+        <img class="overview-records__group5" src="Hypertension.png" alt="" />
+      </div>
+      <div class="overview-records__tag2">
+        <div class="overview-records__frame2">
+          <div class="overview-records__hypertension">Hypertension</div>
+        </div>
+      </div>
+      <div class="overview-records__button">
+        <div class="overview-records__schedule">Schedule</div>
+        <div class="overview-records__calendar">
+          <img class="overview-records__group6" src="Calendar (Schedule).png" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Shared Navigation Tabs -->
+    <div class="overview-records__container3">
+      <div class="overview-records__button2 nav-button" data-section="overview">
+        <div class="overview-records__overview">Overview</div>
+      </div>
+      <div class="overview-records__button3 nav-button" data-section="visit-history">
+        <div class="overview-records__visit-history">Visit History</div>
+      </div>
+      <div class="overview-records__button4 nav-button" data-section="lab-results">
+        <div class="overview-records__lab-results">Lab Results</div>
+      </div>
+      <div class="overview-records__button5 nav-button" data-section="medications">
+        <div class="overview-records__medications">Medications</div>
+      </div>
+      <div class="overview-records__button6 nav-button" data-section="clinical-notes">
+        <div class="overview-records__clinical-notes">Clinical Notes</div>
+      </div>
+    </div>
+
+    <!-- Overview Section -->
+    <div id="overview-section" class="section-content active">
+      <div class="overview-records__container4">
+        <div class="overview-records__heart">
+          <img class="overview-records__group7" src="Medical Information.png" alt="" />
+        </div>
+        <div class="overview-records__medical-information">
+          Medical Information
+        </div>
+        <div class="overview-records__primary-condition">Primary Condition</div>
+        <div class="overview-records__hypertension2">Hypertension</div>
+        <div class="overview-records__allergies">Allergies</div>
+        <div class="overview-records__penicillin-shellfish">
+          Penicillin, Shellfish
+        </div>
+        <div class="overview-records__current-medications">
+          Current Medications
+        </div>
+        <div class="overview-records__lisinopril-10-mg-daily-metformin-500-mg-twice-daily">
+          Lisinopril 10mg daily, Metformin 500mg twice daily
+        </div>
+        <div class="overview-records__emergency-contact">Emergency Contact</div>
+        <div class="overview-records__john-johnson-555-987-6543">
+          Mohamed Osama - (555) 987-6543
+        </div>
+      </div>
+      <div class="overview-records__container5">
+        <div class="overview-records__activity">
+          <img class="overview-records__group8" src="Latest Vitals.png" alt="" />
+        </div>
+        <div class="overview-records__latest-vitals">Latest Vitals</div>
+        <div class="overview-records__from-last-visit-on-2024-01-10">
+          From last visit on 2024-01-10
+        </div>
+        <div class="overview-records__container6">
+          <div class="overview-records___128-82">128/82</div>
+          <div class="overview-records__blood-pressure">Blood Pressure</div>
+        </div>
+        <div class="overview-records__container7">
+          <div class="overview-records___72">72</div>
+          <div class="overview-records__heart-rate">Heart Rate</div>
+        </div>
+        <div class="overview-records__container8">
+          <div class="overview-records___98-6-f">98.6°F</div>
+          <div class="overview-records__temperature">Temperature</div>
+        </div>
+        <div class="overview-records__container9">
+          <div class="overview-records___165-lbs">165 lbs</div>
+          <div class="overview-records__weight">Weight</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visit History Section -->
+    <div id="visit-history-section" class="section-content">
+      <div class="patient-medical-vist-hostory__container3">
+        <div class="patient-medical-vist-hostory__visit-history2">
+          Visit History
+        </div>
+        <div class="patient-medical-vist-hostory__patient-s-recent-medical-visits-and-consultations">
+          Patient's recent medical visits and consultations
+        </div>
+        <div class="patient-medical-vist-hostory__container4">
+          <div class="patient-medical-vist-hostory__follow-up">Follow-up</div>
+          <div class="patient-medical-vist-hostory___2024-01-10">
+            2024-01-10
+          </div>
+          <div class="patient-medical-vist-hostory__tag3">
+            <div class="patient-medical-vist-hostory__frame3">
+              <div class="patient-medical-vist-hostory__hypertension-stable">
+                Hypertension - Stable
+              </div>
+            </div>
+          </div>
+          <div class="patient-medical-vist-hostory__blood-pressure-well-controlled-continue-current-medication">
+            Blood pressure well controlled. Continue current medication.
+          </div>
+          <div class="patient-medical-vist-hostory__bp-128-82">BP: 128/82</div>
+          <div class="patient-medical-vist-hostory__hr-72">HR: 72</div>
+          <div class="patient-medical-vist-hostory__temp-98-6-f">
+            Temp: 98.6°F
+          </div>
+          <div class="patient-medical-vist-hostory__weight-165-lbs">
+            Weight: 165 lbs
+          </div>
+          <div class="patient-medical-vist-hostory__button7">
+            <div class="patient-medical-vist-hostory__text"></div>
+
+          </div>
+        </div>
+        <div class="patient-medical-vist-hostory__container5">
+          <div class="patient-medical-vist-hostory__lab-review">Lab Review</div>
+          <div class="patient-medical-vist-hostory___2024-01-10">
+            2024-01-10
+          </div>
+          <div class="patient-medical-vist-hostory__tag4">
+            <div class="patient-medical-vist-hostory__frame4">
+              <div class="patient-medical-vist-hostory__elevated-glucose-levels">
+                Elevated glucose levels
+              </div>
+            </div>
+          </div>
+          <div class="patient-medical-vist-hostory__hb-a-1-c-6-2-recommend-lifestyle-changes-and-monitoring">
+            HbA1c: 6.2%. Recommend lifestyle changes and monitoring.
+          </div>
+          <div class="patient-medical-vist-hostory__bp-128-82">BP: 128/82</div>
+          <div class="patient-medical-vist-hostory__hr-72">HR: 72</div>
+          <div class="patient-medical-vist-hostory__temp-98-6-f">
+            Temp: 98.6°F
+          </div>
+          <div class="patient-medical-vist-hostory__weight-165-lbs">
+            Weight: 165 lbs
+          </div>
+          <div class="patient-medical-vist-hostory__button7">
+            <div class="patient-medical-vist-hostory__text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lab Results Section -->
+    <div id="lab-results-section" class="section-content">
+      <div class="patient-medical-lab-results__container3">
+        <div class="patient-medical-lab-results__laboratory-results">
+          Laboratory Results
+        </div>
+        <div class="patient-medical-lab-results__recent-lab-tests-and-diagnostic-results">
+          Recent lab tests and diagnostic results
+        </div>
+        <div class="patient-medical-lab-results__container4">
+          <div class="patient-medical-lab-results__complete-blood-count">
+            Complete Blood Count
+          </div>
+          <div class="patient-medical-lab-results__tag3">
+            <div class="patient-medical-lab-results__frame3">
+              <div class="patient-medical-lab-results__normal">Normal</div>
+            </div>
+          </div>
+          <div class="patient-medical-lab-results__wbc-7-2-rbc-4-5-hgb-14-2-hct-42-1">
+            WBC: 7.2, RBC: 4.5, Hgb: 14.2, Hct: 42.1
+          </div>
+          <div class="patient-medical-lab-results__calendar2">
+            <img class="patient-medical-lab-results__group7" src="group6.svg" />
+          </div>
+          <div class="patient-medical-lab-results___2024-01-08">2024-01-08</div>
+          <div class="patient-medical-lab-results__button7">
+            <div class="patient-medical-lab-results__text"></div>
+            <div class="patient-medical-lab-results__download">
+              <img class="patient-medical-lab-results__group8" src="group7.svg" />
+            </div>
+          </div>
+        </div>
+        <div class="patient-medical-lab-results__container5">
+          <div class="patient-medical-lab-results__lipid-panel">
+            Lipid Panel
+          </div>
+          <div class="patient-medical-lab-results__tag4">
+            <div class="patient-medical-lab-results__frame4">
+              <div class="patient-medical-lab-results__borderline">
+                Borderline
+              </div>
+            </div>
+          </div>
+          <div class="patient-medical-lab-results__total-205-ldl-128-hdl-45-triglycerides-160">
+            Total: 205, LDL: 128, HDL: 45, Triglycerides: 160
+          </div>
+          <div class="patient-medical-lab-results__calendar3">
+            <img class="patient-medical-lab-results__group9" src="group8.svg" />
+          </div>
+          <div class="patient-medical-lab-results___2024-01-082">
+            2024-01-08
+          </div>
+          <div class="patient-medical-lab-results__button8">
+            <div class="patient-medical-lab-results__text"></div>
+            <div class="patient-medical-lab-results__download">
+              <img class="patient-medical-lab-results__group10" src="group9.svg" />
+            </div>
+          </div>
+        </div>
+        <div class="patient-medical-lab-results__container6">
+          <div class="patient-medical-lab-results__hb-a-1-c">HbA1c</div>
+          <div class="patient-medical-lab-results__tag5">
+            <div class="patient-medical-lab-results__frame5">
+              <div class="patient-medical-lab-results__elevated">Elevated</div>
+            </div>
+          </div>
+          <div class="patient-medical-lab-results___6-2-pre-diabetic-range">
+            6.2% (Pre-diabetic range)
+          </div>
+          <div class="patient-medical-lab-results__calendar2">
+            <img class="patient-medical-lab-results__group11" src="group10.svg" />
+          </div>
+          <div class="patient-medical-lab-results___2023-12-10">2023-12-10</div>
+          <div class="patient-medical-lab-results__button9">
+            <div class="patient-medical-lab-results__text"></div>
+            <div class="patient-medical-lab-results__download">
+              <img class="patient-medical-lab-results__group12" src="group11.svg" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medications Section -->
+    <div id="medications-section" class="section-content">
+      <div class="patient-medical-medications__container3">
+        <div class="patient-medical-medications__current-medications">
+          Current Medications
+        </div>
+        <div class="patient-medical-medications__active-prescriptions-and-medication-history">
+          Active prescriptions and medication history
+        </div>
+        <div class="patient-medical-medications__container4">
+          <div class="patient-medical-medications__lisinopril">Lisinopril</div>
+          <div class="patient-medical-medications___10-mg-daily-for-hypertension">
+            10mg daily - For hypertension
+          </div>
+          <div class="patient-medical-medications__prescribed-2023-06-15-refills-3-remaining">
+            Prescribed: 2023-06-15 Refills: 3 remaining
+          </div>
+          <div class="patient-medical-medications__tag3">
+            <div class="patient-medical-medications__frame3">
+              <div class="patient-medical-medications__active2">Active</div>
+            </div>
+          </div>
+        </div>
+        <div class="patient-medical-medications__container5">
+          <div class="patient-medical-medications__metformin">Metformin</div>
+          <div class="patient-medical-medications___500-mg-twice-daily-for-glucose-control">
+            500mg twice daily - For glucose control
+          </div>
+          <div class="patient-medical-medications__prescribed-2023-12-15-refills-5-remaining">
+            Prescribed: 2023-12-15 Refills: 5 remaining
+          </div>
+          <div class="patient-medical-medications__tag4">
+            <div class="patient-medical-medications__frame3">
+              <div class="patient-medical-medications__active2">Active</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clinical Notes Section -->
+    <div id="clinical-notes-section" class="section-content">
+      <div id="clinical-notes-overview" class="add-clinical-notes__container4">
+        <div class="add-clinical-notes__clinical-notes2">Clinical Notes</div>
+        <div class="add-clinical-notes__private-notes-and-observations">
+          Private notes and observations
+        </div>
+        <div class="add-clinical-notes__button7">
+          <div class="add-clinical-notes__edit-notes">Edit Notes</div>
+          <div class="add-clinical-notes__square-pen">
+            <img class="add-clinical-notes__group7" src="Edit.png" alt="" />
+          </div>
+        </div>
+        <div class="add-clinical-notes__file-text">
+          <img class="add-clinical-notes__group8" src="No clinical notes yet.png" alt="" />
+        </div>
+        <div class="add-clinical-notes__no-clinical-notes-yet">
+          No clinical notes yet
+        </div>
+        <div class="add-clinical-notes__button8">
+          <div class="add-clinical-notes__add-notes">Add Notes</div>
+        </div>
+      </div>
+      <div id="clinical-notes-form" class="add-clinical-notes__container5 clinical-notes-hidden">
+        <div class="add-clinical-notes__clinical-notes3">Clinical Notes</div>
+        <div class="add-clinical-notes__private-notes-and-observations2">
+          Private notes and observations
+        </div>
+        <div class="add-clinical-notes__textarea">
+          <div class="add-clinical-notes__textfield">
+            <div class="add-clinical-notes__enter-your-clinical-observations-and-notes">
+              Enter your clinical observations and notes...
+            </div>
+            <div class="add-clinical-notes__resizing-handle">
+              <img class="add-clinical-notes__group9" src="group8.svg" />
+            </div>
+          </div>
+          <div class="add-clinical-notes__clinical-notes4">Clinical Notes</div>
+        </div>
+        <div class="add-clinical-notes__button9">
+          <div class="add-clinical-notes__cancel">Cancel</div>
+        </div>
+        <div class="add-clinical-notes__button10">
+          <div class="add-clinical-notes__save">Save</div>
+          <div class="add-clinical-notes__save2">
+            <img class="add-clinical-notes__group10" src="Save.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shared Sidebar -->
+    <div class="overview-records__container10">
+      <img class="overview-records__line" src="line0.svg" />
+      <div class="overview-records__button7">
+        <div class="overview-records__patient-search">Patient Search</div>
+        <div class="overview-records__search">
+          <img class="overview-records__group10" src="Patient Search.png" alt="" />
+        </div>
+      </div>
+      <div class="overview-records__button8">
+        <div class="overview-records__my-patients">My Patients</div>
+        <div class="overview-records__users">
+          <img class="overview-records__group11" src="My Patients.png" alt="" />
+        </div>
+      </div>
+      <div class="overview-records__button9">
+        <div class="overview-records__requests">Requests</div>
+        <div class="overview-records__file-text">
+          <img class="overview-records__group12" src="Requests.png" alt="" />
+        </div>
+      </div>
+      <div class="overview-records__button10">
+        <div class="overview-records__schedule2">Schedule</div>
+        <div class="overview-records__calendar2">
+          <img class="overview-records__group13" src="Schedule.png" alt="" />
+        </div>
+      </div>
+      <div class="overview-records__house"></div>
+      <div class="overview-records__button11">
+        <div class="overview-records__patient-search2">Dashboard</div>
+        <div class="overview-records__home-3">
+          <img class="overview-records__group14" src="Dashboard.png" alt="" />
+        </div>
+      </div>
+      <div class="overview-records__bookings-and-payments">
+        <span>
+          <span class="bookings-and-payments-span">AI</span>
+          <span class="bookings-and-payments-span2">Chatbot</span>
+        </span>
+      </div>
+      <div class="overview-records__container-279" onclick="window.location.href='../../../../cahtbot/mainpage.html'" style="cursor: pointer;">
+        <div class="overview-records__image-33">
+          <img class="overview-records__group15" src="AI_CAHT.png" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Shared Header Logo -->
+    <div class="overview-records__bookings-and-payments2">
+      <span>
+        <span class="bookings-and-payments-2-span">Cardio</span>
+        <span class="bookings-and-payments-2-span2">AI</span>
+      </span>
+    </div>
+
+    <!-- Shared Footer -->
+    <div class="overview-records__frame-3">
+      <div class="overview-records__quick-links">Quick Links</div>
+      <div class="overview-records__header-menu">
+        <div class="overview-records__frame3">
+          <div class="overview-records__home">Home</div>
+        </div>
+        <div class="overview-records__frame4">
+          <div class="overview-records__features">Features</div>
+        </div>
+        <div class="overview-records__frame5">
+          <div class="overview-records__solutions">About</div>
+        </div>
+        <div class="overview-records__frame6">
+          <div class="overview-records__contact">Contact</div>
+        </div>
+      </div>
+      <img class="overview-records__whats-app-image-2025-11-19-at-00-21-50-30-e-751-e-6-2" src="small_IMAGE_ai.png"
+        alt="" />
+      <div class="overview-records__cardio-ai">
+        <span>
+          <span class="cardio-ai-span">Cardio</span>
+          <span class="cardio-ai-span2">AI</span>
+        </span>
+      </div>
+      <div class="overview-records__button-109">
+        <div class="overview-records__log-out">Log out</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="navigation.js"></script>
+</body>
+
+</html>

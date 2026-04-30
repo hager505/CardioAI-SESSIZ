@@ -1,0 +1,4133 @@
+.overview-records,
+.overview-records * {
+  box-sizing: border-box;
+}
+
+.overview-records {
+  background: #ffffff;
+  height: 1103px;
+  position: relative;
+  box-shadow: 0px 3px 6px 0px rgba(18, 15, 40, 0.12);
+  transform-origin: 0 0;
+  transform: rotate(0.039deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__container {
+  background: rgba(0, 0, 0, 0);
+  width: 1126px;
+  height: 40px;
+  position: absolute;
+  left: 282px;
+  top: 32px;
+}
+
+.overview-records__container2 {
+  background: #f2f6fd;
+  border-radius: 4px;
+  width: 1126px;
+  height: 234px;
+  position: absolute;
+  left: 282px;
+  top: 96px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.overview-records__image {
+  border-radius: 9999px;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  object-fit: cover;
+}
+
+.overview-records__sarah-johnson {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  position: absolute;
+  left: 128px;
+  top: 23px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__tag {
+  background: rgba(0, 0, 0, 0);
+  width: 52px;
+  height: 22px;
+  position: absolute;
+  left: 312px;
+  top: 29px;
+}
+
+.overview-records__frame {
+  background: #dcfce7;
+  border-radius: 11px;
+  width: 52px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.overview-records__active {
+  color: #166534;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: calc(50% - 15px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__user {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 68px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group {
+  height: auto;
+  position: absolute;
+  left: 2.64px;
+  top: 1.32px;
+  overflow: visible;
+}
+
+.overview-records__age-40-female-o {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 65px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__mail {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 98px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group2 {
+  height: auto;
+  position: absolute;
+  left: 0.63px;
+  top: 1.97px;
+  overflow: visible;
+}
+
+.overview-records__sarah-johnson-email-com {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 95px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__phone {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 128px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group3 {
+  height: auto;
+  position: absolute;
+  left: 0.7px;
+  top: 0.64px;
+  overflow: visible;
+}
+
+.overview-records___1-555-123-4567 {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 125px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__map-pin {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 158px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group4 {
+  height: auto;
+  position: absolute;
+  left: 1.97px;
+  top: 0.63px;
+  overflow: visible;
+}
+
+.overview-records___123-main-st-anytown-st-12345 {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 155px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__heart-pulse {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 191px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group5 {
+  height: auto;
+  position: absolute;
+  left: 0.63px;
+  top: 1.3px;
+  overflow: visible;
+}
+
+.overview-records__tag2 {
+  background: rgba(0, 0, 0, 0);
+  width: 92px;
+  height: 22px;
+  position: absolute;
+  left: 152px;
+  top: 188px;
+}
+
+.overview-records__frame2 {
+  background: #dbeafe;
+  border-radius: 11px;
+  border-style: solid;
+  border-color: #3371db;
+  border-width: 1px;
+  width: 92px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.overview-records__hypertension {
+  color: #3371db;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: calc(50% - 35px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__button {
+  background: #003785;
+  border-radius: 3px;
+  width: 130px;
+  height: 40px;
+  position: absolute;
+  left: 977px;
+  top: 24px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__schedule {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 17px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__calendar {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: calc(50% - 49px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group6 {
+  height: auto;
+  position: absolute;
+  left: 1.3px;
+  top: 0.66px;
+  overflow: visible;
+}
+
+.overview-records__container3 {
+  background: rgba(178, 215, 66, 0.12);
+  border-radius: 6px;
+  width: 1126px;
+  height: 48px;
+  position: absolute;
+  left: 282px;
+  top: 354px;
+}
+
+.overview-records__button2 {
+  background: #ffffff;
+  border-radius: 3px;
+  width: 217px;
+  height: 40px;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__overview {
+  color: #171a1f;
+  text-align: center;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+  position: absolute;
+  left: calc(50% - 29px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__button3 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 229px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__visit-history {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.overview-records__button4 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 454px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__lab-results {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.overview-records__button5 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 679px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__medications {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.overview-records__button6 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 904px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__clinical-notes {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.overview-records__container4 {
+  background: #f2f6fd;
+  border-radius: 4px;
+  width: 551px;
+  height: 322px;
+  position: absolute;
+  left: 282px;
+  top: 426px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.overview-records__heart {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 24px;
+  top: 28px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group7 {
+  height: auto;
+  position: absolute;
+  left: 0.87px;
+  top: 1.7px;
+  overflow: visible;
+}
+
+.overview-records__medical-information {
+  color: #003785;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: -0.45px;
+  font-weight: 600;
+  position: absolute;
+  left: 52px;
+  top: 25px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__primary-condition {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: 24px;
+  top: 76px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__hypertension2 {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 24px;
+  top: 96px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__allergies {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: 24px;
+  top: 132px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__penicillin-shellfish {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 24px;
+  top: 152px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__current-medications {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: 24px;
+  top: 188px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__lisinopril-10-mg-daily-metformin-500-mg-twice-daily {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 24px;
+  top: 208px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__emergency-contact {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: 24px;
+  top: 244px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__john-johnson-555-987-6543 {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 24px;
+  top: 264px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__container5 {
+  background: #f2f6fd;
+  border-radius: 4px;
+  width: 551px;
+  height: 322px;
+  position: absolute;
+  left: 857px;
+  top: 426px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.overview-records__activity {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 24px;
+  top: 28px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group8 {
+  height: auto;
+  position: absolute;
+  left: 0.87px;
+  top: 0.87px;
+  overflow: visible;
+}
+
+.overview-records__latest-vitals {
+  color: #003785;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: -0.45px;
+  font-weight: 600;
+  position: absolute;
+  left: 52px;
+  top: 25px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__from-last-visit-on-2024-01-10 {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 24px;
+  top: 62px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__container6 {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 4px;
+  border-style: solid;
+  border-color: #dee1e6;
+  border-width: 1px;
+  width: 244px;
+  height: 88px;
+  position: absolute;
+  left: 24px;
+  top: 106px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.overview-records___128-82 {
+  color: #3371db;
+  text-align: center;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 700;
+  position: absolute;
+  left: 73px;
+  top: 13px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__blood-pressure {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 72px;
+  top: 52px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__container7 {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 4px;
+  border-style: solid;
+  border-color: #dee1e6;
+  border-width: 1px;
+  width: 244px;
+  height: 88px;
+  position: absolute;
+  left: 283px;
+  top: 106px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.overview-records___72 {
+  color: #3371db;
+  text-align: center;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 700;
+  position: absolute;
+  left: 105px;
+  top: 13px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__heart-rate {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 87px;
+  top: 52px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__container8 {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 4px;
+  border-style: solid;
+  border-color: #dee1e6;
+  border-width: 1px;
+  width: 244px;
+  height: 88px;
+  position: absolute;
+  left: 24px;
+  top: 210px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.overview-records___98-6-f {
+  color: #3371db;
+  text-align: center;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 700;
+  position: absolute;
+  left: 77px;
+  top: 13px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__temperature {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 79px;
+  top: 52px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__container9 {
+  background: rgba(255, 255, 255, 0);
+  border-radius: 4px;
+  border-style: solid;
+  border-color: #dee1e6;
+  border-width: 1px;
+  width: 244px;
+  height: 88px;
+  position: absolute;
+  left: 283px;
+  top: 210px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.overview-records___165-lbs {
+  color: #3371db;
+  text-align: center;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 700;
+  position: absolute;
+  left: 71px;
+  top: 13px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__weight {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 99px;
+  top: 52px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__container10 {
+  background: rgba(178, 215, 66, 0.56);
+  width: 282.24px;
+  height: 1044.4px;
+  position: absolute;
+  left: -2.95px;
+  top: 73.05px;
+  transform-origin: 0 0;
+  transform: rotate(0.089deg) scale(1, 1);
+}
+
+.overview-records__line {
+  width: 0px;
+  height: 900px;
+  position: absolute;
+  left: 271px;
+  top: 0px;
+  overflow: visible;
+}
+
+.overview-records__image2 {
+  width: 0.31px;
+  height: 32px;
+  position: absolute;
+  left: 24px;
+  top: 28px;
+  overflow: hidden;
+}
+
+.overview-records__group9 {
+  height: auto;
+  position: absolute;
+  left: -10.88px;
+  top: 2.67px;
+  overflow: visible;
+}
+
+.overview-records__button7 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 4.41px;
+  top: 61.54px;
+  overflow: hidden;
+}
+
+.overview-records__patient-search {
+  color: #003785;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 700;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__search {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group10 {
+  height: auto;
+  position: absolute;
+  left: 1.7px;
+  top: 1.7px;
+  overflow: visible;
+}
+
+.overview-records__button8 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 4.82px;
+  top: 109.54px;
+  overflow: hidden;
+}
+
+.overview-records__my-patients {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 700;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__users {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group11 {
+  height: auto;
+  position: absolute;
+  left: 0.86px;
+  top: 1.68px;
+  overflow: visible;
+}
+
+.overview-records__button9 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 5.31px;
+  top: 157.54px;
+  overflow: hidden;
+}
+
+.overview-records__requests {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 700;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__file-text {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group12 {
+  height: auto;
+  position: absolute;
+  left: 2.53px;
+  top: 0.85px;
+  overflow: visible;
+}
+
+.overview-records__button10 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 5.72px;
+  top: 205.54px;
+  overflow: hidden;
+}
+
+.overview-records__schedule2 {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 700;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__calendar2 {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group13 {
+  height: auto;
+  position: absolute;
+  left: 1.7px;
+  top: 0.84px;
+  overflow: visible;
+}
+
+.overview-records__house {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 115.18px);
+  top: calc(50% - 620.8px);
+  overflow: hidden;
+}
+
+.overview-records__button11 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 3.89px;
+  top: 15px;
+  overflow: hidden;
+}
+
+.overview-records__patient-search2 {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 700;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__home-3 {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 20.77px;
+  top: 12.82px;
+  transform-origin: 0 0;
+  transform: rotate(-0.49deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__group14 {
+  height: auto;
+  position: absolute;
+  left: 1px;
+  top: 2px;
+  overflow: visible;
+}
+
+.overview-records__bookings-and-payments {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 18px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 85.91px;
+  top: 919.15px;
+  width: 187px;
+  height: 43px;
+  transform-origin: 0 0;
+  transform: rotate(0.058deg) scale(1, 1);
+}
+
+.bookings-and-payments-span {
+  color: #003785;
+}
+
+.bookings-and-payments-span2 {
+  color: #87af12;
+}
+
+.overview-records__container-279 {
+  background: #ffffff;
+  border-radius: 26px;
+  border-style: dashed;
+  border-color: #ffffff;
+  border-width: 1px;
+  width: 53.93px;
+  height: 50.04px;
+  position: absolute;
+  left: 31.75px;
+  top: 902.7px;
+  transform-origin: 0 0;
+  transform: rotate(-0.024deg) scale(1, 1);
+}
+
+.overview-records__image-33 {
+  width: 52px;
+  height: 52px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.overview-records__group15 {
+  height: auto;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+
+.overview-records__whats-app-image-2025-11-18-at-23-07-13-b-7-c-86-a-7-c-2 {
+  width: 46px;
+  height: 46px;
+  position: absolute;
+  left: 197.67px;
+  top: 11.31px;
+  transform-origin: 0 0;
+  transform: rotate(-0.49deg) scale(1, 1);
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.overview-records__bookings-and-payments2 {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 20.72px;
+  top: 17.82px;
+  width: 211px;
+  height: 37px;
+  transform-origin: 0 0;
+  transform: rotate(-0.49deg) scale(1, 1);
+}
+
+.bookings-and-payments-2-span {
+  color: #003785;
+}
+
+.bookings-and-payments-2-span2 {
+  color: #87af12;
+}
+
+.overview-records__frame-3 {
+  background: rgba(135, 175, 18, 0.12);
+  width: 1545.83px;
+  height: 86px;
+  position: absolute;
+  left: 279.21px;
+  top: 1021.81px;
+  transform-origin: 0 0;
+  transform: rotate(0.14deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__quick-links {
+  color: #000000;
+  text-align: left;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  position: absolute;
+  left: 172.5px;
+  top: 27.67px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__header-menu {
+  background: rgba(0, 0, 0, 0);
+  width: 296px;
+  height: 22px;
+  position: absolute;
+  left: 305.53px;
+  top: 26.87px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.overview-records__frame3 {
+  background: rgba(0, 0, 0, 0);
+  width: 42px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.overview-records__home {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.overview-records__frame4 {
+  background: rgba(0, 0, 0, 0);
+  width: 85px;
+  height: 22px;
+  position: absolute;
+  left: 42px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.overview-records__features {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 18.5px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__frame5 {
+  background: rgba(0, 0, 0, 0);
+  width: 88px;
+  height: 22px;
+  position: absolute;
+  left: 127px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.overview-records__solutions {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 20px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__frame6 {
+  background: rgba(0, 0, 0, 0);
+  width: 81px;
+  height: 22px;
+  position: absolute;
+  left: 193px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.overview-records__contact {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 16.5px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.overview-records__whats-app-image-2025-11-19-at-00-21-50-30-e-751-e-6-2 {
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  left: 14.09px;
+  top: 18.81px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  transform-origin: 0 0;
+  transform: rotate(-0.775deg) scale(1, 1);
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.overview-records__cardio-ai {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 37.1px;
+  top: 19.5px;
+  transform-origin: 0 0;
+  transform: rotate(-0.775deg) scale(1, 1);
+}
+
+.cardio-ai-span {
+  color: #003785;
+}
+
+.cardio-ai-span2 {
+  color: #87af12;
+}
+
+.overview-records__button-109 {
+  background: #de3b40;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0);
+  border-width: 1px;
+  width: 76px;
+  height: 36px;
+  position: absolute;
+  left: 1403.87px;
+  top: 22.61px;
+  transform-origin: 0 0;
+  transform: rotate(-0.077deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.overview-records__log-out {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Manrope-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 26px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+
+.patient-medical-medications,
+.patient-medical-medications * {
+  box-sizing: border-box;
+}
+
+.patient-medical-medications {
+  background: #ffffff;
+  height: 1095px;
+  position: relative;
+  box-shadow: 0px 3px 6px 0px rgba(18, 15, 40, 0.12);
+  overflow: hidden;
+}
+
+.patient-medical-medications__container {
+  background: #f2f6fd;
+  border-radius: 4px;
+  width: 1126px;
+  height: 234px;
+  position: absolute;
+  left: 282px;
+  top: 96px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.patient-medical-medications__image {
+  border-radius: 9999px;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  object-fit: cover;
+}
+
+.patient-medical-medications__sarah-johnson {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  position: absolute;
+  left: 128px;
+  top: 23px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__tag {
+  background: rgba(0, 0, 0, 0);
+  width: 52px;
+  height: 22px;
+  position: absolute;
+  left: 312px;
+  top: 29px;
+}
+
+.patient-medical-medications__frame {
+  background: #dcfce7;
+  border-radius: 11px;
+  width: 52px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__active {
+  color: #166534;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: calc(50% - 15px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__user {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 68px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group {
+  height: auto;
+  position: absolute;
+  left: 2.64px;
+  top: 1.32px;
+  overflow: visible;
+}
+
+.patient-medical-medications__age-40-female-o {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 65px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__mail {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 98px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group2 {
+  height: auto;
+  position: absolute;
+  left: 0.63px;
+  top: 1.97px;
+  overflow: visible;
+}
+
+.patient-medical-medications__sarah-johnson-email-com {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 95px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__phone {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 128px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group3 {
+  height: auto;
+  position: absolute;
+  left: 0.7px;
+  top: 0.64px;
+  overflow: visible;
+}
+
+.patient-medical-medications___1-555-123-4567 {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 125px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__map-pin {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 158px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group4 {
+  height: auto;
+  position: absolute;
+  left: 1.97px;
+  top: 0.63px;
+  overflow: visible;
+}
+
+.patient-medical-medications___123-main-st-anytown-st-12345 {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 155px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__heart-pulse {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 191px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group5 {
+  height: auto;
+  position: absolute;
+  left: 0.63px;
+  top: 1.3px;
+  overflow: visible;
+}
+
+.patient-medical-medications__tag2 {
+  background: rgba(0, 0, 0, 0);
+  width: 92px;
+  height: 22px;
+  position: absolute;
+  left: 152px;
+  top: 188px;
+}
+
+.patient-medical-medications__frame2 {
+  background: #dbeafe;
+  border-radius: 11px;
+  border-style: solid;
+  border-color: #3371db;
+  border-width: 1px;
+  width: 92px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__hypertension {
+  color: #3371db;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: calc(50% - 35px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__button {
+  background: #003785;
+  border-radius: 3px;
+  width: 130px;
+  height: 40px;
+  position: absolute;
+  left: 977px;
+  top: 24px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__schedule {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 17px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__calendar {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: calc(50% - 49px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group6 {
+  height: auto;
+  position: absolute;
+  left: 1.3px;
+  top: 0.66px;
+  overflow: visible;
+}
+
+.patient-medical-medications__container2 {
+  background: rgba(178, 215, 66, 0.12);
+  border-radius: 6px;
+  width: 1126px;
+  height: 48px;
+  position: absolute;
+  left: 282px;
+  top: 354px;
+}
+
+.patient-medical-medications__button2 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 24px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__overview {
+  color: #171a1f;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.patient-medical-medications__button3 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 454px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__lab-results {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.patient-medical-medications__button4 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 904px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__clinical-notes {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.patient-medical-medications__button5 {
+  background: #ffffff;
+  border-radius: 3px;
+  width: 217px;
+  height: 40px;
+  position: absolute;
+  left: 687px;
+  top: 4px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__medications {
+  color: #171a1f;
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.patient-medical-medications__button6 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 251px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__visit-history {
+  color: #666666;
+  text-align: center;
+  font-family: "OpenSans-SemiBold", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.patient-medical-medications__container3 {
+  background: #f1f5fe;
+  border-radius: 10px;
+  width: 1125px;
+  height: 324px;
+  position: absolute;
+  left: 282px;
+  top: 445px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.patient-medical-medications__current-medications {
+  color: #1f2937;
+  text-align: left;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  position: absolute;
+  left: 24px;
+  top: 27px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__active-prescriptions-and-medication-history {
+  color: #6b7280;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 24px;
+  top: 52px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__container4 {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  width: 1078px;
+  height: 100px;
+  position: absolute;
+  left: 24px;
+  top: 88px;
+}
+
+.patient-medical-medications__lisinopril {
+  color: #1f2937;
+  text-align: left;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications___10-mg-daily-for-hypertension {
+  color: #4b5563;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 16px;
+  top: 40px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__prescribed-2023-06-15-refills-3-remaining {
+  color: #6b7280;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  position: absolute;
+  left: 16px;
+  top: 67px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__tag3 {
+  background: rgba(0, 0, 0, 0);
+  width: 56px;
+  height: 22px;
+  position: absolute;
+  left: 989px;
+  top: 18px;
+}
+
+.patient-medical-medications__frame3 {
+  background: #ecf7fe;
+  border-radius: 11px;
+  border-style: solid;
+  border-color: #ecf7fe;
+  border-width: 1px;
+  width: 56px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__active2 {
+  color: #2c6b57;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.patient-medical-medications__container5 {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  width: 1078px;
+  height: 100px;
+  position: absolute;
+  left: 24px;
+  top: 200px;
+}
+
+.patient-medical-medications__metformin {
+  color: #1f2937;
+  text-align: left;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications___500-mg-twice-daily-for-glucose-control {
+  color: #4b5563;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 16px;
+  top: 40px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__prescribed-2023-12-15-refills-5-remaining {
+  color: #6b7280;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  position: absolute;
+  left: 16px;
+  top: 67px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__tag4 {
+  background: rgba(0, 0, 0, 0);
+  width: 56px;
+  height: 22px;
+  position: absolute;
+  left: 989px;
+  top: 19px;
+}
+
+.patient-medical-medications__frame-3 {
+  background: rgba(135, 175, 18, 0.12);
+  width: 1545.83px;
+  height: 86px;
+  position: absolute;
+  left: 282.67px;
+  top: 1009px;
+  transform-origin: 0 0;
+  transform: rotate(0.179deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__quick-links {
+  color: #000000;
+  text-align: left;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  position: absolute;
+  left: 172.5px;
+  top: 27.67px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__header-menu {
+  background: rgba(0, 0, 0, 0);
+  width: 296px;
+  height: 22px;
+  position: absolute;
+  left: 305.53px;
+  top: 26.87px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.patient-medical-medications__frame4 {
+  background: rgba(0, 0, 0, 0);
+  width: 42px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__home {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.patient-medical-medications__frame5 {
+  background: rgba(0, 0, 0, 0);
+  width: 85px;
+  height: 22px;
+  position: absolute;
+  left: 42px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__features {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 18.5px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__frame6 {
+  background: rgba(0, 0, 0, 0);
+  width: 88px;
+  height: 22px;
+  position: absolute;
+  left: 127px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__solutions {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 20px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__frame7 {
+  background: rgba(0, 0, 0, 0);
+  width: 81px;
+  height: 22px;
+  position: absolute;
+  left: 193px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__contact {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 16.5px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__whats-app-image-2025-11-19-at-00-21-50-30-e-751-e-6-2 {
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  left: 14.09px;
+  top: 18.81px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  transform-origin: 0 0;
+  transform: rotate(-0.775deg) scale(1, 1);
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.patient-medical-medications__cardio-ai {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 37.1px;
+  top: 19.5px;
+  transform-origin: 0 0;
+  transform: rotate(-0.775deg) scale(1, 1);
+}
+
+.cardio-ai-span {
+  color: #003785;
+}
+
+.cardio-ai-span2 {
+  color: #87af12;
+}
+
+.patient-medical-medications__button-109 {
+  background: #de3b40;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0);
+  border-width: 1px;
+  width: 76px;
+  height: 36px;
+  position: absolute;
+  left: 1403.87px;
+  top: 22.61px;
+  transform-origin: 0 0;
+  transform: rotate(-0.077deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__log-out {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Manrope-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 26px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__container6 {
+  background: rgba(178, 215, 66, 0.56);
+  width: 282.24px;
+  height: 999.42px;
+  position: absolute;
+  left: 0.7px;
+  top: 96px;
+  transform-origin: 0 0;
+  transform: rotate(0.051deg) scale(1, 1);
+}
+
+.patient-medical-medications__line {
+  width: 0px;
+  height: 900px;
+  position: absolute;
+  left: 271px;
+  top: 0px;
+  overflow: visible;
+}
+
+.patient-medical-medications__image2 {
+  width: 0.31px;
+  height: 32px;
+  position: absolute;
+  left: 24px;
+  top: 28px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__group7 {
+  height: auto;
+  position: absolute;
+  left: -10.88px;
+  top: 2.67px;
+  overflow: visible;
+}
+
+.patient-medical-medications__button7 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 4.41px;
+  top: 109.54px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__patient-search {
+  color: #003785;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__search {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group8 {
+  height: auto;
+  position: absolute;
+  left: 1.7px;
+  top: 1.7px;
+  overflow: visible;
+}
+
+.patient-medical-medications__button8 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 4.82px;
+  top: 157.54px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__my-patients {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__users {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group9 {
+  height: auto;
+  position: absolute;
+  left: 0.86px;
+  top: 1.68px;
+  overflow: visible;
+}
+
+.patient-medical-medications__button9 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 5.31px;
+  top: 214.54px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__requests {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__file-text {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group10 {
+  height: auto;
+  position: absolute;
+  left: 2.53px;
+  top: 0.85px;
+  overflow: visible;
+}
+
+.patient-medical-medications__button10 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 5.72px;
+  top: 262.54px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__schedule2 {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__calendar2 {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group11 {
+  height: auto;
+  position: absolute;
+  left: 1.7px;
+  top: 0.84px;
+  overflow: visible;
+}
+
+.patient-medical-medications__house {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 115.18px);
+  top: calc(50% - 620.31px);
+  overflow: hidden;
+}
+
+.patient-medical-medications__button11 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 3.89px;
+  top: 48.55px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__patient-search2 {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.patient-medical-medications__home-3 {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 20.77px;
+  top: 12.82px;
+  transform-origin: 0 0;
+  transform: rotate(-0.49deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.patient-medical-medications__group12 {
+  height: auto;
+  position: absolute;
+  left: 1.73px;
+  top: 2.3px;
+  overflow: visible;
+}
+
+.patient-medical-medications__bookings-and-payments {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 18px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 101.64px;
+  top: 1224.91px;
+  width: 187px;
+  height: 43px;
+  transform-origin: 0 0;
+  transform: rotate(0.585deg) scale(1, 1);
+}
+
+.bookings-and-payments-span {
+  color: #003785;
+}
+
+.bookings-and-payments-span2 {
+  color: #87af12;
+}
+
+.patient-medical-medications__container-279 {
+  background: #ffffff;
+  border-radius: 26px;
+  border-style: dashed;
+  border-color: #ffffff;
+  border-width: 1px;
+  width: 53.93px;
+  height: 50.04px;
+  position: absolute;
+  left: 37.25px;
+  top: 1219.97px;
+  transform-origin: 0 0;
+  transform: rotate(0.053deg) scale(1, 1);
+}
+
+.patient-medical-medications__image-33 {
+  width: 52px;
+  height: 52px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.patient-medical-medications__group13 {
+  height: auto;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+
+.patient-medical-medications__container-2792 {
+  background: #ffffff;
+  border-radius: 26px;
+  border-style: dashed;
+  border-color: #ffffff;
+  border-width: 1px;
+  width: 53.93px;
+  height: 50.04px;
+  position: absolute;
+  left: 28.49px;
+  top: 920px;
+  transform-origin: 0 0;
+  transform: rotate(0.104deg) scale(1, 1);
+}
+
+.patient-medical-medications__group14 {
+  height: auto;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+
+.patient-medical-medications__bookings-and-payments2 {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 18px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 95.88px;
+  top: 929px;
+  width: 187px;
+  height: 43px;
+  transform-origin: 0 0;
+  transform: rotate(0.636deg) scale(1, 1);
+}
+
+.bookings-and-payments-2-span {
+  color: #003785;
+}
+
+.bookings-and-payments-2-span2 {
+  color: #87af12;
+}
+
+
+
+.add-clinical-notes,
+.add-clinical-notes * {
+  box-sizing: border-box;
+}
+
+.add-clinical-notes {
+  background: #ffffff;
+  height: 1542px;
+  position: relative;
+  box-shadow: 0px 3px 6px 0px rgba(18, 15, 40, 0.12);
+  overflow: hidden;
+}
+
+.add-clinical-notes__container {
+  background: rgba(0, 0, 0, 0);
+  width: 1126px;
+  height: 40px;
+  position: absolute;
+  left: 282px;
+  top: 32px;
+}
+
+.add-clinical-notes__container2 {
+  background: #f2f6fd;
+  border-radius: 4px;
+  width: 1126px;
+  height: 234px;
+  position: absolute;
+  left: 282px;
+  top: 96px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.add-clinical-notes__image {
+  border-radius: 9999px;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  object-fit: cover;
+}
+
+.add-clinical-notes__sarah-johnson {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  position: absolute;
+  left: 128px;
+  top: 23px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__tag {
+  background: rgba(0, 0, 0, 0);
+  width: 52px;
+  height: 22px;
+  position: absolute;
+  left: 312px;
+  top: 29px;
+}
+
+.add-clinical-notes__frame {
+  background: #dcfce7;
+  border-radius: 11px;
+  width: 52px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__active {
+  color: #166534;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: calc(50% - 15px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__user {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 68px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group {
+  height: auto;
+  position: absolute;
+  left: 2.64px;
+  top: 1.32px;
+  overflow: visible;
+}
+
+.add-clinical-notes__age-40-female-o {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 65px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__mail {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 98px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group2 {
+  height: auto;
+  position: absolute;
+  left: 0.63px;
+  top: 1.97px;
+  overflow: visible;
+}
+
+.add-clinical-notes__sarah-johnson-email-com {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 95px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__phone {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 128px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group3 {
+  height: auto;
+  position: absolute;
+  left: 0.7px;
+  top: 0.64px;
+  overflow: visible;
+}
+
+.add-clinical-notes___1-555-123-4567 {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 125px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__map-pin {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 158px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group4 {
+  height: auto;
+  position: absolute;
+  left: 1.97px;
+  top: 0.63px;
+  overflow: visible;
+}
+
+.add-clinical-notes___123-main-st-anytown-st-12345 {
+  color: #565e6c;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 152px;
+  top: 155px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__heart-pulse {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 128px;
+  top: 191px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group5 {
+  height: auto;
+  position: absolute;
+  left: 0.63px;
+  top: 1.3px;
+  overflow: visible;
+}
+
+.add-clinical-notes__tag2 {
+  background: rgba(0, 0, 0, 0);
+  width: 92px;
+  height: 22px;
+  position: absolute;
+  left: 152px;
+  top: 188px;
+}
+
+.add-clinical-notes__frame2 {
+  background: #dbeafe;
+  border-radius: 11px;
+  border-style: solid;
+  border-color: #3371db;
+  border-width: 1px;
+  width: 92px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__hypertension {
+  color: #3371db;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: calc(50% - 35px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__button {
+  background: #003785;
+  border-radius: 3px;
+  width: 130px;
+  height: 40px;
+  position: absolute;
+  left: 977px;
+  top: 24px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__schedule {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 17px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__calendar {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: calc(50% - 49px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group6 {
+  height: auto;
+  position: absolute;
+  left: 1.3px;
+  top: 0.66px;
+  overflow: visible;
+}
+
+.add-clinical-notes__container3 {
+  background: rgba(178, 215, 66, 0.12);
+  border-radius: 6px;
+  width: 1126px;
+  height: 48px;
+  position: absolute;
+  left: 282px;
+  top: 354px;
+}
+
+.add-clinical-notes__button2 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 24px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__overview {
+  color: #171a1f;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.add-clinical-notes__button3 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 454px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__lab-results {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.add-clinical-notes__button4 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 679px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__medications {
+  color: #565e6c;
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.add-clinical-notes__button5 {
+  background: #ffffff;
+  border-radius: 3px;
+  width: 217px;
+  height: 40px;
+  position: absolute;
+  left: 904px;
+  top: 4px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__clinical-notes {
+  color: #323842;
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 45.5px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__button6 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  width: 217.2px;
+  height: 40px;
+  position: absolute;
+  left: 241px;
+  top: 4px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__visit-history {
+  color: #666666;
+  text-align: center;
+  font-family: "OpenSans-SemiBold", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.add-clinical-notes__container4 {
+  background: #f2f6fd;
+  border-radius: 10px;
+  width: 1125px;
+  height: 328px;
+  position: absolute;
+  left: 283px;
+  top: 445px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.add-clinical-notes__clinical-notes2 {
+  color: #1f2937;
+  text-align: left;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  position: absolute;
+  left: 23px;
+  top: 23px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__private-notes-and-observations {
+  color: #6b7280;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 23px;
+  top: 48px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__button7 {
+  background: #003785;
+  border-radius: 6px;
+  width: 133px;
+  height: 40px;
+  position: absolute;
+  left: 971px;
+  top: 28px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__edit-notes {
+  color: #ffffff;
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 18.5px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__square-pen {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: calc(50% - 50.5px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group7 {
+  height: auto;
+  position: absolute;
+  left: 1.3px;
+  top: 0.64px;
+  overflow: visible;
+}
+
+.add-clinical-notes__file-text {
+  background: #ffffff;
+  width: 62px;
+  height: 62px;
+  position: absolute;
+  left: 539px;
+  top: 114px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group8 {
+  height: auto;
+  position: absolute;
+  left: 7.78px;
+  top: 2.6px;
+  overflow: visible;
+}
+
+.add-clinical-notes__no-clinical-notes-yet {
+  color: #4b5563;
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 480px;
+  top: 185px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__button8 {
+  background: #ffffff;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: #d1d5db;
+  border-width: 1px;
+  width: 103px;
+  height: 40px;
+  position: absolute;
+  left: 511px;
+  top: 224px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__add-notes {
+  color: #171a1f;
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.add-clinical-notes__container5 {
+  background: #f2f6fd;
+  border-radius: 10px;
+  width: 1125px;
+  height: 332px;
+  position: absolute;
+  left: 283px;
+  top: 500px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+}
+
+.add-clinical-notes__clinical-notes3 {
+  color: #1f2937;
+  text-align: left;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  position: absolute;
+  left: 24px;
+  top: 27px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__private-notes-and-observations2 {
+  color: #6b7280;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 24px;
+  top: 52px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__textarea {
+  background: rgba(0, 0, 0, 0);
+  width: 1080px;
+  height: 164px;
+  position: absolute;
+  left: 24px;
+  top: 88px;
+}
+
+.add-clinical-notes__textfield {
+  background: #ffffff;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: #d1d5db;
+  border-width: 1px;
+  position: absolute;
+  right: 1px;
+  left: 0px;
+  bottom: 1px;
+  top: 32px;
+}
+
+.add-clinical-notes__enter-your-clinical-observations-and-notes {
+  color: #565d6d;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  right: 11px;
+  left: 12px;
+  top: 8px;
+}
+
+.add-clinical-notes__resizing-handle {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group9 {
+  height: auto;
+  position: absolute;
+  left: -0.2px;
+  top: 11.17px;
+  overflow: visible;
+}
+
+.add-clinical-notes__clinical-notes4 {
+  color: #374151;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  right: 1004px;
+  left: 0px;
+  top: 0px;
+}
+
+.add-clinical-notes__button9 {
+  background: #ffffff;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: #d1d5db;
+  border-width: 1px;
+  width: 78.06px;
+  height: 40px;
+  position: absolute;
+  left: 923px;
+  top: 278px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__cancel {
+  color: #171a1f;
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.add-clinical-notes__button10 {
+  background: #003785;
+  border-radius: 6px;
+  width: 95px;
+  height: 40px;
+  position: absolute;
+  left: 1009px;
+  top: 278px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__save {
+  color: #ffffff;
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - -0.5px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__save2 {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: calc(50% - 31.5px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group10 {
+  height: auto;
+  position: absolute;
+  left: 1.3px;
+  top: 1.3px;
+  overflow: visible;
+}
+
+.add-clinical-notes__whats-app-image-2025-11-18-at-23-07-13-b-7-c-86-a-7-c-5 {
+  width: 46px;
+  height: 46px;
+  position: absolute;
+  left: 197.92px;
+  top: 14px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.add-clinical-notes__bookings-and-payments {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 20.92px;
+  top: 19px;
+  width: 211px;
+  height: 37px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.bookings-and-payments-span {
+  color: #003785;
+}
+
+.bookings-and-payments-span2 {
+  color: #87af12;
+}
+
+.add-clinical-notes__frame-3 {
+  background: rgba(135, 175, 18, 0.12);
+  width: 1558.8px;
+  height: 86px;
+  position: absolute;
+  left: 267.15px;
+  top: 1454.44px;
+  transform-origin: 0 0;
+  transform: rotate(-0.073deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__quick-links {
+  color: #000000;
+  text-align: left;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  position: absolute;
+  left: 172.5px;
+  top: 27.67px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__header-menu {
+  background: rgba(0, 0, 0, 0);
+  width: 296px;
+  height: 22px;
+  position: absolute;
+  left: 305.53px;
+  top: 26.87px;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.add-clinical-notes__frame3 {
+  background: rgba(0, 0, 0, 0);
+  width: 42px;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__home {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.add-clinical-notes__frame4 {
+  background: rgba(0, 0, 0, 0);
+  width: 85px;
+  height: 22px;
+  position: absolute;
+  left: 42px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__features {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 18.5px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__frame5 {
+  background: rgba(0, 0, 0, 0);
+  width: 88px;
+  height: 22px;
+  position: absolute;
+  left: 127px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__solutions {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 20px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__frame6 {
+  background: rgba(0, 0, 0, 0);
+  width: 81px;
+  height: 22px;
+  position: absolute;
+  left: 193px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__contact {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 16.5px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__whats-app-image-2025-11-19-at-00-21-50-30-e-751-e-6-2 {
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  left: 14.09px;
+  top: 18.81px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  transform-origin: 0 0;
+  transform: rotate(-0.775deg) scale(1, 1);
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.add-clinical-notes__cardio-ai {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 37.1px;
+  top: 19.5px;
+  transform-origin: 0 0;
+  transform: rotate(-0.775deg) scale(1, 1);
+}
+
+.cardio-ai-span {
+  color: #003785;
+}
+
+.cardio-ai-span2 {
+  color: #87af12;
+}
+
+.add-clinical-notes__button-109 {
+  background: #de3b40;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0);
+  border-width: 1px;
+  width: 76px;
+  height: 36px;
+  position: absolute;
+  left: 1403.87px;
+  top: 22.61px;
+  transform-origin: 0 0;
+  transform: rotate(-0.077deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__log-out {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Manrope-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 26px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__container6 {
+  background: rgba(178, 215, 66, 0.56);
+  width: 282.24px;
+  height: 1450.94px;
+  position: absolute;
+  left: -1px;
+  top: 89px;
+  transform-origin: 0 0;
+  transform: rotate(0.051deg) scale(1, 1);
+}
+
+.add-clinical-notes__line {
+  width: 0px;
+  height: 900px;
+  position: absolute;
+  left: 271px;
+  top: 0px;
+  overflow: visible;
+}
+
+.add-clinical-notes__image2 {
+  width: 0.31px;
+  height: 32px;
+  position: absolute;
+  left: 24px;
+  top: 28px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__group11 {
+  height: auto;
+  position: absolute;
+  left: -10.88px;
+  top: 2.67px;
+  overflow: visible;
+}
+
+.add-clinical-notes__button11 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 4.41px;
+  top: 109.54px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__patient-search {
+  color: #003785;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__search {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group12 {
+  height: auto;
+  position: absolute;
+  left: 1.7px;
+  top: 1.7px;
+  overflow: visible;
+}
+
+.add-clinical-notes__button12 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 4.82px;
+  top: 157.54px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__my-patients {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__users {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group13 {
+  height: auto;
+  position: absolute;
+  left: 0.86px;
+  top: 1.68px;
+  overflow: visible;
+}
+
+.add-clinical-notes__button13 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 5.31px;
+  top: 214.54px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__requests {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__file-text2 {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group14 {
+  height: auto;
+  position: absolute;
+  left: 2.53px;
+  top: 0.85px;
+  overflow: visible;
+}
+
+.add-clinical-notes__button14 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 5.72px;
+  top: 262.54px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__schedule2 {
+  color: #374151;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__calendar2 {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: 0 0;
+  transform: rotate(0deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group15 {
+  height: auto;
+  position: absolute;
+  left: 1.7px;
+  top: 0.84px;
+  overflow: visible;
+}
+
+.add-clinical-notes__house {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 115.18px);
+  top: calc(50% - 621.07px);
+  overflow: hidden;
+}
+
+.add-clinical-notes__button15 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  left: 3.89px;
+  top: 48.55px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__patient-search2 {
+  color: #171a1f;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.add-clinical-notes__home-3 {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 20.77px;
+  top: 12.82px;
+  transform-origin: 0 0;
+  transform: rotate(-0.49deg) scale(1, 1);
+  overflow: hidden;
+}
+
+.add-clinical-notes__group16 {
+  height: auto;
+  position: absolute;
+  left: 1.73px;
+  top: 2.3px;
+  overflow: visible;
+}
+
+.add-clinical-notes__bookings-and-payments2 {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 18px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 101.64px;
+  top: 1224.91px;
+  width: 187px;
+  height: 43px;
+  transform-origin: 0 0;
+  transform: rotate(0.585deg) scale(1, 1);
+}
+
+.bookings-and-payments-2-span {
+  color: #003785;
+}
+
+.bookings-and-payments-2-span2 {
+  color: #87af12;
+}
+
+.add-clinical-notes__container-279 {
+  background: #ffffff;
+  border-radius: 26px;
+  border-style: dashed;
+  border-color: #ffffff;
+  border-width: 1px;
+  width: 53.93px;
+  height: 50.04px;
+  position: absolute;
+  left: 37.25px;
+  top: 1219.97px;
+  transform-origin: 0 0;
+  transform: rotate(0.053deg) scale(1, 1);
+}
+
+.add-clinical-notes__image-33 {
+  width: 52px;
+  height: 52px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.add-clinical-notes__group17 {
+  height: auto;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+
+/* ============================================
+   Section Visibility Control
+   ============================================ */
+.section-content {
+  display: none;
+}
+
+.section-content.active {
+  display: block;
+}
+
+/* All containers maintain their absolute positioning from original CSS */
+/* No additional positioning needed as original CSS handles it */
+
+/* ============================================
+   Visit History Section Styles
+   ============================================ */
+.patient-medical-vist-hostory,
+.patient-medical-vist-hostory * {
+  box-sizing: border-box;
+}
+
+.patient-medical-vist-hostory__container3 {
+  background: #f2f6fd;
+  border-radius: 10px;
+  width: 1125px;
+  position: absolute;
+  left: 282px;
+  top: 426px;
+  box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.15),
+    0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+  padding: 24px;
+}
+
+.patient-medical-vist-hostory__visit-history2 {
+  color: #1f2937;
+  text-align: left;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.patient-medical-vist-hostory__patient-s-recent-medical-visits-and-consultations {
+  color: #6b7280;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  margin-bottom: 24px;
+}
+
+.patient-medical-vist-hostory__container4,
+.patient-medical-vist-hostory__container5 {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.patient-medical-vist-hostory__follow-up,
+.patient-medical-vist-hostory__lab-review {
+  color: #1f2937;
+  text-align: left;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.patient-medical-vist-hostory___2024-01-10 {
+  color: #6b7280;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.patient-medical-vist-hostory__tag3,
+.patient-medical-vist-hostory__tag4 {
+  background: rgba(0, 0, 0, 0);
+  width: auto;
+  height: 22px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.patient-medical-vist-hostory__frame3,
+.patient-medical-vist-hostory__frame4 {
+  background: #dbeafe;
+  border-radius: 11px;
+  border-style: solid;
+  border-color: #3371db;
+  border-width: 1px;
+  padding: 0 8px;
+  height: 22px;
+  display: inline-block;
+}
+
+.patient-medical-vist-hostory__hypertension-stable,
+.patient-medical-vist-hostory__elevated-glucose-levels {
+  color: #3371db;
+  text-align: left;
+  font-family: "Poppins-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.patient-medical-vist-hostory__blood-pressure-well-controlled-continue-current-medication,
+.patient-medical-vist-hostory__hb-a-1-c-6-2-recommend-lifestyle-changes-and-monitoring {
+  color: #4b5563;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.patient-medical-vist-hostory__bp-128-82,
+.patient-medical-vist-hostory__hr-72,
+.patient-medical-vist-hostory__temp-98-6-f,
+.patient-medical-vist-hostory__weight-165-lbs {
+  color: #6b7280;
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  margin-right: 16px;
+  display: inline-block;
+}
+
+.patient-medical-vist-hostory__button7 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.patient-medical-vist-hostory__text {
+  width: 100%;
+  height: 100%;
+}
+
+.patient-medical-vist-hostory__download {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+.patient-medical-vist-hostory__group7,
+.patient-medical-vist-hostory__group8 {
+  height: auto;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+          <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-part1">Cardio</span>
+                <span class="logo-part2">AI</span>
+            </div>
+            <div class="nav-menu">
+            <div class="nav-item"><a href="../../index.html">Home</a></div>
+          <div class="nav-item"><a href="../../index.html">Features</a></div>
+          <div class="nav-item"><a href="../../index.html">About</a></div>
+          <div class="nav-item"><a href="../../index.html">Contact</a></div>
+            </div>
+           
+        </div>
+    </div>
+    
+    <div class="registration-app">
+        <!-- Progress Steps -->
+        <div class="progress-steps" id="progressSteps">
+            <div class="steps">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Basic Info</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Doctor Details</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Review & Submit</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Step 1: Basic Information -->
+        <div class="step-content active" id="step1">
+            <div class="form-container">
+                <h1 class="form-title">Basic Information</h1>
+                <p class="form-subtitle">Please fill in your basic personal and contact details to get started.</p>
+                
+                <form id="basicInfoForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="fullName" placeholder="John Doe" required>
+                            </div>
+                            <div class="error-message" id="fullNameError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" placeholder="example@medconnect.com" required>
+                            </div>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Address *</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="address" placeholder="123 Medical Way, Health City, HC 90210" required>
+                        </div>
+                        <div class="error-message" id="addressError"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password" data-target="password">
+                                    
+                                </button>
+                            </div>
+                            <div class="error-message" id="passwordError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="confirmPassword" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password" data-target="confirmPassword">
+                                    
+                                </button>
+                            </div>
+                            <div class="error-message" id="confirmPasswordError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" id="phoneNumber" placeholder="+1 (555) 123-4567" required>
+                            </div>
+                            <div class="error-message" id="phoneNumberError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="age">Age *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-birthday-cake"></i>
+                                <input type="number" id="age" placeholder="35" min="18" max="100" required>
+                            </div>
+                            <div class="error-message" id="ageError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gender">Gender *</label>
+                            <div class="custom-select-wrapper">
+                                <div class="custom-select" id="genderSelect">
+                                    <div class="select-trigger">
+                                        <i class="fas fa-venus-mars"></i>
+                                        <span class="selected-value placeholder">Select your gender</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="select-options">
+                                        <div class="option" data-value="male">
+                                            <i class="fas fa-mars"></i>
+                                            <span>Male</span>
+                                        </div>
+                                        <div class="option" data-value="female">
+                                            <i class="fas fa-venus"></i>
+                                            <span>Female</span>
+                                        </div>
+                                        
+                                      
+                                    </div>
+                                    <input type="hidden" id="gender" name="gender" required>
+                                </div>
+                            </div>
+                            <div class="error-message" id="genderError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="role">Role *</label>
+                            <div class="custom-select-wrapper">
+                                <div class="custom-select" id="roleSelect">
+                                    <div class="select-trigger">
+                                        <i class="fas fa-user-md"></i>
+                                        <span class="selected-value placeholder">Select your role</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="select-options">
+                                        <div class="option" data-value="doctor">
+                                            <i class="fas fa-stethoscope"></i>
+                                            <span>Doctor</span>
+                                        </div>
+                                        <div class="option" data-value="specialist">
+                                            <i class="fas fa-user-nurse"></i>
+                                            <span>Specialist</span>
+                                        </div>
+                                        <div class="option" data-value="surgeon">
+                                            <i class="fas fa-syringe"></i>
+                                            <span>Surgeon</span>
+                                        </div>
+                                        <div class="option" data-value="consultant">
+                                            <i class="fas fa-comment-medical"></i>
+                                            <span>Consultant</span>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="role" name="role" required>
+                                </div>
+                            </div>
+                            <div class="error-message" id="roleError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-next" onclick="goToStep(2)">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Step 2: Doctor Details -->
+        <div class="step-content" id="step2">
+            <div class="form-container">
+                <h1 class="form-title">Doctor Details</h1>
+                
+                <!-- Professional Information -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-briefcase-medical"></i>
+                        Professional Information
+                    </h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="medicalId">Medical ID *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-id-card"></i>
+                                <input type="text" id="medicalId" placeholder="e.g., MED12345" required>
+                            </div>
+                            <div class="error-message" id="medicalIdError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hospitalAffiliation">Primary Hospital/Clinic Affiliation *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-hospital"></i>
+                                <input type="text" id="hospitalAffiliation" placeholder="e.g., General City Hospital" required>
+                            </div>
+                            <div class="error-message" id="hospitalAffiliationError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="hasPrivateClinic">
+                        <label for="hasPrivateClinic">Do you have a private clinic?</label>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="yearsExperience">Years of Experience *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-briefcase"></i>
+                                <input type="number" id="yearsExperience" placeholder="e.g., 10" min="0" max="50" required>
+                            </div>
+                            <div class="error-message" id="yearsExperienceError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="patientsPerWeek">Approx. Patients per Week *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-flask"></i>
+                                <input type="number" id="patientsPerWeek" placeholder="e.g., 75" min="0" max="1000" required>
+                            </div>
+                            <div class="error-message" id="patientsPerWeekError"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Academic Background -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        Academic Background
+                    </h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="university">University *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-university"></i>
+                                <input type="text" id="university" placeholder="e.g., University of Health Sciences" required>
+                            </div>
+                            <div class="error-message" id="universityError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="medicalDegree">Medical Degree *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-award"></i>
+                                <input type="text" id="medicalDegree" placeholder="e.g., Doctor of Medicine (MD)" required>
+                            </div>
+                            <div class="error-message" id="medicalDegreeError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="radio-group">
+                        <p>Do you hold a Master's or PhD?</p>
+                        <div class="radio-options">
+                            <label class="radio-label">
+                                <input type="radio" name="hasMastersPhD" value="yes">
+                                <span class="radio-custom"></span>
+                                Yes
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="hasMastersPhD" value="no" checked>
+                                <span class="radio-custom"></span>
+                                No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Supporting Documents -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-file-upload"></i>
+                        Supporting Documents
+                    </h2>
+                    
+                    <div class="upload-section">
+                        <div class="upload-header">
+                            <h3>Upload Medical Documents</h3>
+                            <button type="button" class="info-btn" title="Supported: PDF, DOC, DOCX, JPG, PNG (Max 5MB)">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="drop-zone" id="medicalDocsDropZone">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag and drop files here, or click to browse</p>
+                            <input type="file" id="medicalDocuments" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                            <button type="button" class="browse-btn" onclick="document.getElementById('medicalDocuments').click()">
+                                Browse Files
+                            </button>
+                            <p class="upload-hint">Supported: PDF, DOC, DOCX, JPG, PNG (Max 5MB)</p>
+                        </div>
+                        
+                        <div class="uploaded-files" id="medicalDocsList"></div>
+                    </div>
+                    
+                    <div class="upload-section">
+                        <h3>Upload Your Medical License</h3>
+                        <div class="drop-zone" id="licenseDropZone">
+                            <i class="fas fa-file-upload"></i>
+                            <p>Drag and drop your file here, or click to upload</p>
+                            <input type="file" id="medicalLicense" accept=".pdf,.jpg,.jpeg,.png">
+                            <button type="button" class="browse-btn" onclick="document.getElementById('medicalLicense').click()">
+                                Upload File
+                            </button>
+                        </div>
+                        <div class="uploaded-files" id="licenseFileList"></div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn-prev" onclick="goToStep(1)">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn-next" onclick="goToStep(3)">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Review & Submit -->
+        <div class="step-content" id="step3">
+            <div class="review-container">
+                <h1 class="review-title">Review Your Application</h1>
+                <p class="review-subtitle">Please review all the information below carefully before submitting.</p>
+                
+                <!-- Basic Information Review -->
+                <div class="review-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-user-circle"></i>
+                        Basic Information
+                    </h2>
+                    <div class="review-grid" id="basicInfoReview"></div>
+                </div>
+                
+                <!-- Doctor Details Review -->
+                <div class="review-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-briefcase-medical"></i>
+                        Doctor Professional Details
+                    </h2>
+                    <div class="review-grid" id="doctorDetailsReview"></div>
+                </div>
+                
+                <!-- Uploaded Documents Review -->
+                <div class="review-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-file-upload"></i>
+                        Uploaded Documents
+                    </h2>
+                    <div class="documents-grid" id="documentsReview"></div>
+                </div>
+                
+                <!-- Terms and Conditions -->
+                <div class="terms-section">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termsAgreement">
+                        <label for="termsAgreement">
+                            I acknowledge that the information provided is accurate to the best of my knowledge 
+                            and I agree to the MedConnect Signup Terms of Service and Privacy Policy.
+                        </label>
+                    </div>
+                    <div class="error-message" id="termsError"></div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn-prev" onclick="goToStep(2)">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn-submit" onclick="submitForm()">
+                        <i class="fas fa-paper-plane"></i> Submit Application
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="success-modal" id="successModal">
+            <div class="modal-overlay" onclick="closeSuccessModal()"></div>
+            <div class="modal-content">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Submission Successful!</h2>
+                <p class="success-message">
+                    Your request has been submitted and is pending approval. 
+                    We will notify you once it's reviewed.
+                </p>
+                <button class="btn-close" onclick="redirectToDashboard()">Go to Dashboard</button>
+                <button class="btn-secondary" onclick="closeSuccessModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

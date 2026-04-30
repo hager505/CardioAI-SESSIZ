@@ -1,0 +1,597 @@
+<!-- notification.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - CardioAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* إضافات إضافية للتحكم في الـ modal */
+        .notification-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .notification-detail-modal.active {
+            display: flex;
+        }
+        
+        .detail-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .detail-header {
+            padding: 24px;
+            background: #003785;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .detail-header h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .close-detail-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .close-detail-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .detail-body {
+            padding: 32px;
+            overflow-y: auto;
+            max-height: 50vh;
+        }
+        
+        .detail-body p {
+            color: #4b5563;
+            line-height: 1.8;
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .detail-actions {
+            padding: 24px 32px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .detail-action-btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: 1px solid #dee1e6;
+            background: white;
+            color: #171a1f;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .detail-action-btn.primary {
+            background: #003785;
+            color: white;
+            border-color: #003785;
+        }
+        
+        .detail-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #10b981;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .toast.active {
+            display: flex;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .read-notification {
+            opacity: 0.7;
+            background: #f9fafb;
+        }
+        
+        .read-notification .notification-title {
+            color: #6b7280;
+        }
+    </style>
+    <style>
+  
+/* Sidebar */
+.sidebar {
+    background: rgba(170, 213, 42, 0.56);
+    border-right: 1px solid var(--medium-gray);
+    padding: 20px 0;
+}
+
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 24px;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-item:hover {
+    background: rgba(0, 59, 133, 0.1);
+    color: var(--primary-blue);
+}
+
+.sidebar-item.active {
+    background: rgba(45, 104, 175, 0.1);
+    color: var(--primary-blue);
+    border-left-color: var(--primary-blue);
+}
+
+.sidebar-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.sidebar-item span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+</style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <div class="logo-text">
+                    <span class="logo-part1">Cardio</span>
+                    <span class="logo-part2">AI</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-center">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search notifications...">
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <a href="/patient/notifications/notification.html" class="header-icon">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </a>
+            <a href="/patient/profile/profile.html" class="header-icon">
+                <i class="fas fa-cog"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-menu">
+        <a href="../dashboard/dashboard.html" class="sidebar-item">
+          <i class="fas fa-home"></i><span>Dashboard</span>
+        </a>
+        <a href="../profile/profile.html" class="sidebar-item">
+          <i class="fas fa-user"></i><span>Profile</span>
+        </a>
+        <a href="../MedicalRecords/medicalrecords1.html" class="sidebar-item">
+          <i class="fas fa-file-medical"></i><span>Medical Records</span>
+        </a>
+        <a href="../appointments/appiontment.html" class="sidebar-item">
+          <i class="fas fa-calendar-check"></i><span>Appointments</span>
+        </a>
+        <a href="../medications/medications.html" class="sidebar-item">
+          <i class="fas fa-pills"></i><span>Medications</span>
+        </a>
+        <a href="../notifications/notification.html" class="sidebar-item  active">
+          <i class="fas fa-bell"></i><span>Notifications</span>
+        </a>
+      </div>
+    </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Page Header with Subtitle -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Notifications</h1>
+                    <p class="page-subtitle">Your health updates and medical alerts</p>
+                </div>
+                <button class="mark-all-btn">
+                    <i class="fas fa-envelope-open"></i>
+                    <span>Mark All Read</span>
+                </button>
+            </div>
+            
+            <!-- Updated Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="critical">Health Alerts</button>
+                <button class="filter-tab" data-filter="warning">AI Recommendations</button>
+                <button class="filter-tab" data-filter="info">Reminders</button>
+                <button class="filter-tab" data-filter="system">Device & System</button>
+            </div>
+            
+            <!-- Notifications Grid -->
+            <div class="notifications-grid">
+                <!-- 1. Urgent Health Alert (Red - Critical) -->
+                <div class="notification-card alert-critical" data-type="critical">
+                    <div class="notification-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h3 class="notification-title">Urgent Health Alert</h3>
+                            <span class="notification-tag urgent">Critical</span>
+                        </div>
+                        <p class="notification-desc">
+                            Our system has detected a potential risk of atrial fibrillation based on your recent heart rhythm data. Please take action.
+                        </p>
+                        <div class="notification-footer">
+                            <span class="notification-time">10 minutes ago</span>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary" onclick="showNotificationDetail('urgent')">View Details</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 2. AI Early Warning (Amber - Preventive) -->
+                <div class="notification-card alert-warning" data-type="warning">
+                    <div class="notification-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h3 class="notification-title">AI Health Warning</h3>
+                            <span class="notification-tag warning">Preventive</span>
+                        </div>
+                        <p class="notification-desc">
+                            <strong>This is an early warning, not an emergency.</strong> Your data patterns suggest a higher risk of fluid retention in the next 3-5 days.
+                        </p>
+                        <div class="notification-footer">
+                            <span class="notification-time">2 hours ago</span>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary" onclick="showNotificationDetail('ai-warning')">View Explanation</button>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 3. Follow-up & Appointment (Blue) -->
+                <div class="notification-card alert-info" data-type="info">
+                    <div class="notification-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h3 class="notification-title">Appointment Reminder</h3>
+                            <span class="notification-tag info">Follow-up</span>
+                        </div>
+                        <p class="notification-desc">
+                            Your post-operative follow-up with Dr. Emily White is scheduled for Tomorrow, August 15, 2024, at 10:00 AM.
+                        </p>
+                        <div class="notification-footer">
+                            <span class="notification-time">Yesterday</span>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary" onclick="showNotificationDetail('appointment')">View Details</button>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 4. Medication & Daily Care (Green) -->
+                <div class="notification-card alert-success" data-type="success">
+                    <div class="notification-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h3 class="notification-title">Medication Reminder</h3>
+                            <span class="notification-tag success">Daily Care</span>
+                        </div>
+                        <p class="notification-desc">
+                            Time for your afternoon dose of Metformin (500mg). Remember to take it with food as directed.
+                        </p>
+                        <div class="notification-footer">
+                            <span class="notification-time">Today, 1:00 PM</span>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary">Mark as Taken</button>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                
+                <!-- Another AI Early Warning Example -->
+                <div class="notification-card alert-warning" data-type="warning">
+                    <div class="notification-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h3 class="notification-title">AI Health Insight</h3>
+                            <span class="notification-tag warning">Trend</span>
+                        </div>
+                        <p class="notification-desc">
+                            Your resting heart rate has shown a gradual increase over the past week. Consider scheduling a check-in with your care team.
+                        </p>
+                        <div class="notification-footer">
+                            <span class="notification-time">2 days ago</span>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary" onclick="showNotificationDetail('ai-insight')">View Trends</button>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Detail Modal -->
+    <div id="notificationDetailModal" class="notification-detail-modal">
+        <div class="detail-content">
+            <div class="detail-header">
+                <h3 id="detailTitle">Notification Details</h3>
+                <button class="close-detail-btn" onclick="closeNotificationDetail()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="detail-body">
+                <p id="detailMessage">Detailed notification information will appear here.</p>
+                <div id="detailInstructions">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+            </div>
+            <div class="detail-actions">
+                <button class="detail-action-btn secondary" onclick="markAsRead()">
+                    <i class="fas fa-check"></i>
+                    Mark as Read
+                </button>
+                <button class="detail-action-btn primary" onclick="takeAction()">
+                    <i class="fas fa-play-circle"></i>
+                    Take Action
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Action completed successfully</span>
+    </div>
+
+     <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="footer-logo-part1">Cardio</span>
+                <span class="footer-logo-part2">AI</span>
+            </div>
+            
+            <div class="footer-quick-links">
+                
+                <div class="footer-links">
+                    <a href="/startpage/home.html">Home</a>
+                    <a href="/startpage/home.html">Features</a>
+                    <a href="/startpage/home.html">About</a>
+                    <a href="/chatbot/mainpage.html">Chatbot</a>
+                </div>
+            </div>
+            
+            <a href="#" class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Log out</span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Floating Chatbot Icon -->
+    <div class="floating-chatbot">
+        <a href="/chatbot/mainpage.html" class="chatbot-link">
+            <img src="chatbot.png" alt="AI Chatbot" class="chatbot-logo">
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+
+
+        // JavaScript functions for the page
+        function showNotificationDetail(type) {
+            const modal = document.getElementById('notificationDetailModal');
+            const title = document.getElementById('detailTitle');
+            const message = document.getElementById('detailMessage');
+            const instructions = document.getElementById('detailInstructions');
+            
+            const notifications = {
+                'urgent': {
+                    title: 'Urgent Health Alert',
+                    message: 'Our AI system has detected irregular heart rhythm patterns that may indicate atrial fibrillation. This requires immediate medical attention.',
+                    instructions: '<div class="instructions"><h4>What you should do:</h4><ul><li>Contact your doctor immediately</li><li>If experiencing chest pain or shortness of breath, go to the nearest hospital</li><li>Rest and avoid strenuous activity</li><li>Your care team has been notified</li></ul></div>'
+                },
+                'ai-warning': {
+                    title: 'AI Health Warning',
+                    message: 'Based on your recent weight, blood pressure, and activity data, our predictive model indicates a higher probability of fluid retention in the next 3-5 days.',
+                    instructions: '<div class="instructions"><h4>This is a preventive warning, not an emergency.</h4><ul><li>Schedule a check-up within 3 days</li><li>Monitor your weight daily</li><li>Reduce salt intake</li><li>Keep your legs elevated when resting</li><li>Contact us if symptoms worsen</li></ul></div>'
+                },
+                'appointment': {
+                    title: 'Appointment Details',
+                    message: 'Your post-operative follow-up appointment is scheduled for tomorrow at 10:00 AM at St. Jude Cardiac Clinic.',
+                    instructions: '<div class="instructions"><h4>Appointment Preparation:</h4><ul><li>Bring your medication list</li><li>Wear comfortable clothing</li><li>Arrive 15 minutes early</li><li>Note any symptoms or questions for your doctor</li><li>Parking is available in the underground garage</li></ul></div>'
+                }
+            };
+            
+            const notification = notifications[type] || {
+                title: 'Notification Details',
+                message: 'Detailed information about this notification.',
+                instructions: '<div class="instructions"><h4>General Instructions:</h4><ul><li>Follow the recommended action</li><li>Contact your care team if you have questions</li><li>Monitor your symptoms</li><li>Your health is our priority</li></ul></div>'
+            };
+            
+            title.textContent = notification.title;
+            message.textContent = notification.message;
+            instructions.innerHTML = notification.instructions;
+            
+            modal.classList.add('active');
+        }
+        
+        function closeNotificationDetail() {
+            document.getElementById('notificationDetailModal').classList.remove('active');
+        }
+        
+        function markAsRead() {
+            const activeCard = document.querySelector('.notification-card:hover, .notification-card:focus-within');
+            if (activeCard) {
+                activeCard.classList.add('read-notification');
+                showToast('Notification marked as read');
+            }
+            closeNotificationDetail();
+        }
+        
+        function takeAction() {
+            showToast('Action initiated. Your care team has been notified.');
+            closeNotificationDetail();
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('active');
+            
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('notificationDetailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeNotificationDetail();
+            }
+        });
+        
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const notificationCards = document.querySelectorAll('.notification-card');
+            
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Show/hide cards based on filter
+                    notificationCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'flex';
+                        } else {
+                            const cardType = card.getAttribute('data-type');
+                            if (cardType === filter) {
+                                card.style.display = 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

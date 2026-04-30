@@ -1,0 +1,2473 @@
+/* ==================== CSS VARIABLES ==================== */
+:root {
+  /* Primary Colors */
+  --primary-blue: #003785;
+  --primary-green: #87af12;
+  --bright-green: #1dd75b;
+  --orange: #efb034;
+  --yellow: #fcefc7;
+  --yellow-dark: #fef7d8;
+  
+  /* Status Colors */
+  --danger-red: #de3b40;
+  --danger-dark: #dc3848;
+  --red-error: #f44034;
+  --success-green: #22c55e;
+  --info-blue: #207ef8;
+  --light-blue: #e7f5fe;
+  
+  /* Status Background Colors */
+  --status-high: #ffedd5;
+  --status-high-text: #9a3412;
+  --status-pending: #fef9c3;
+  --status-pending-text: #854d0e;
+  --status-yellow-text: #7a5b00;
+  --status-yellow-dark: #7a6200;
+  --status-approved: #0a4d20;
+  --status-in-review: #779f00;
+  --status-in-review-text: #005165;
+  
+  /* Neutral Colors */
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #dee1e6;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --black: #171a1f;
+  --dark-gray: #565d6d;
+  --medium-gray: #666666;
+  --darker-gray: #4c4c4c;
+  --darkest-gray: #323842;
+  
+  /* Backgrounds */
+  --bg-card: #f2f6fd;
+  --bg-sidebar: rgba(178, 215, 66, 0.56);
+  --bg-footer: rgba(135, 175, 18, 0.12);
+  --bg-filter: rgba(178, 215, 66, 0.12);
+  --bg-filter-inactive: rgba(229, 231, 235, 0.6);
+  
+  /* Shadows */
+  --shadow-sm: 0px 0px 1px 0px rgba(23, 26, 31, 0.15), 0px 0px 2px 0px rgba(23, 26, 31, 0.2);
+  --shadow-md: 0px 3px 6px 0px rgba(18, 15, 40, 0.12);
+  --shadow-float: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 11px;
+  --radius-xxl: 14px;
+  --radius-round: 9999px;
+}
+
+/* ==================== BASE STYLES ==================== */
+.my-requests,
+.my-requests *,
+.my-requests-urgent,
+.my-requests-urgent *,
+.my-requests-in-review,
+.my-requests-in-review *,
+.my-requests-completed,
+.my-requests-completed *,
+.refill-request,
+.refill-request * {
+  box-sizing: border-box;
+}
+
+.my-requests,
+.my-requests-urgent,
+.my-requests-in-review {
+  background: var(--white);
+  height: 1114px;
+  position: relative;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.my-requests-completed {
+  background: var(--white);
+  height: 1113px;
+  position: relative;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.refill-request {
+  background: var(--white);
+  height: 932px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==================== MAIN CONTAINER ==================== */
+.my-requests__container,
+.my-requests-urgent__container,
+.my-requests-in-review__container,
+.my-requests-completed__container {
+  background: var(--white);
+  width: 1169px;
+  height: 835px;
+  position: absolute;
+  left: 271px;
+  top: 65px;
+}
+
+.my-requests-urgent__container {
+  top: 71px;
+}
+
+/* ==================== PAGE HEADER ==================== */
+.my-requests__patient-requests,
+.my-requests-urgent__patient-requests,
+.my-requests-in-review__patient-requests,
+.my-requests-completed__patient-requests {
+  color: var(--primary-blue);
+  text-align: left;
+  font-family: "Roboto-Bold", sans-serif;
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 700;
+  position: absolute;
+  left: 32px;
+  top: 32px;
+}
+
+.my-requests__review-and-respond-to-patient-requests,
+.my-requests-urgent__review-and-respond-to-patient-requests,
+.my-requests-in-review__review-and-respond-to-patient-requests,
+.my-requests-completed__review-and-respond-to-patient-requests {
+  color: var(--gray-500);
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 32px;
+  top: 70px;
+}
+
+/* ==================== STATISTICS CARDS ==================== */
+.my-requests__container2,
+.my-requests__container3,
+.my-requests__container4,
+.my-requests__container5,
+.my-requests-urgent__container2,
+.my-requests-urgent__container3,
+.my-requests-urgent__container4,
+.my-requests-urgent__container5,
+.my-requests-in-review__container2,
+.my-requests-in-review__container3,
+.my-requests-in-review__container4,
+.my-requests-in-review__container5,
+.my-requests-completed__container2,
+.my-requests-completed__container3,
+.my-requests-completed__container4,
+.my-requests-completed__container5 {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  width: 259px;
+  height: 168px;
+  position: absolute;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.my-requests__container2,
+.my-requests-urgent__container2,
+.my-requests-in-review__container2,
+.my-requests-completed__container2 {
+  left: 32px;
+  top: 127px;
+}
+
+.my-requests__container3,
+.my-requests-urgent__container3,
+.my-requests-in-review__container3,
+.my-requests-completed__container3 {
+  left: 308px;
+  top: 126px;
+}
+
+.my-requests__container4,
+.my-requests-urgent__container4,
+.my-requests-in-review__container4,
+.my-requests-completed__container4 {
+  left: 585px;
+  top: 126px;
+}
+
+.my-requests__container5,
+.my-requests-urgent__container5,
+.my-requests-in-review__container5,
+.my-requests-completed__container5 {
+  left: 861px;
+  top: 125px;
+}
+
+/* Hover Effects for Stats Cards */
+.my-requests__container2:hover,
+.my-requests__container3:hover,
+.my-requests__container4:hover,
+.my-requests__container5:hover,
+.my-requests-urgent__container2:hover,
+.my-requests-urgent__container3:hover,
+.my-requests-urgent__container4:hover,
+.my-requests-urgent__container5:hover,
+.my-requests-in-review__container2:hover,
+.my-requests-in-review__container3:hover,
+.my-requests-in-review__container4:hover,
+.my-requests-in-review__container5:hover,
+.my-requests-completed__container2:hover,
+.my-requests-completed__container3:hover,
+.my-requests-completed__container4:hover,
+.my-requests-completed__container5:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 6px 16px 0px rgba(23, 26, 31, 0.25);
+}
+
+.my-requests-urgent__container4{
+  border: 2px solid var(--danger-red);
+}
+/* Stats Icons */
+.my-requests__calendar-days,
+.my-requests__file-stack,
+.my-requests__users-round,
+.my-requests__trending-up,
+.my-requests-urgent__calendar-days,
+.my-requests-urgent__file-stack,
+.my-requests-urgent__users-round,
+.my-requests-urgent__trending-up,
+.my-requests-in-review__calendar-days,
+.my-requests-in-review__file-stack,
+.my-requests-in-review__users-round,
+.my-requests-in-review__trending-up,
+.my-requests-completed__calendar-days,
+.my-requests-completed__file-stack,
+.my-requests-completed__users-round,
+.my-requests-completed__trending-up {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 210px;
+  top: 24px;
+  overflow: hidden;
+}
+
+.my-requests__group,
+.my-requests__group2,
+.my-requests__group3,
+.my-requests__group4,
+.my-requests-urgent__group,
+.my-requests-urgent__group2,
+.my-requests-urgent__group3,
+.my-requests-urgent__group4,
+.my-requests-in-review__group,
+.my-requests-in-review__group2,
+.my-requests-in-review__group3,
+.my-requests-in-review__group4,
+.my-requests-completed__group,
+.my-requests-completed__group2,
+.my-requests-completed__group3,
+.my-requests-completed__group4 {
+  height: auto;
+  position: absolute;
+  overflow: visible;
+}
+
+.my-requests__group,
+.my-requests__group4,
+.my-requests-in-review__group,
+.my-requests-in-review__group4,
+.my-requests-completed__group,
+.my-requests-completed__group4 {
+  left: 1px;
+  top: 1px;
+}
+
+.my-requests-urgent__group,
+.my-requests-urgent__group4 {
+  left: 1px;
+  top: 1px;
+}
+
+.my-requests__group2,
+.my-requests-urgent__group2,
+.my-requests-in-review__group2,
+.my-requests-completed__group2 {
+  left: 3px;
+  top: 1px;
+}
+
+.my-requests__group3,
+.my-requests-urgent__group3,
+.my-requests-in-review__group3,
+.my-requests-completed__group3 {
+  left: 0.98px;
+  top: 1.99px;
+}
+
+.my-requests-in-review__group {
+  left: 0.5px;
+  top: 0.5px;
+}
+
+.my-requests-in-review__group4,
+.my-requests-completed__group4 {
+  left: 0.5px;
+  top: 0.5px;
+}
+
+/* Stats Numbers */
+.my-requests___8,
+.my-requests-urgent___8,
+.my-requests-in-review___8,
+.my-requests-completed___8 {
+  color: var(--gray-900);
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 24px;
+  top: 63px;
+}
+
+.my-requests___0,
+.my-requests-urgent___0,
+.my-requests-in-review___0,
+.my-requests-completed___0 {
+  color: var(--orange);
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 24px;
+  top: 63px;
+}
+
+.my-requests___4,
+.my-requests-urgent___4,
+.my-requests-in-review___4,
+.my-requests-completed___4 {
+  color: var(--danger-red);
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 24px;
+  top: 63px;
+}
+
+.my-requests___3,
+.my-requests-urgent___3,
+.my-requests-in-review___3,
+.my-requests-completed___3 {
+  color: var(--bright-green);
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 24px;
+  top: 63px;
+}
+
+/* Stats Labels */
+.my-requests__pending,
+.my-requests__in-review,
+.my-requests__urgent,
+.my-requests__completed,
+.my-requests-urgent__pending,
+.my-requests-urgent__in-review,
+.my-requests-urgent__urgent,
+.my-requests-urgent__completed,
+.my-requests-in-review__pending,
+.my-requests-in-review__in-review,
+.my-requests-in-review__urgent,
+.my-requests-in-review__completed,
+.my-requests-completed__pending,
+.my-requests-completed__in-review,
+.my-requests-completed__urgent,
+.my-requests-completed__completed {
+  color: var(--black);
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: 24px;
+  top: 18px;
+}
+
+.my-requests__in-review,
+.my-requests__urgent,
+.my-requests__completed,
+.my-requests-urgent__in-review,
+.my-requests-urgent__urgent,
+.my-requests-urgent__completed,
+.my-requests-in-review__in-review,
+.my-requests-in-review__urgent,
+.my-requests-in-review__completed,
+.my-requests-completed__in-review,
+.my-requests-completed__urgent,
+.my-requests-completed__completed {
+  top: 28px;
+}
+
+.my-requests__awaiting-review,
+.my-requests__currently-reviewing,
+.my-requests__require-immediate-attention,
+.my-requests__processed-today,
+.my-requests-urgent__awaiting-review,
+.my-requests-urgent__currently-reviewing,
+.my-requests-urgent__require-immediate-attention,
+.my-requests-urgent__processed-today,
+.my-requests-in-review__awaiting-review,
+.my-requests-in-review__currently-reviewing,
+.my-requests-in-review__require-immediate-attention,
+.my-requests-in-review__processed-today,
+.my-requests-completed__awaiting-review,
+.my-requests-completed__currently-reviewing,
+.my-requests-completed__require-immediate-attention,
+.my-requests-completed__processed-today {
+  color: var(--black);
+  text-align: left;
+  font-family: "Roboto-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: 24px;
+  top: 106px;
+}
+
+.my-requests__processed-today,
+.my-requests-urgent__processed-today,
+.my-requests-in-review__processed-today,
+.my-requests-completed__processed-today {
+  width: 211px;
+}
+
+/* ==================== FILTER TABS ==================== */
+.my-requests__container9,
+.my-requests-urgent__container9,
+.my-requests-in-review__container6,
+.my-requests-completed__container6 {
+  background: var(--bg-filter-inactive);
+  border-radius: var(--radius);
+  width: 465px;
+  height: 48px;
+  position: absolute;
+  left: 32px;
+  top: 337px;
+}
+
+.my-requests-urgent__container9 {
+  top: 337px;
+}
+
+.my-requests-completed__container6 {
+  background: var(--bg-filter-inactive);
+}
+
+/* Filter Buttons */
+.my-requests__button3,
+.my-requests__button4,
+.my-requests__button5,
+.my-requests__button6,
+.my-requests-urgent__button2,
+.my-requests-urgent__button3,
+.my-requests-urgent__button4,
+.my-requests-urgent__button5,
+.my-requests-in-review__button,
+.my-requests-in-review__button2,
+.my-requests-in-review__button3,
+.my-requests-in-review__button4,
+.my-requests-completed__button,
+.my-requests-completed__button2,
+.my-requests-completed__button3,
+.my-requests-completed__button4 {
+  border-radius: var(--radius-md);
+  height: 40px;
+  position: absolute;
+  top: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Active Filter Button (White Background) */
+.my-requests__button3,
+.my-requests-urgent__button2,
+.my-requests-in-review__button,
+.my-requests-completed__button4 {
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.my-requests__button3 {
+  width: 116px;
+  left: 4px;
+}
+
+.my-requests-urgent__button2 {
+  width: 106.22px;
+  left: 116px;
+}
+
+.my-requests-in-review__button {
+  width: 116px;
+  left: 229px;
+}
+
+.my-requests-completed__button4 {
+  width: 125px;
+  left: 367px;
+  top: 340px;
+}
+
+/* Inactive Filter Buttons */
+.my-requests__button4,
+.my-requests__button5,
+.my-requests__button6,
+.my-requests-urgent__button3,
+.my-requests-urgent__button4,
+.my-requests-urgent__button5,
+.my-requests-in-review__button2,
+.my-requests-in-review__button3,
+.my-requests-in-review__button4,
+.my-requests-completed__button,
+.my-requests-completed__button2,
+.my-requests-completed__button3 {
+  background: rgba(0, 0, 0, 0);
+}
+
+.my-requests__button4 { width: 100px; left: 110px; }
+.my-requests__button5 { width: 121px; left: 216px; }
+.my-requests__button6 { width: 134px; left: 324px; }
+.my-requests-urgent__button3 { width: 121px; left: 216px; }
+.my-requests-urgent__button4 { width: 134px; left: 335px; }
+.my-requests-urgent__button5 { width: 107px; left: 36px; top: 341px; }
+.my-requests-in-review__button2 { width: 115.52px; left: 110px; }
+.my-requests-in-review__button3 { width: 134px; left: 335px; }
+.my-requests-in-review__button4 { width: 107px; left: 15px; }
+.my-requests-completed__button { width: 121px; left: 216px; }
+.my-requests-completed__button2 { width: 124.91px; left: 98px; }
+.my-requests-completed__button3 { width: 107px; left: 36px; top: 341px; }
+
+/* Hover Effects for Filter Buttons */
+.my-requests__button3:hover,
+.my-requests__button4:hover,
+.my-requests__button5:hover,
+.my-requests__button6:hover,
+.my-requests-urgent__button2:hover,
+.my-requests-urgent__button3:hover,
+.my-requests-urgent__button4:hover,
+.my-requests-urgent__button5:hover,
+.my-requests-in-review__button:hover,
+.my-requests-in-review__button2:hover,
+.my-requests-in-review__button3:hover,
+.my-requests-in-review__button4:hover,
+.my-requests-completed__button:hover,
+.my-requests-completed__button2:hover,
+.my-requests-completed__button3:hover,
+.my-requests-completed__button4:hover {
+  transform: translateY(-2px);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Filter Button Text */
+.my-requests__pending-3,
+.my-requests__urgent-1,
+.my-requests__in-review-1,
+.my-requests__completed-1,
+.my-requests-urgent__urgent-1,
+.my-requests-urgent__in-review-1,
+.my-requests-urgent__completed-1,
+.my-requests-urgent__pending-3,
+.my-requests-in-review__in-review-1,
+.my-requests-in-review__urgent-1,
+.my-requests-in-review__completed-1,
+.my-requests-in-review__pending-3,
+.my-requests-completed__in-review-1,
+.my-requests-completed__urgent-1,
+.my-requests-completed__pending-3,
+.my-requests-completed__completed-1 {
+  color: var(--gray-600);
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.my-requests__pending-3,
+.my-requests-urgent__urgent-1,
+.my-requests-in-review__in-review-1,
+.my-requests-completed__completed-1 {
+  color: var(--black);
+  font-family: "Poppins-Medium", sans-serif;
+}
+
+.my-requests-urgent__urgent-1,
+.my-requests-urgent__pending-3,
+.my-requests-in-review__urgent-1,
+.my-requests-in-review__pending-3,
+.my-requests-completed__urgent-1,
+.my-requests-completed__pending-3 {
+  font-family: "OpenSans-Regular", sans-serif;
+  font-weight: 400;
+}
+
+.my-requests-in-review__in-review-1 {
+  color: var(--darkest-gray);
+  left: 50%;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-weight: 300;
+}
+
+.my-requests-urgent__urgent-1 {
+  left: calc(50% - 33.5px);
+  translate: 0 -50%;
+}
+
+.my-requests-in-review__urgent-1 {
+  color: var(--darker-gray);
+  left: calc(50% - 33.5px);
+  translate: 0 -50%;
+}
+
+.my-requests-in-review__pending-3,
+.my-requests-completed__pending-3 {
+  color: var(--darker-gray);
+}
+
+.my-requests-completed__in-review-1 {
+  font-size: 13px;
+}
+
+.my-requests-completed__urgent-1 {
+  color: var(--medium-gray);
+  font-family: "OpenSans-Regular", sans-serif;
+  left: calc(50% - 33.5px);
+  translate: 0 -50%;
+}
+
+.my-requests-completed__completed-1 {
+  color: var(--darkest-gray);
+  font-family: "OpenSans-Regular", sans-serif;
+}
+
+/* ==================== REQUEST CARDS ==================== */
+.my-requests__container6,
+.my-requests__container8 {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  width: 1096px;
+  position: absolute;
+  left: 32px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.my-requests__container6 {
+  height: 124px;
+  top: 428px;
+}
+
+.my-requests__container8 {
+  height: 148px;
+  left: 28px;
+  top: 568px;
+}
+
+.my-requests__container6:hover,
+.my-requests__container8:hover {
+  transform: translateX(4px);
+  box-shadow: 0px 4px 12px 0px rgba(23, 26, 31, 0.2);
+}
+
+/* Urgent Request Cards */
+.my-requests-urgent__container6 {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  width: 1096px;
+  height: 141px;
+  position: absolute;
+  left: 32px;
+  top: 412px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.my-requests-urgent__container6:hover {
+  transform: translateX(4px);
+  box-shadow: 0px 4px 12px 0px rgba(23, 26, 31, 0.2);
+}
+
+/* In-Review Request Cards */
+.my-requests-in-review__container7 {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-300);
+  width: 1122px;
+  height: 103px;
+  position: absolute;
+  left: 32px;
+  top: 438px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.my-requests-in-review__container7:hover {
+  transform: translateX(4px);
+  box-shadow: 0px 4px 12px 0px rgba(23, 26, 31, 0.2);
+}
+
+/* Completed Request Cards */
+.my-requests-completed__container7 {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 3px solid var(--gray-300);
+  width: 1133px;
+  height: 130px;
+  position: absolute;
+  left: 36px;
+  top: 418px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.my-requests-completed__container7:hover {
+  transform: translateX(4px);
+  box-shadow: 0px 4px 12px 0px rgba(23, 26, 31, 0.2);
+}
+
+/* Avatar Containers */
+.my-requests__container7,
+.my-requests-urgent__container7,
+.my-requests-in-review__container8,
+.my-requests-completed__container8 {
+  background: var(--gray-200);
+  border-radius: 24px;
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  left: 24px;
+  top: 24px;
+}
+
+.my-requests-urgent__container7 {
+  top: 24px;
+}
+
+.my-requests-in-review__container8,
+.my-requests-completed__container8 {
+  background: var(--white);
+  border-radius: 18px;
+  width: 36px;
+  height: 36px;
+  left: 17px;
+}
+
+.my-requests-in-review__container8 {
+  top: 21px;
+}
+
+.my-requests-completed__container8 {
+  top: 25px;
+}
+
+.my-requests__image,
+.my-requests-urgent__image {
+  border-radius: var(--radius-round);
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  object-fit: cover;
+}
+
+/* Request Titles */
+.my-requests__lab-results-review,
+.my-requests__prescription-refill-request {
+  color: var(--gray-900);
+  text-align: left;
+  font-family: "Manrope-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 10px;
+  font-weight: 550;
+  position: absolute;
+  left: 80px;
+  top: 26px;
+}
+
+.my-requests-urgent__michael-chen,
+.my-requests__michael-chen,
+.my-requests__sarah-johnson {
+  color: var(--gray-600);
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 88px;
+  top: 52px;
+}
+
+.my-requests-urgent__michael-chen {
+  left: 78.9px;
+  top: 30.72px;
+}
+
+/* Status Tags */
+.my-requests__tag,
+.my-requests__tag2,
+.my-requests__tag3,
+.my-requests__tag4,
+.my-requests-urgent__container8,
+.my-requests-in-review__tag,
+.my-requests-completed__tag {
+  background: rgba(0, 0, 0, 0);
+  height: 22px;
+  position: absolute;
+}
+
+.my-requests__tag {
+  width: 50px;
+  left: 239px;
+  top: 25px;
+}
+
+.my-requests__tag2 {
+  width: 74px;
+  left: 298px;
+  top: 25px;
+}
+
+.my-requests__tag3,
+.my-requests__tag4 {
+  width: 74px;
+  top: 25px;
+}
+
+.my-requests__tag3 {
+  left: 291px;
+}
+
+.my-requests__tag4 {
+  left: 373px;
+}
+
+.my-requests-urgent__container8 {
+  background: var(--danger-dark);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--danger-dark);
+  width: 69px;
+  height: 21px;
+  left: 181.9px;
+  top: 30.69px;
+}
+
+.my-requests-in-review__tag {
+  width: 76px;
+  left: 340px;
+  top: 20px;
+}
+
+.my-requests-completed__tag {
+  width: 89px;
+  height: 27px;
+  left: 340px;
+  top: 24px;
+}
+
+/* Tag Frames */
+.my-requests__frame,
+.my-requests__frame2,
+.my-requests-in-review__frame,
+.my-requests-completed__frame {
+  border-radius: var(--radius-xl);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.my-requests__frame {
+  background: var(--status-high);
+}
+
+.my-requests__frame2 {
+  background: var(--status-pending);
+}
+
+.my-requests-in-review__frame {
+  background: var(--primary-green);
+  width: 85px;
+  height: 35px;
+}
+
+.my-requests-completed__frame {
+  background: var(--success-green);
+  border-radius: var(--radius-xxl);
+  width: 89px;
+  height: 27px;
+}
+
+/* Tag Text */
+.my-requests__high,
+.my-requests__medium,
+.my-requests__pending2,
+.my-requests-urgent___1-urgent,
+.my-requests-in-review__in-review2,
+.my-requests-completed__approved {
+  text-align: left;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.my-requests__high {
+  color: var(--status-high-text);
+  font-family: "Poppins-SemiBold", sans-serif;
+}
+
+.my-requests__medium,
+.my-requests__pending2 {
+  color: var(--status-pending-text);
+  font-family: "Poppins-SemiBold", sans-serif;
+}
+
+.my-requests-urgent___1-urgent {
+  color: var(--white);
+  font-family: "Poppins-SemiBold", sans-serif;
+  line-height: 16px;
+  left: 9px;
+  top: 3px;
+  translate: none;
+}
+
+.my-requests-in-review__in-review2 {
+  color: var(--black);
+  font-family: "Manrope-SemiBold", sans-serif;
+}
+
+.my-requests-completed__approved {
+  color: var(--status-approved);
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  top: calc(50% - 13.5px);
+  translate: -50% 0;
+}
+
+/* Request Descriptions */
+.my-requests__recent-blood-work-shows-elevated-glucose-levels-hb-a-1-c-7-2-please-review-and-advise,
+.my-requests__requesting-refill-for-lisinopril-10-mg-current-prescription-expires-in-3-days,
+.my-requests-urgent__experiencing-severe-asthma-symptoms-inhaler-not-providing-relief-need-urgent-consultation,
+.my-requests-in-review__emergency-appointment-request,
+.my-requests-completed__post-surgery-follow-up {
+  text-align: left;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 88px;
+}
+
+.my-requests__recent-blood-work-shows-elevated-glucose-levels-hb-a-1-c-7-2-please-review-and-advise,
+.my-requests__requesting-refill-for-lisinopril-10-mg-current-prescription-expires-in-3-days {
+  color: var(--gray-600);
+  font-family: "Poppins-Regular", sans-serif;
+  top: 80px;
+}
+
+.my-requests-urgent__experiencing-severe-asthma-symptoms-inhaler-not-providing-relief-need-urgent-consultation {
+  color: var(--black);
+  font-family: "Roboto-Regular", sans-serif;
+  line-height: 22px;
+  left: 87.92px;
+  top: 60.71px;
+  width: 625px;
+}
+
+.my-requests-in-review__emergency-appointment-request {
+  color: var(--gray-800);
+  font-family: "Manrope-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  left: 69px;
+  top: 18px;
+}
+
+.my-requests-completed__post-surgery-follow-up {
+  color: var(--gray-800);
+  font-family: "Manrope-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  left: 69px;
+  top: 22px;
+}
+
+.my-requests-in-review__emily-davis-experiencing-severe-asthma-symptoms-inhaler-not-providing-relief-need-urgent-consultation,
+.my-requests-completed__emily-davis-post-operative-check-up-for-knee-replacement-surgery-healing-well-minor-questions-about-physical-therapy {
+  text-align: left;
+  font-family: "-", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 70px;
+}
+
+.my-requests-in-review__emily-davis-experiencing-severe-asthma-symptoms-inhaler-not-providing-relief-need-urgent-consultation {
+  color: var(--gray-600);
+  top: 49px;
+}
+
+.my-requests-completed__emily-davis-post-operative-check-up-for-knee-replacement-surgery-healing-well-minor-questions-about-physical-therapy {
+  top: 53px;
+  width: 675px;
+}
+
+.emily-davis-experiencing-severe-asthma-symptoms-inhaler-not-providing-relief-need-urgent-consultation-span,
+.emily-davis-post-operative-check-up-for-knee-replacement-surgery-healing-well-minor-questions-about-physical-therapy-span {
+  font-family: "Manrope-Bold", sans-serif;
+  font-weight: 700;
+}
+
+.emily-davis-experiencing-severe-asthma-symptoms-inhaler-not-providing-relief-need-urgent-consultation-span {
+  color: var(--gray-600);
+}
+
+.emily-davis-post-operative-check-up-for-knee-replacement-surgery-healing-well-minor-questions-about-physical-therapy-span {
+  color: var(--black);
+}
+
+.emily-davis-experiencing-severe-asthma-symptoms-inhaler-not-providing-relief-need-urgent-consultation-span2 {
+  font-family: "Manrope-Regular", sans-serif;
+}
+
+.emily-davis-post-operative-check-up-for-knee-replacement-surgery-healing-well-minor-questions-about-physical-therapy-span2 {
+  color: var(--gray-600);
+  font-family: "Manrope-Regular", sans-serif;
+}
+
+/* Time/Date Icons and Text */
+.my-requests__clock,
+.my-requests-urgent__clock {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  left: 88px;
+  top: 110px;
+  overflow: hidden;
+}
+
+.my-requests-urgent__clock {
+  top: 114px;
+}
+
+.my-requests__group6,
+.my-requests-urgent__group5 {
+  height: auto;
+  position: absolute;
+  left: 0.5px;
+  top: 0.5px;
+  overflow: visible;
+}
+
+.my-requests___1-15-2024-12-30-pm,
+.my-requests-urgent___1-15-2024-12-30-pm {
+  color: var(--gray-500);
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  position: absolute;
+  left: 106px;
+  top: 108px;
+}
+
+.my-requests-urgent___1-15-2024-12-30-pm {
+  top: 112px;
+}
+
+/* File Icons */
+.my-requests__file-text {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  overflow: hidden;
+}
+
+.my-requests__group5 {
+  height: auto;
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  overflow: visible;
+}
+
+.my-requests-in-review__calendar,
+.my-requests-completed__calendar {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  overflow: hidden;
+}
+
+.my-requests-in-review__group5,
+.my-requests-completed__group5 {
+  height: auto;
+  position: absolute;
+  left: 1.7px;
+  top: 0.84px;
+  overflow: visible;
+}
+
+/* Check Icon */
+.my-requests-completed__c-check-2 {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 444px;
+  top: 26px;
+  overflow: hidden;
+}
+
+.my-requests-completed__group6 {
+  height: auto;
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  overflow: visible;
+}
+
+/* ==================== ACTION BUTTONS IN CARDS ==================== */
+.my-requests__button,
+.my-requests__button2,
+.my-requests-urgent__button,
+.my-requests-in-review__button5 {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-300);
+  height: 40px;
+  position: absolute;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.my-requests__button {
+  width: 82px;
+  left: 991px;
+  top: 42px;
+}
+
+.my-requests__button2 {
+  width: 82px;
+  left: 991px;
+  top: 54px;
+}
+
+.my-requests-urgent__button {
+  width: 73px;
+  height: 24px;
+  left: 1007px;
+  top: 26px;
+}
+
+.my-requests-in-review__button5 {
+  border-color: #d1d5db;
+  width: 146.25px;
+  left: 965px;
+  top: 29px;
+}
+
+.my-requests__button:hover,
+.my-requests__button2:hover,
+.my-requests-urgent__button:hover,
+.my-requests-in-review__button5:hover {
+  background: var(--gray-50);
+  border-color: var(--primary-blue);
+  transform: translateY(-2px);
+}
+
+.my-requests__review,
+.my-requests-urgent__review,
+.my-requests-in-review__continue-review {
+  color: var(--black);
+  text-align: center;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.my-requests-urgent__review {
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.my-requests-in-review__continue-review {
+  color: var(--gray-700);
+  font-family: "Manrope-Medium", sans-serif;
+}
+
+/* Divider Lines */
+.my-requests-urgent__line-60,
+.my-requests-in-review__line-64,
+.my-requests-completed__line-64 {
+  width: 0px;
+  position: absolute;
+  left: -1px;
+  overflow: visible;
+}
+
+.my-requests-urgent__line-60 {
+  height: 139px;
+  top: 2px;
+}
+
+.my-requests-in-review__line-64 {
+  height: 103px;
+  left: 0px;
+  top: 0px;
+}
+
+.my-requests-completed__line-64 {
+  height: 99px;
+  left: 0px;
+  top: 4px;
+}
+
+/* ==================== SIDEBAR NAVIGATION ==================== */
+.my-requests__container11,
+.my-requests-urgent__container11,
+.my-requests-in-review__container10,
+.my-requests-completed__container10 {
+  background: var(--bg-sidebar);
+  width: 284.07px;
+  height: 1053.08px;
+  position: absolute;
+  left: -5.08px;
+  top: 65.82px;
+}
+
+.my-requests-urgent__container11 {
+  left: -5.23px;
+  top: 71.24px;
+}
+
+.my-requests-in-review__container10 {
+  left: -5.27px;
+  top: 65.41px;
+}
+
+.my-requests-completed__container10 {
+  left: -13.27px;
+  top: 66.41px;
+}
+
+.my-requests__image2,
+.my-requests-urgent__image2,
+.my-requests-in-review__image,
+.my-requests-completed__image {
+  width: 0.31px;
+  height: 32px;
+  position: absolute;
+  left: 24px;
+  top: 28px;
+  overflow: hidden;
+}
+
+.my-requests__group7,
+.my-requests-urgent__group6,
+.my-requests-in-review__group6,
+.my-requests-completed__group7 {
+  height: auto;
+  position: absolute;
+  left: -10.88px;
+  top: 2.67px;
+  overflow: visible;
+}
+
+/* Sidebar Navigation Buttons */
+.my-requests__button7,
+.my-requests__button8,
+.my-requests__button9,
+.my-requests__button10,
+.my-requests__button11,
+.my-requests-urgent__button6,
+.my-requests-urgent__button7,
+.my-requests-urgent__button8,
+.my-requests-urgent__button9,
+.my-requests-urgent__button10,
+.my-requests-in-review__button6,
+.my-requests-in-review__button7,
+.my-requests-in-review__button8,
+.my-requests-in-review__button9,
+.my-requests-in-review__button10,
+.my-requests-completed__button5,
+.my-requests-completed__button6,
+.my-requests-completed__button7,
+.my-requests-completed__button8,
+.my-requests-completed__button9 {
+  background: rgba(0, 0, 0, 0);
+  border-radius: var(--radius-md);
+  width: 238px;
+  height: 40px;
+  position: absolute;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.my-requests__button7,
+.my-requests-urgent__button6,
+.my-requests-in-review__button6,
+.my-requests-completed__button5 {
+  left: 4.41px;
+  top: 104px;
+}
+
+.my-requests__button8,
+.my-requests-urgent__button7,
+.my-requests-in-review__button7,
+.my-requests-completed__button6 {
+  left: 4.41px;
+  top: 156px;
+}
+
+.my-requests__button9,
+.my-requests-urgent__button8,
+.my-requests-in-review__button8,
+.my-requests-completed__button7 {
+  left: 4.41px;
+  top: 208px;
+}
+
+.my-requests__button10,
+.my-requests-urgent__button9,
+.my-requests-in-review__button9,
+.my-requests-completed__button8 {
+  left: 4.41px;
+  top: 260px;
+}
+
+.my-requests__button11,
+.my-requests-urgent__button10,
+.my-requests-in-review__button10,
+.my-requests-completed__button9 {
+  left: 4.41px;
+  top: 52px;
+}
+
+.my-requests__button7:hover,
+.my-requests__button8:hover,
+.my-requests__button10:hover,
+.my-requests__button11:hover,
+.my-requests-urgent__button6:hover,
+.my-requests-urgent__button7:hover,
+.my-requests-urgent__button8:hover,
+.my-requests-urgent__button9:hover,
+.my-requests-urgent__button10:hover,
+.my-requests-in-review__button6:hover,
+.my-requests-in-review__button7:hover,
+.my-requests-in-review__button8:hover,
+.my-requests-in-review__button9:hover,
+.my-requests-in-review__button10:hover,
+.my-requests-completed__button5:hover,
+.my-requests-completed__button6:hover,
+.my-requests-completed__button7:hover,
+.my-requests-completed__button8:hover,
+.my-requests-completed__button9:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Active Sidebar Button (Requests) */
+.my-requests__button9:hover,
+.my-requests-urgent__button8:hover,
+.my-requests-in-review__button8:hover,
+.my-requests-completed__button7:hover {
+  background: rgba(0, 55, 133, 0.1);
+}
+
+/* Sidebar Button Text */
+.my-requests__patient-search,
+.my-requests__my-patients,
+.my-requests__requests,
+.my-requests__schedule,
+.my-requests__patient-search2,
+.my-requests-urgent__patient-search,
+.my-requests-urgent__my-patients,
+.my-requests-urgent__requests,
+.my-requests-urgent__schedule,
+.my-requests-urgent__patient-search2,
+.my-requests-in-review__patient-search,
+.my-requests-in-review__my-patients,
+.my-requests-in-review__requests,
+.my-requests-in-review__schedule,
+.my-requests-in-review__patient-search2,
+.my-requests-completed__patient-search,
+.my-requests-completed__my-patients,
+.my-requests-completed__requests,
+.my-requests-completed__schedule,
+.my-requests-completed__patient-search2 {
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 700;
+  position: absolute;
+  left: calc(50% - 63px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.my-requests__patient-search,
+.my-requests-urgent__patient-search,
+.my-requests-in-review__patient-search,
+.my-requests-completed__patient-search {
+  color: var(--gray-700);
+}
+
+.my-requests__my-patients,
+.my-requests__schedule,
+.my-requests-urgent__my-patients,
+.my-requests-urgent__schedule,
+.my-requests-in-review__my-patients,
+.my-requests-in-review__schedule,
+.my-requests-completed__my-patients,
+.my-requests-completed__schedule {
+  color: var(--gray-700);
+}
+
+.my-requests__requests,
+.my-requests-urgent__requests,
+.my-requests-in-review__requests,
+.my-requests-completed__requests {
+  color: var(--primary-blue);
+}
+
+.my-requests__patient-search2,
+.my-requests-urgent__patient-search2,
+.my-requests-in-review__patient-search2,
+.my-requests-completed__patient-search2 {
+  color: var(--gray-700);
+}
+
+/* Sidebar Icons */
+.my-requests__search,
+.my-requests__users,
+.my-requests__file-text2,
+.my-requests__calendar,
+.my-requests-urgent__search,
+.my-requests-urgent__users,
+.my-requests-urgent__file-text,
+.my-requests-urgent__calendar,
+.my-requests-in-review__search,
+.my-requests-in-review__users,
+.my-requests-in-review__file-text,
+.my-requests-in-review__calendar2,
+.my-requests-completed__search,
+.my-requests-completed__users,
+.my-requests-completed__file-text,
+.my-requests-completed__calendar2 {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 103px);
+  top: 50%;
+  translate: 0 -50%;
+  overflow: hidden;
+}
+
+.my-requests__home-3,
+.my-requests-urgent__home-3,
+.my-requests-in-review__home-3,
+.my-requests-completed__home-3 {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  overflow: visible;
+}
+
+.my-requests__group8,
+.my-requests__group9,
+.my-requests__group10,
+.my-requests__group11,
+.my-requests__group12,
+.my-requests-urgent__group7,
+.my-requests-urgent__group8,
+.my-requests-urgent__group9,
+.my-requests-urgent__group10,
+.my-requests-urgent__group11,
+.my-requests-in-review__group7,
+.my-requests-in-review__group8,
+.my-requests-in-review__group9,
+.my-requests-in-review__group10,
+.my-requests-in-review__group11,
+.my-requests-completed__group8,
+.my-requests-completed__group9,
+.my-requests-completed__group10,
+.my-requests-completed__group11,
+.my-requests-completed__group12 {
+  height: auto;
+  position: absolute;
+  overflow: visible;
+}
+
+.my-requests__group8,
+.my-requests__group11,
+.my-requests-urgent__group7,
+.my-requests-urgent__group10,
+.my-requests-in-review__group7,
+.my-requests-in-review__group10,
+.my-requests-completed__group8,
+.my-requests-completed__group11 {
+  left: 0.5px;
+  top: 0.5px;
+}
+
+.my-requests__group9,
+.my-requests-urgent__group8,
+.my-requests-in-review__group8,
+.my-requests-completed__group9 {
+  left: 0.86px;
+  top: 1.68px;
+}
+
+.my-requests__group10,
+.my-requests-urgent__group9,
+.my-requests-in-review__group9,
+.my-requests-completed__group10 {
+  left: 2.53px;
+  top: 0.85px;
+}
+
+.my-requests__group11,
+.my-requests-urgent__group10,
+.my-requests-in-review__group10,
+.my-requests-completed__group11 {
+  left: 1.0px;
+  top: 0.5px;
+}
+
+.my-requests__group12,
+.my-requests-urgent__group11,
+.my-requests-in-review__group11,
+.my-requests-completed__group12 {
+  left: 1.73px;
+  top: 2.3px;
+}
+
+.my-requests__house,
+.my-requests-urgent__house,
+.my-requests-in-review__house,
+.my-requests-completed__house {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: calc(50% - 115.1px);
+  top: calc(50% - 620.14px);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.my-requests__house:hover,
+.my-requests-urgent__house:hover,
+.my-requests-in-review__house:hover,
+.my-requests-completed__house:hover {
+  transform: translateY(-2px);
+}
+
+/* AI Chatbot Section */
+.my-requests__bookings-and-payments2,
+.my-requests-urgent__bookings-and-payments,
+.my-requests-in-review__bookings-and-payments,
+.my-requests-completed__bookings-and-payments {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 18px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  width: 187px;
+  height: 43px;
+}
+
+.my-requests__bookings-and-payments2 {
+  left: 83.86px;
+  top: 932.02px;
+}
+.bookings-and-payments-span2 {
+  color: var(--primary-green);
+}
+
+
+.my-requests-urgent__bookings-and-payments,
+.my-requests-in-review__bookings-and-payments {
+  left: 83.86px;
+  top: 932.02px;
+}
+
+.my-requests-completed__bookings-and-payments {
+  left: 90.7px;
+  top: 963.05px;
+}
+
+.bookings-and-payments-2-span {
+  color: var(--primary-blue);
+}
+
+.bookings-and-payments-2-span2 {
+  color: var(--primary-green);
+}
+
+.my-requests__container-280,
+.my-requests-urgent__container-280,
+.my-requests-completed__container-281 {
+  background: var(--white);
+  border-radius: 26px;
+  border: 1px dashed var(--white);
+  width: 53.93px;
+  height: 50.04px;
+  position: absolute;
+}
+
+.my-requests__container-280,
+.my-requests-urgent__container-280 {
+  left: 29.95px;
+  top: 914.75px;
+}
+
+.my-requests-completed__container-281 {
+  left: 36.8px;
+  top: 945.79px;
+}
+
+.my-requests__image-33,
+.my-requests-urgent__image-33,
+.my-requests-completed__image-33 {
+  width: 52px;
+  height: 52px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.my-requests__group13,
+.my-requests-urgent__group12,
+.my-requests-completed__group13 {
+  height: auto;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+
+.my-requests-completed__line {
+  width: 0px;
+  height: 900px;
+  position: absolute;
+  left: 271px;
+  top: 0px;
+  overflow: visible;
+}
+
+/* ==================== HEADER CONTAINER ==================== */
+.my-requests__container10,
+.my-requests-urgent__container10,
+.my-requests-in-review__container9,
+.my-requests-completed__container9 {
+  width: 1169px;
+  height: 65px;
+  position: absolute;
+  left: 271px;
+  top: 0px;
+  overflow: visible;
+}
+
+/* Header Branding */
+.my-requests__whats-app-image-2025-11-18-at-23-07-13-b-7-c-86-a-7-c-2,
+.my-requests-urgent__whats-app-image-2025-11-18-at-23-07-13-b-7-c-86-a-7-c-5,
+.my-requests-in-review__whats-app-image-2025-11-18-at-23-07-13-b-7-c-86-a-7-c-5 {
+  width: 46px;
+  height: 46px;
+  position: absolute;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.my-requests__whats-app-image-2025-11-18-at-23-07-13-b-7-c-86-a-7-c-2 {
+  left: 191.75px;
+  top: 9.36px;
+}
+
+.my-requests-urgent__whats-app-image-2025-11-18-at-23-07-13-b-7-c-86-a-7-c-5 {
+  left: 197.75px;
+  top: 9.77px;
+}
+
+.my-requests-in-review__whats-app-image-2025-11-18-at-23-07-13-b-7-c-86-a-7-c-5 {
+  left: 193.73px;
+  top: 4px;
+}
+
+.my-requests__bookings-and-payments,
+.my-requests-urgent__bookings-and-payments2,
+.my-requests-in-review__bookings-and-payments {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 700;
+  position: absolute;
+  width: 211px;
+  height: 37px;
+}
+
+.my-requests__bookings-and-payments {
+  left: 14.75px;
+  top: 14.41px;
+}
+
+.my-requests-urgent__bookings-and-payments2 {
+  left: 20.75px;
+  top: 14.82px;
+}
+
+.my-requests-in-review__bookings-and-payments {
+  left: 16.73px;
+  top: 9px;
+}
+
+.bookings-and-payments-span {
+  color: var(--primary-blue);
+}
+
+/* ==================== FOOTER SECTION ==================== */
+.my-requests__frame-3,
+.my-requests-urgent__frame-3,
+.my-requests-in-review__frame-3,
+.my-requests-in-review__frame-4,
+.my-requests-completed__frame-3 {
+  background: var(--bg-footer);
+  width: 1541.89px;
+  height: 86px;
+  position: absolute;
+  overflow: hidden;
+}
+
+.my-requests__frame-3 {
+  left: 279px;
+  top: 1032.83px;
+}
+
+.my-requests-urgent__frame-3 {
+  left: 281.5px;
+  top: 1031.41px;
+}
+
+.my-requests-in-review__frame-3,
+.my-requests-in-review__frame-4 {
+  left: 283.93px;
+  top: 1027px;
+}
+
+.my-requests-completed__frame-3 {
+  left: 275.93px;
+  top: 1027px;
+}
+
+.my-requests__quick-links,
+.my-requests-urgent__quick-links,
+.my-requests-in-review__quick-links,
+.my-requests-completed__quick-links {
+  color: #000000;
+  text-align: left;
+  font-family: "Poppins-Medium", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  position: absolute;
+  left: 172.5px;
+  top: 27.67px;
+}
+
+/* Footer Navigation */
+.my-requests__header-menu,
+.my-requests-urgent__header-menu,
+.my-requests-in-review__header-menu,
+.my-requests-completed__header-menu {
+  background: rgba(0, 0, 0, 0);
+  width: 296px;
+  height: 22px;
+  position: absolute;
+  left: 305.53px;
+  top: 26.87px;
+}
+
+.my-requests__frame3,
+.my-requests__frame4,
+.my-requests__frame5,
+.my-requests__frame6,
+.my-requests-urgent__frame,
+.my-requests-urgent__frame2,
+.my-requests-urgent__frame3,
+.my-requests-urgent__frame4,
+.my-requests-in-review__frame2,
+.my-requests-in-review__frame3,
+.my-requests-in-review__frame4,
+.my-requests-in-review__frame5,
+.my-requests-completed__frame2,
+.my-requests-completed__frame3,
+.my-requests-completed__frame4,
+.my-requests-completed__frame5 {
+  background: rgba(0, 0, 0, 0);
+  height: 22px;
+  position: absolute;
+  top: 0px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.my-requests__frame3,
+.my-requests-urgent__frame,
+.my-requests-in-review__frame2,
+.my-requests-completed__frame2 {
+  width: 42px;
+  left: 0px;
+}
+
+.my-requests__frame4,
+.my-requests-urgent__frame2,
+.my-requests-in-review__frame3,
+.my-requests-completed__frame3 {
+  width: 85px;
+  left: 42px;
+}
+
+.my-requests__frame5,
+.my-requests-urgent__frame3,
+.my-requests-in-review__frame4,
+.my-requests-completed__frame4 {
+  width: 88px;
+  left: 127px;
+}
+
+.my-requests__frame6,
+.my-requests-urgent__frame4,
+.my-requests-in-review__frame5,
+.my-requests-completed__frame5 {
+  width: 81px;
+  left: 193px;
+}
+
+.my-requests__frame3:hover,
+.my-requests__frame4:hover,
+.my-requests__frame5:hover,
+.my-requests__frame6:hover,
+.my-requests-urgent__frame:hover,
+.my-requests-urgent__frame2:hover,
+.my-requests-urgent__frame3:hover,
+.my-requests-urgent__frame4:hover,
+.my-requests-in-review__frame2:hover,
+.my-requests-in-review__frame3:hover,
+.my-requests-in-review__frame4:hover,
+.my-requests-in-review__frame5:hover,
+.my-requests-completed__frame2:hover,
+.my-requests-completed__frame3:hover,
+.my-requests-completed__frame4:hover,
+.my-requests-completed__frame5:hover {
+  transform: translateY(-2px);
+}
+
+.my-requests__home,
+.my-requests__features,
+.my-requests__solutions,
+.my-requests__contact,
+.my-requests-urgent__home,
+.my-requests-urgent__features,
+.my-requests-urgent__solutions,
+.my-requests-urgent__contact,
+.my-requests-in-review__home,
+.my-requests-in-review__features,
+.my-requests-in-review__solutions,
+.my-requests-in-review__contact,
+.my-requests-completed__home,
+.my-requests-completed__features,
+.my-requests-completed__solutions,
+.my-requests-completed__contact {
+  color: var(--black);
+  text-align: left;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  top: 50%;
+}
+
+.my-requests__home,
+.my-requests-urgent__home,
+.my-requests-in-review__home,
+.my-requests-completed__home {
+  left: 50%;
+  translate: -50% -50%;
+}
+
+.my-requests__features,
+.my-requests-urgent__features,
+.my-requests-in-review__features,
+.my-requests-completed__features {
+  left: calc(50% - 18.5px);
+  translate: 0 -50%;
+}
+
+.my-requests__solutions,
+.my-requests-urgent__solutions,
+.my-requests-in-review__solutions,
+.my-requests-completed__solutions {
+  left: calc(50% - 20px);
+  translate: 0 -50%;
+}
+
+.my-requests__contact,
+.my-requests-urgent__contact,
+.my-requests-in-review__contact,
+.my-requests-completed__contact {
+  left: calc(50% - 16.5px);
+  translate: 0 -50%;
+}
+
+/* Footer Logo */
+.my-requests__whats-app-image-2025-11-19-at-00-21-50-30-e-751-e-6-2,
+.my-requests-urgent__whats-app-image-2025-11-19-at-00-21-50-30-e-751-e-6-2,
+.my-requests-in-review__whats-app-image-2025-11-19-at-00-21-50-30-e-751-e-6-2,
+.my-requests-completed__whats-app-image-2025-11-19-at-00-21-50-30-e-751-e-6-2 {
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  left: 14.09px;
+  top: 18.81px;
+  box-shadow: var(--shadow-float);
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.my-requests__cardio-ai,
+.my-requests-urgent__cardio-ai,
+.my-requests-in-review__cardio-ai,
+.my-requests-completed__cardio-ai {
+  text-align: left;
+  font-family: "Poppins-Bold", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 37.1px;
+  top: 19.5px;
+}
+
+.cardio-ai-span {
+  color: var(--primary-blue);
+}
+
+.cardio-ai-span2 {
+  color: var(--primary-green);
+}
+
+/* Logout Button */
+.my-requests__button-109,
+.my-requests-urgent__button-109,
+.my-requests-in-review__button-109,
+.my-requests-completed__button-109 {
+  background: var(--danger-red);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 0, 0, 0);
+  width: 76px;
+  height: 36px;
+  position: absolute;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.my-requests__button-109 {
+  left: 1441.67px;
+  top: 24.04px;
+}
+
+.my-requests-urgent__button-109 {
+  left: 1447.69px;
+  top: 25.05px;
+}
+
+.my-requests-in-review__button-109 {
+  left: 1448.96px;
+  top: 24.15px;
+}
+
+.my-requests-completed__button-109 {
+  left: 1448.96px;
+  top: 24.15px;
+}
+
+.my-requests__button-109:hover,
+.my-requests-urgent__button-109:hover,
+.my-requests-in-review__button-109:hover,
+.my-requests-completed__button-109:hover {
+  background: #c62f35;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(222, 59, 64, 0.3);
+}
+
+.my-requests__log-out,
+.my-requests-urgent__log-out,
+.my-requests-in-review__log-out,
+.my-requests-completed__log-out {
+  color: var(--white);
+  text-align: center;
+  font-family: "Manrope-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 26px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+/* ==================== REFILL REQUEST MODAL ==================== */
+.refill-request__prescription-refill-request {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  padding: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 1024px;
+  height: 393px;
+  position: absolute;
+  left: 190.85px;
+  top: 173px;
+  box-shadow: var(--shadow-sm);
+}
+
+.refill-request__container {
+  background: var(--light-blue);
+  border-radius: var(--radius-xxl);
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  position: relative;
+}
+
+.refill-request__paperclip {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  overflow: hidden;
+}
+
+.refill-request__group {
+  height: auto;
+  position: absolute;
+  left: 1.3px;
+  top: 0.63px;
+  overflow: visible;
+}
+
+.refill-request__prescription-refill-request2 {
+  color: var(--gray-800);
+  text-align: left;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  position: relative;
+}
+
+.refill-request__button {
+  background: rgba(0, 0, 0, 0);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.refill-request__button:hover {
+  background: var(--gray-100);
+  transform: translateY(-2px);
+}
+
+.refill-request__text {
+  color: var(--gray-500);
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - -8px);
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.refill-request__x {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+  overflow: hidden;
+}
+
+.refill-request__group2,
+.refill-request__group4 {
+  height: auto;
+  position: absolute;
+  left: 3.31px;
+  top: 3.31px;
+  overflow: visible;
+}
+
+.refill-request__request-from-sarah-johnson-1-15-2024-12-30-pm {
+  color: var(--gray-500);
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: relative;
+}
+
+.refill-request__tag,
+.refill-request__tag2 {
+  background: rgba(0, 0, 0, 0);
+  flex-shrink: 0;
+  height: 22px;
+  position: relative;
+}
+
+.refill-request__tag { width: 70px; }
+.refill-request__tag2 { width: 68px; }
+
+.refill-request__frame,
+.refill-request__frame2 {
+  border-radius: var(--radius-xl);
+  border: 1px solid;
+  width: 100%;
+  height: 22px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+
+.refill-request__frame {
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.refill-request__frame2 {
+  background: var(--yellow-dark);
+  border-color: var(--yellow-dark);
+}
+
+.refill-request__medium {
+  color: var(--status-yellow-text);
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.refill-request__pending {
+  color: var(--status-yellow-dark);
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.refill-request__request-details {
+  color: var(--gray-700);
+  text-align: left;
+  font-family: "Roboto-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  position: relative;
+}
+
+.refill-request__requesting-refill-for-lisinopril-10-mg-current-prescription-expires-in-3-days {
+  color: var(--gray-600);
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  position: relative;
+}
+
+.refill-request__textarea {
+  background: rgba(0, 0, 0, 0);
+  flex-shrink: 0;
+  width: 974px;
+  height: 108px;
+  position: relative;
+}
+
+.refill-request__response-notes {
+  color: var(--gray-700);
+  text-align: left;
+  font-family: "OpenSans-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  right: 879px;
+  left: 0px;
+  top: 0px;
+}
+
+.refill-request__textfield {
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  border: 1px solid #d1d5db;
+  position: absolute;
+  right: 1px;
+  left: 0px;
+  bottom: 1px;
+  top: 27px;
+}
+
+.refill-request__enter-your-response-or-notes-for-this-request {
+  color: var(--dark-gray);
+  text-align: left;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  right: 11px;
+  left: 12px;
+  top: 8px;
+}
+
+.refill-request__resizing-handle {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  overflow: hidden;
+}
+
+.refill-request__group3 {
+  height: auto;
+  position: absolute;
+  left: -0.2px;
+  top: 11.17px;
+  overflow: visible;
+}
+
+.refill-request__container2 {
+  background: var(--gray-50);
+  flex-shrink: 0;
+  width: 1022px;
+  height: 73px;
+  position: relative;
+}
+
+.refill-request__line {
+  width: 1022px;
+  height: 0px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+
+/* Modal Action Buttons */
+.refill-request__button2,
+.refill-request__button3,
+.refill-request__button4 {
+  border-radius: var(--radius-md);
+  height: 40px;
+  position: absolute;
+  top: 17px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.refill-request__button2 {
+  background: rgba(0, 0, 0, 0);
+  width: 77px;
+  left: 558px;
+}
+
+.refill-request__button2:hover {
+  background: var(--gray-100);
+  transform: translateY(-2px);
+}
+
+.refill-request__button3 {
+  background: var(--red-error);
+  width: 163px;
+  left: 646px;
+}
+
+.refill-request__button3:hover {
+  background: #d63026;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(244, 64, 52, 0.3);
+}
+
+.refill-request__button4 {
+  background: var(--info-blue);
+  width: 178px;
+  left: 820px;
+}
+
+.refill-request__button4:hover {
+  background: #1866c5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(32, 126, 248, 0.3);
+}
+
+.refill-request__cancel {
+  color: var(--gray-600);
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  translate: -50% -50%;
+  top: 50%;
+}
+
+.refill-request__reject-request,
+.refill-request__approve-request {
+  color: var(--white);
+  text-align: center;
+  font-family: "OpenSans-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.refill-request__reject-request {
+  left: calc(50% - 33.5px);
+}
+
+.refill-request__approve-request {
+  left: calc(50% - 41px);
+}
+
+.refill-request__x2 {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: calc(50% - 65.5px);
+  top: 50%;
+  translate: 0 -50%;
+  overflow: hidden;
+}
+
+.refill-request__check {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: calc(50% - 73px);
+  top: 50%;
+  translate: 0 -50%;
+  overflow: hidden;
+}
+
+.refill-request__group5 {
+  height: auto;
+  position: absolute;
+  left: 1.97px;
+  top: 3.32px;
+  overflow: visible;
+}

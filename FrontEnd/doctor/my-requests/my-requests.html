@@ -1,0 +1,307 @@
+<!-- my-requests.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests - CardioAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #003785; --primary-green: #87af12; --light-green: #779f00;
+            --danger-red: #de3b40; --warning-orange: #f59e0b; --teal: #1c8a8e;
+            --white: #ffffff; --gray-50: #f9fafb; --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb; --gray-300: #d1d5db; --gray-500: #6b7280;
+            --gray-700: #374151; --gray-800: #1f2937;
+            --bg-light: #e8f0f8; --bg-sidebar: rgba(178,215,66,0.56);
+            --bg-ai-section: #f2f6fd; --shadow-sm: 0px 1px 3px rgba(0,0,0,0.1);
+            --radius-md: 8px; --radius-lg: 12px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--white); height: 100vh; display: flex; overflow: hidden; }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 270px; background: var(--bg-sidebar); height: 100%; flex-shrink: 0;
+            display: flex; flex-direction: column; padding: 24px 16px; overflow-y: auto;
+            border-right: 1px solid rgba(0,0,0,0.05); z-index: 20;
+        }
+        .sidebar-logo { margin-bottom: 32px; padding-left: 8px; cursor: pointer; }
+        .sidebar-item {
+            display: flex; align-items: center; gap: 12px; padding: 11px 16px;
+            border-radius: var(--radius-md); color: var(--gray-700); text-decoration: none;
+            font-weight: 500; font-size: 14px; transition: all .2s;
+        }
+        .sidebar-item:hover { background: rgba(255,255,255,.4); transform: translateX(4px); }
+        .sidebar-item.active { background: rgba(0,55,133,.1); color: var(--primary-blue); }
+        .sidebar-item i { width: 18px; text-align: center; }
+
+        /* ── Main ── */
+        .main-content {
+            flex-grow: 1; height: 100vh; background: var(--bg-light);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        header {
+            flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 28px; background: var(--bg-light); z-index: 10;
+            border-bottom: 1px solid rgba(0,0,0,.05);
+        }
+        .header-text h1 { color: var(--primary-blue); font-size: 24px; font-weight: 700; margin-bottom: 2px; }
+        .header-text p  { color: var(--gray-500); font-size: 14px; }
+
+        /* Doctor pill */
+        .doctor-pill {
+            display: flex; align-items: center; gap: 10px;
+            background: var(--white); border-radius: 24px; padding: 6px 14px 6px 6px;
+            border: 1px solid var(--gray-200);
+        }
+        #doctorAvatar {
+            width: 32px; height: 32px; background: var(--primary-blue); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700; font-size: 13px; overflow: hidden;
+        }
+        #doctorAvatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .doctor-info-pill { font-size: 12px; }
+        .doctor-info-pill strong { color: var(--gray-800); display: block; font-size: 13px; }
+        .doctor-info-pill span  { color: var(--gray-500); }
+
+        .scrollable-content {
+            flex-grow: 1; overflow-y: auto; padding: 20px 28px;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        /* ── Stats ── */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; }
+        .stat-card {
+            background: var(--white); padding: 20px; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm); display: flex; flex-direction: column;
+            border-left: 4px solid transparent; cursor: pointer; transition: transform .2s;
+        }
+        .stat-card:hover { transform: translateY(-3px); }
+        .stat-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 18px; }
+        .stat-icon.pending  { background: #eff6ff; color: var(--primary-blue); }
+        .stat-icon.urgent   { background: #fef2f2; color: var(--danger-red); }
+        .stat-icon.review   { background: #fffbeb; color: var(--warning-orange); }
+        .stat-icon.completed{ background: #f0fdf4; color: var(--light-green); }
+        .stat-value { font-size: 28px; font-weight: 700; color: var(--gray-800); }
+        .stat-label { font-size: 13px; color: var(--gray-500); margin-top: 4px; }
+
+        /* ── Tabs ── */
+        .tabs-container { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 7px 16px; background: transparent; border: 1px solid var(--gray-300);
+            border-radius: 20px; cursor: pointer; font-size: 13px; color: var(--gray-500);
+            font-weight: 500; transition: all .2s;
+        }
+        .tab-btn.active { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+
+        /* ── Request cards ── */
+        .request-card {
+            background: var(--white); border-radius: var(--radius-lg); padding: 20px;
+            margin-bottom: 12px; box-shadow: var(--shadow-sm);
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 16px; border: 1px solid transparent; transition: border-color .2s;
+        }
+        .request-card:hover { border-color: var(--primary-blue); }
+        .request-card.urgent { border-left: 4px solid var(--danger-red); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
+        .req-info { display: flex; align-items: flex-start; gap: 14px; flex: 1; min-width: 260px; }
+        .req-icon { width: 44px; height: 44px; object-fit: contain; flex-shrink: 0; }
+        .req-details h3 { font-size: 15px; font-weight: 600; color: var(--gray-800); margin-bottom: 4px; }
+        .req-details p  { font-size: 13px; color: var(--gray-500); margin-bottom: 8px; line-height: 1.5; }
+        .req-meta { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--gray-500); flex-wrap: wrap; }
+        .badge { padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+        .badge.high    { background: #fee2e2; color: #991b1b; }
+        .badge.medium  { background: #fff7ed; color: #c2410c; }
+        .badge.low     { background: #f3f4f6; color: #374151; }
+        .badge.pending  { background: #f3f4f6; color: #374151; }
+        .badge.approved { background: #dcfce7; color: #166534; }
+        .badge.rejected { background: #fee2e2; color: #991b1b; }
+        .badge.resolved { background: #eff6ff; color: #1e40af; }
+        .btn-review {
+            background: var(--primary-blue); color: white; border: none; padding: 9px 20px;
+            border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 13px;
+            transition: background .2s; white-space: nowrap;
+        }
+        .btn-review:hover { background: #002a66; }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,.6); z-index: 1000;
+            justify-content: center; align-items: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: white; width: 90%; max-width: 580px; border-radius: 12px;
+            padding: 28px; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,.2);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title  { font-size: 18px; font-weight: 700; color: var(--primary-blue); display: flex; align-items: center; gap: 10px; }
+        .close-modal  { background: none; border: none; font-size: 22px; color: var(--gray-500); cursor: pointer; line-height: 1; }
+        .modal-row    { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 14px; }
+        .modal-label  { color: var(--gray-500); }
+        .notes-area   {
+            width: 100%; min-height: 90px; border: 1px solid var(--gray-300); border-radius: 8px;
+            padding: 12px; font-family: 'Inter', sans-serif; margin-top: 8px; resize: vertical; font-size: 14px;
+        }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--gray-200); padding-top: 18px; margin-top: 18px; }
+        .btn-cancel  { background: transparent; border: 1px solid var(--gray-300); color: var(--gray-700); padding: 9px 18px; border-radius: 6px; cursor: pointer; }
+        .btn-reject  { background: white; border: 1px solid var(--danger-red); color: var(--danger-red); padding: 9px 18px; border-radius: 6px; cursor: pointer; }
+        .btn-approve { background: var(--light-green); color: white; border: none; padding: 9px 18px; border-radius: 6px; cursor: pointer; }
+
+        /* ── Footer ── */
+        footer {
+            flex-shrink: 0; padding: 14px 28px; background: var(--bg-light);
+            border-top: 1px solid rgba(0,0,0,.05);
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+        }
+
+        /* ── Chat bot ── */
+        .chat-bot-icon {
+            position: fixed; bottom: 76px; right: 28px; width: 56px; height: 56px;
+            background: #003785; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,55,133,.3);
+            transition: all .3s; z-index: 999; overflow: hidden; padding: 8px;
+        }
+        .chat-bot-icon:hover { background: #6b9137; transform: scale(1.1); }
+        #chatBotImage { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+    </style>
+</head>
+<body>
+
+    <!-- ══ SIDEBAR ══════════════════════════════════════════ -->
+    <nav class="sidebar">
+        <div class="sidebar-logo" onclick="window.location.href='../dashboard/dashboard.html'">
+            <h2 style="color:var(--primary-blue);font-weight:800;font-family:'Poppins',sans-serif;">
+                Cardio<span style="color:var(--primary-green)">AI</span>
+            </h2>
+        </div>
+        <a href="../dashboard/dashboard.html"                           class="sidebar-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a href="../patient-search/patient-search/patient-search.html" class="sidebar-item"><i class="fas fa-search"></i><span>Patient Search</span></a>
+        <a href="../my-patients/my-patients.html"                       class="sidebar-item"><i class="fas fa-users"></i><span>My Patients</span></a>
+        <a href="../my-requests/my-requests.html"                       class="sidebar-item active"><i class="fas fa-file-medical"></i><span>Requests</span></a>
+        <a href="../schedule/add-schedule.html"                         class="sidebar-item"><i class="fas fa-calendar-check"></i><span>Schedule</span></a>
+    </nav>
+
+    <!-- ══ MAIN ════════════════════════════════════════════ -->
+    <main class="main-content" style="width:calc(100vw - 270px);">
+
+        <header>
+            <div class="header-text">
+                <h1>Patient Requests</h1>
+                <p>Review and respond to patient requests</p>
+            </div>
+            <!-- Doctor pill (populated by script.js) -->
+            <div class="doctor-pill">
+                <div id="doctorAvatar">DR</div>
+                <div class="doctor-info-pill">
+                    <strong id="doctorNamePill">Doctor</strong>
+                    <span id="doctorSpecialty">—</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="scrollable-content">
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card" onclick="filterRequests('pending')">
+                    <div class="stat-icon pending"><i class="fas fa-clock"></i></div>
+                    <div class="stat-value" id="statPending">—</div>
+                    <div class="stat-label">Pending Review</div>
+                </div>
+                <div class="stat-card" onclick="filterRequests('urgent')">
+                    <div class="stat-icon urgent"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="stat-value" id="statUrgent">—</div>
+                    <div class="stat-label">Urgent Action</div>
+                </div>
+                <div class="stat-card" onclick="filterRequests('approved')">
+                    <div class="stat-icon review"><i class="fas fa-eye"></i></div>
+                    <div class="stat-value" id="statReview">—</div>
+                    <div class="stat-label">In Review</div>
+                </div>
+                <div class="stat-card" onclick="filterRequests('resolved')">
+                    <div class="stat-icon completed"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-value" id="statCompleted">—</div>
+                    <div class="stat-label">Completed Today</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <button class="tab-btn active"  data-filter="all">All Requests</button>
+                <button class="tab-btn"          data-filter="urgent">Urgent</button>
+                <button class="tab-btn"          data-filter="lab">Lab Results</button>
+                <button class="tab-btn"          data-filter="refill">Prescriptions</button>
+            </div>
+
+            <!-- List -->
+            <div id="requestsList">
+                <p style="color:#9ca3af;text-align:center;padding:40px;">Loading requests...</p>
+            </div>
+
+        </div>
+
+        <footer>
+            <div>
+                <h3 style="color:var(--primary-blue);margin-bottom:3px;">Cardio<span style="color:var(--primary-green)">AI</span></h3>
+                <span style="font-size:11px;color:var(--gray-500);">© 2025 CardioAI System</span>
+            </div>
+            <button style="background:var(--danger-red);color:white;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;"
+                onclick="if(confirm('Log out?')){sessionStorage.clear();localStorage.removeItem('isLoggedIn');window.location.href='../../auth/login.html';}">
+                <i class="fas fa-sign-out-alt"></i> Log out
+            </button>
+        </footer>
+    </main>
+
+    <!-- Request Review Modal -->
+    <div class="modal-overlay" id="refillModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-file-medical" style="color:var(--primary-blue);"></i>
+                    Request Details
+                </div>
+                <button class="close-modal" id="closeModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalRequestInfo" style="background:var(--bg-light);padding:10px;border-radius:6px;margin-bottom:18px;font-size:13px;color:var(--gray-700);">
+                    Loading...
+                </div>
+                <div class="modal-row">
+                    <span class="modal-label">Priority:</span>
+                    <span id="modalPriorityBadge" class="badge medium">Medium</span>
+                </div>
+                <div class="modal-row">
+                    <span class="modal-label">Status:</span>
+                    <span id="modalStatusBadge" class="badge pending">Pending</span>
+                </div>
+                <div style="margin-top:16px;">
+                    <h4 style="font-size:14px;margin-bottom:8px;color:var(--gray-800);">Request Details</h4>
+                    <p id="modalMessage" style="font-size:14px;color:var(--gray-700);background:#f9f9f9;padding:12px;border-radius:8px;line-height:1.6;">—</p>
+                </div>
+                <div style="margin-top:16px;">
+                    <h4 style="font-size:14px;margin-bottom:6px;color:var(--gray-800);">Response / Notes</h4>
+                    <textarea class="notes-area" id="modalNotes" placeholder="Enter your response or notes..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="cancelModalBtn">Cancel</button>
+                <button class="btn-reject" id="rejectBtn">Reject Request</button>
+                <button class="btn-approve" id="approveBtn">Approve Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Bot -->
+    <div class="chat-bot-icon" onclick="window.location.href='../../chatbot/mainpage.html'">
+        <img src="chatbot.png" alt="Chat Bot" id="chatBotImage"
+            onerror="this.parentElement.innerHTML='<i class=\'fas fa-robot\' style=\'color:white;font-size:22px;\'></i>'">
+    </div>
+
+    <!-- Single script — no type="module", no inline logic, no duplicate scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

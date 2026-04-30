@@ -1,0 +1,112 @@
+<!-- refill-request.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prescription Refill Request</title>
+  
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="./vars.css" />
+  <link rel="stylesheet" href="./style.css" />
+
+  <!-- CSS Reset -->
+  <style>
+    a,
+    button,
+    input,
+    select,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: none;
+      text-decoration: none;
+      background: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    menu,
+    ol,
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="refill-request">
+    <div class="refill-request__prescription-refill-request">
+      
+      <!-- Pin Icon -->
+      <div class="refill-request__container">
+        <div class="refill-request__paperclip">
+          <img class="refill-request__group" src="pin.png" alt="" />
+        </div>
+      </div>
+
+      <!-- Header Title -->
+      <div class="refill-request__prescription-refill-request2">
+        Prescription Refill Request
+      </div>
+
+      <!-- Close Button -->
+      <div class="refill-request__button">
+        <div class="refill-request__text"></div>
+        <div class="refill-request__x">
+          <img class="refill-request__group2" src="X (1).png" alt="" />
+        </div>
+      </div>
+
+      <!-- Form Fields -->
+      <div style="margin:20px 0;">
+        <label style="display:block; margin-bottom:8px; font-weight:600;">Patient Name *</label>
+        <input type="text" id="patientName" placeholder="Enter patient name" required style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:14px;">
+      </div>
+
+      <div style="margin:20px 0;">
+        <label style="display:block; margin-bottom:8px; font-weight:600;">Priority *</label>
+        <select id="priority" required style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:14px;">
+          <option value="Low">Low</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <!-- Request Details Section -->
+      <div class="refill-request__request-details">Request Message *</div>
+      <div style="margin:10px 0;">
+        <textarea id="message" placeholder="Enter request message..." required style="width:100%; min-height:100px; padding:12px; border:1px solid #ccc; border-radius:6px; font-size:14px; font-family:inherit; resize:vertical;"></textarea>
+      </div>
+
+      <!-- Action Buttons Footer -->
+      <div class="refill-request__container2">
+        <img class="refill-request__line" src="line0.svg" alt="" />
+        
+        <div class="refill-request__button2" onclick="window.location.href='my-requests.html'">
+          <div class="refill-request__cancel">Cancel</div>
+        </div>
+        
+        <div class="refill-request__button4" id="submitBtn">
+          <div class="refill-request__approve-request">Submit Request</div>
+          <div class="refill-request__check">
+            <img class="refill-request__group5" src="TrueWhite.png" alt="" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="./refill.js"></script>
+</body>
+</html>

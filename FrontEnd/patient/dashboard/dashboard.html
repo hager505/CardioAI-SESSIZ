@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <title>Patient Dashboard — CardioAI</title>
+</head>
+<style>
+  
+/* Sidebar */
+.sidebar {
+    background: rgba(170, 213, 42, 0.56);
+    border-right: 1px solid var(--medium-gray);
+    padding: 20px 0;
+}
+
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 24px;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-item:hover {
+    background: rgba(0, 59, 133, 0.1);
+    color: var(--primary-blue);
+}
+
+.sidebar-item.active {
+    background: rgba(45, 104, 175, 0.1);
+    color: var(--primary-blue);
+    border-left-color: var(--primary-blue);
+}
+
+.sidebar-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.sidebar-item span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+</style>
+<body>
+
+  <!-- ══ HEADER ══════════════════════════════════════════════ -->
+  <header class="patient-dashboard__header">
+    <div class="header-content">
+      <div class="header-title">
+        <span class="cardio">Cardio</span><span class="ai">AI</span>
+      </div>
+      <div class="search-container">
+        <input type="text" placeholder="Search medical records, appointments..." class="search-input" />
+        <i class="fas fa-search search-icon"></i>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="notificationsBtn">
+          <i class="fas fa-bell"></i>
+        </button>
+        <button class="icon-btn" id="settingsBtn">
+          <i class="fas fa-cog"></i>
+        </button>
+        <div class="user-avatar" id="profileAvatar" style="cursor:pointer; width:40px; height:40px;">
+          <img src="https://ui-avatars.com/api/?name=T+P&amp;background=003785&amp;color=fff&amp;size=200&amp;bold=true" style="width:100%;height:100%;border-radius:50%;object-fit:cover;cursor:pointer;">
+          <input type="file" id="avatarUpload" accept="image/*" style="display:none;">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ LAYOUT ══════════════════════════════════════════════ -->
+  <div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-menu">
+        <a href="../dashboard/dashboard.html" class="sidebar-item active">
+          <i class="fas fa-home"></i><span>Dashboard</span>
+        </a>
+        <a href="../profile/profile.html" class="sidebar-item">
+          <i class="fas fa-user"></i><span>Profile</span>
+        </a>
+        <a href="../MedicalRecords/medicalrecords1.html" class="sidebar-item">
+          <i class="fas fa-file-medical"></i><span>Medical Records</span>
+        </a>
+        <a href="../appointments/appiontment.html" class="sidebar-item">
+          <i class="fas fa-calendar-check"></i><span>Appointments</span>
+        </a>
+        <a href="../medications/medications.html" class="sidebar-item">
+          <i class="fas fa-pills"></i><span>Medications</span>
+        </a>
+        <a href="../notifications/notification.html" class="sidebar-item">
+          <i class="fas fa-bell"></i><span>Notifications</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- Welcome Card -->
+      <section class="welcome-section">
+        <div class="welcome-card">
+          <div class="user-info">
+            <div class="avatar-large" id="largeAvatarContainer"
+              style="width:64px;height:64px;border-radius:50%;overflow:hidden;cursor:pointer;">
+              <img src="https://ui-avatars.com/api/?name=T+P&amp;background=003785&amp;color=fff&amp;size=200&amp;bold=true" style="width:100%;height:100%;border-radius:50%;object-fit:cover;cursor:pointer;">
+            </div>
+            <div class="user-details">
+              <h2><b id="patientName">Loading...</b></h2>
+              <p class="user-age" id="patientAge"></p>
+              <small id="patientSerial" style="color:#779f00;font-weight:600;font-size:12px;"></small>
+            </div>
+          </div>
+          <button class="notifications-btn" id="quickNotifications">
+            <i class="fas fa-bell"></i>
+            <span>Loading...</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ══ QUICK STATS ══════════════════════════════════════ -->
+      <section class="quick-stats-section">
+        <h2>Quick Stats</h2>
+        <div class="stats-grid">
+
+          <div class="stat-card" id="bloodPressureCard">
+            <div class="stat-header">
+              <h3>Blood Pressure</h3>
+              <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <div class="stat-value">
+              <span class="value" id="bpValue">—</span>
+              <span class="unit">mmHg</span>
+            </div>
+            <div class="stat-trend">
+              <span class="status" id="bpStatus">Loading...</span>
+            </div>
+            <div class="stat-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" id="bpProgress" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card" id="heartRateCard">
+            <div class="stat-header">
+              <h3>Heart Rate</h3>
+              <i class="fas fa-heart"></i>
+            </div>
+            <div class="stat-value">
+              <span class="value" id="hrValue">—</span>
+              <span class="unit">bpm</span>
+            </div>
+            <div class="stat-trend">
+              <span class="status" id="hrStatus">Loading...</span>
+            </div>
+            <div class="stat-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" id="hrProgress" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card" id="bloodSugarCard">
+            <div class="stat-header">
+              <h3>Oxygen Saturation SpO2</h3>
+              <i class="fas fa-lungs"></i>
+            </div>
+            <div class="stat-value">
+              <span class="value" id="spo2Value">—</span>
+              <span class="unit">%</span>
+            </div>
+            <div class="stat-trend">
+              <span class="status" id="spo2Status">Loading...</span>
+            </div>
+            <div class="stat-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" id="spo2Progress" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card" id="weightCard">
+            <div class="stat-header">
+              <h3>Body Temperature</h3>
+              <i class="fas fa-temperature-high"></i>
+            </div>
+            <div class="stat-value">
+              <span class="value" id="tempValue">—</span>
+              <span class="unit">°C</span>
+            </div>
+            <div class="stat-trend">
+              <span class="status" id="tempStatus">Loading...</span>
+            </div>
+            <div class="stat-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" id="tempProgress" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Chat Bot -->
+  <div class="chat-bot-icon" id="chatBotBtn" onclick="window.location.href='../../chatbot/mainpage.html'">
+        <!-- يمكنك استبدال chatbot.png بالصورة الخاصة بك -->
+        <img src="chatbot.png" alt="Chat Bot" id="chatBotImage">
+    </div>
+
+  <!-- ══ FOOTER ═══════════════════════════════════════════════ -->
+  <footer class="quick-links-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-heartbeat"></i>
+        <div class="footer-title">
+          <span class="cardio">Cardio</span><span class="ai">AI</span>
+        </div>
+      </div>
+      <div class="links">
+        <a href='../../index.html' class="footer-link">Home</a>
+        <a href='../../index.html' class="footer-link">Features</a>
+        <a href='../../index.html' class="footer-link">About</a>
+        <a href='../../chatbot/mainpage.html' class="footer-link">Chatbot</a>
+      </div>
+      <button class="logout-btn" id="footerLogoutBtn">
+        <i class="fas fa-sign-out-alt"></i> Log out
+      </button>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

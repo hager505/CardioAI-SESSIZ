@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-part1">Cardio</span>
+          <span class="logo-part2">AI</span>
+        </div>
+        <div class="nav-menu">
+          <div class="nav-item"><a href="../../index.html">Home</a></div>
+          <div class="nav-item"><a href="../../index.html">Features</a></div>
+          <div class="nav-item"><a href="../../index.html">About</a></div>
+          <div class="nav-item"><a href="../../index.html">Contact</a></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="sign-up">
+      <div class="sign-up__container">
+        <div class="sign-up__create-your-account">Create Your Account</div>
+        
+        <!-- Full Name -->
+        <div class="sign-up__textbox">
+          <div class="sign-up__full-name">Full Name</div>
+          <div class="sign-up__textfield">
+            <input type="text" class="input-field" placeholder="John Doe" id="fullName">
+          </div>
+        </div>
+        
+        <!-- National ID -->
+        <div class="sign-up__textbox2">
+          <div class="sign-up__national-id">National ID</div>
+          <div class="sign-up__textfield">
+            <input type="text" class="input-field" placeholder="123-456-789" id="nationalId">
+          </div>
+        </div>
+        
+        <!-- Date of Birth -->
+        <div class="sign-up__date-of-birth">Date of Birth</div>
+        <div class="sign-up__button date-btn">
+          <input type="date" class="date-input" id="dateOfBirth">
+        </div>
+        
+        <!-- Gender -->
+        <div class="sign-up__gender">Gender</div>
+        <div class="sign-up__dropdown-button gender-btn">
+          <select class="gender-select" id="gender">
+            <option value="">Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+           
+          </select>
+        </div>
+        
+        <!-- Phone Number -->
+        <div class="sign-up__textbox3">
+          <div class="sign-up__phone-number">Phone Number</div>
+          <div class="sign-up__textfield">
+            <input type="tel" class="input-field" placeholder="(123) 456-7890" id="phoneNumber">
+          </div>
+        </div>
+        
+        <!-- Email Address -->
+        <div class="sign-up__textbox4">
+          <div class="sign-up__email-address">Email Address</div>
+          <div class="sign-up__textfield">
+            <input type="email" class="input-field" placeholder="john.doe@example.com" id="email">
+          </div>
+        </div>
+        
+        <!-- Password -->
+        <div class="sign-up__textbox5">
+          <div class="sign-up__password">Password</div>
+          <div class="sign-up__textfield">
+            <input type="password" class="input-field" placeholder="••••••••" id="password">
+          </div>
+        </div>
+        
+        <!-- Confirm Password -->
+        <div class="sign-up__textbox6">
+          <div class="sign-up__confirm-password">Confirm Password</div>
+          <div class="sign-up__textfield">
+            <input type="password" class="input-field" placeholder="••••••••" id="confirmPassword">
+          </div>
+        </div>
+        
+        <!-- Terms Checkbox -->
+        <div class="sign-up__checkbox">
+          <div class="sign-up__frame">
+            <div class="sign-up__rectangle" id="checkbox"></div>
+            <div class="sign-up__i-agree-to-the-terms-privacy-policy">
+              <span>
+                <span class="i-agree-to-the-terms-privacy-policy-span">
+                  I agree to the
+                </span>
+                <span class="i-agree-to-the-terms-privacy-policy-span2" id="privacyLink">
+                  Terms &amp; Privacy Policy
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Complete Account Button -->
+        <div class="sign-up__button2" id="completeBtn">
+          <div class="sign-up__complete-my-account">Complete my account</div>
+        </div>
+        
+        <img class="sign-up__line" src="line0.svg" />
+        
+        <!-- Login Button -->
+        <div class="sign-up__button3" id="loginBtn">
+          <!-- <div class="sign-up__log-in">Log in</div> -->
+          <a href="../login.html" class="sign-up__log-in">Log in</a>
+        </div>
+        
+        <div class="sign-up__already-have-an-account">
+          Already have an account?
+        </div>
+      </div>
+    </div>
+    
+    <!-- <script src="script.js"></script> -->
+    <script src="RegisterPatient.js"></script>
+  </body>
+</html>
