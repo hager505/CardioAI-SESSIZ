@@ -1,0 +1,286 @@
+<!-- doctor/profile/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Settings — CardioAI</title>
+  <link rel="stylesheet" href="../../css/unified-design.css">
+  <link rel="stylesheet" href="../shared/shared.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ══ SIDEBAR ═════════════════════════════════════════════ -->
+  <nav class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="dashboard-sidebar__header">
+      <div class="dashboard-sidebar__logo">
+        <a href="../dashboard/dashboard.html" class="navbar-brand">
+          <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+        </a>
+      </div>
+      <button class="dashboard-sidebar__close" id="sidebarCloseBtn" aria-label="Close sidebar" title="Close sidebar">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+    <div class="dashboard-sidebar__nav">
+      <a href="../dashboard/dashboard.html" class="dashboard-sidebar__item">
+        <i class="fas fa-home"></i><span>Dashboard</span>
+      </a>
+      <a href="../patient-search/patient-search/patient-search.html" class="dashboard-sidebar__item">
+        <i class="fas fa-search"></i><span>Patient Search</span>
+      </a>
+      <a href="../my-patients/my-patients.html" class="dashboard-sidebar__item">
+        <i class="fas fa-users"></i><span>My Patients</span>
+      </a>
+      <a href="../my-requests/my-requests.html" class="dashboard-sidebar__item">
+        <i class="fas fa-file-medical"></i><span>Requests</span>
+      </a>
+      <a href="../appointments/appointments.html" class="dashboard-sidebar__item">
+        <i class="fas fa-calendar-alt"></i><span>Appointments</span>
+      </a>
+      <a href="../schedule/schedule.html" class="dashboard-sidebar__item">
+        <i class="fas fa-clock"></i><span>Schedule</span>
+      </a>
+      <a href="profile.html" class="dashboard-sidebar__item active">
+        <i class="fas fa-user-cog"></i><span>Profile</span>
+      </a>
+    </div>
+    <div class="dashboard-sidebar__footer" id="sidebarFooterPanel">
+      <div class="sidebar-footer-trigger" id="footerPanelTrigger">
+        <div class="sidebar-footer-avatar" id="footerAvatar">DR</div>
+        <div class="sidebar-footer-info">
+          <span class="sidebar-footer-name" id="footerDoctorName">Doctor</span>
+          <span class="sidebar-footer-role">Cardiologist</span>
+        </div>
+        <i class="fas fa-chevron-up sidebar-footer-chevron"></i>
+      </div>
+      <div class="sidebar-footer-menu" id="footerPanelMenu">
+        <a href="profile.html" class="sidebar-footer-item active">
+          <i class="fas fa-user-cog"></i> Profile Settings
+        </a>
+        <button class="sidebar-footer-item danger" id="sidebarLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE OVERLAY ══════════════════════════════════════ -->
+  <div class="mobile-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══ MAIN ════════════════════════════════════════════════ -->
+  <main class="dashboard-main">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div class="dashboard-header__left">
+        <button class="hamburger" id="sidebarToggle" aria-label="Open menu" title="Open menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="dashboard-header__greeting">
+          <h1>Profile Settings</h1>
+          <p>Manage your account and professional information</p>
+        </div>
+      </div>
+      <div class="dashboard-header__actions">
+        <div class="user-menu" id="userMenu">
+          <div class="user-avatar" id="doctorAvatar" onclick="window.location.href='profile.html'" style="cursor:pointer;">DR</div>
+          <div class="dropdown-menu" id="userDropdown">
+            <div class="dropdown-header">
+              <div class="user-name" id="doctorNamePill">Doctor</div>
+              <div class="user-email" id="doctorSpecialty">—</div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="../dashboard/dashboard.html" class="dropdown-item">
+              <i class="fas fa-home"></i> Dashboard
+            </a>
+            <button class="dropdown-item danger" onclick="confirmLogout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="dashboard-content">
+
+      <div class="profile-layout">
+
+        <!-- LEFT COLUMN -->
+        <div class="profile-left">
+
+          <!-- Avatar Card -->
+          <div class="card profile-card">
+            <div class="card-header">
+              <h3 class="card-header-title">Profile Photo</h3>
+            </div>
+            <div class="card-body text-center">
+              <div class="profile-avatar-wrapper">
+                <div class="profile-avatar" id="profileAvatar">DR</div>
+                <button class="profile-avatar-upload" id="avatarUploadBtn" title="Change photo">
+                  <i class="fas fa-camera"></i>
+                </button>
+              </div>
+              <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+              <p class="profile-avatar-hint">Click the camera icon to upload a new photo</p>
+              <button type="button" class="btn btn-ghost btn-sm" id="removeAvatarBtn" style="margin-top:12px;">
+                <i class="fas fa-trash-alt"></i> Remove Photo
+              </button>
+            </div>
+          </div>
+
+          <!-- Personal Info Card -->
+          <div class="card profile-card">
+            <div class="card-header">
+              <h3 class="card-header-title">Personal Information</h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="inputFullName" placeholder="Dr. John Doe">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="doctor@hospital.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="inputPhone" placeholder="+1 234 567 890">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="123 Medical Center Dr">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="profile-right">
+
+          <!-- Professional Info Card -->
+          <div class="card profile-card">
+            <div class="card-header">
+              <h3 class="card-header-title">Professional Information</h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Specialty</label>
+                <input type="text" class="form-control" id="inputSpecialty" readonly>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hospital Affiliation</label>
+                <input type="text" class="form-control" id="inputHospital" readonly>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Years Experience</label>
+                  <input type="text" class="form-control" id="inputExperience" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Medical ID</label>
+                  <input type="text" class="form-control" id="inputMedicalId" readonly>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">University</label>
+                <input type="text" class="form-control" id="inputUniversity" readonly>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Medical Degree</label>
+                <input type="text" class="form-control" id="inputDegree" readonly>
+              </div>
+            </div>
+          </div>
+
+          <!-- Change Password Card -->
+          <div class="card profile-card">
+            <div class="card-header">
+              <h3 class="card-header-title">Change Password</h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Current Password</label>
+                <input type="password" class="form-control" id="inputCurrentPwd" placeholder="Enter current password">
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="password" class="form-control" id="inputNewPwd" placeholder="Enter new password">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm New Password</label>
+                <input type="password" class="form-control" id="inputConfirmPwd" placeholder="Confirm new password">
+              </div>
+              <button class="btn btn-primary" id="changePwdBtn" onclick="changePassword()">
+                <i class="fas fa-key"></i> Update Password
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Save Button Bar -->
+      <div class="profile-save-bar">
+        <button class="btn btn-primary btn-lg" id="saveProfileBtn" onclick="saveProfile()">
+          <i class="fas fa-save"></i> Save Changes
+        </button>
+        <button class="btn btn-ghost btn-lg" onclick="resetForm()">
+          <i class="fas fa-undo"></i> Reset
+        </button>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="dashboard-footer">
+      <div class="footer-brand">
+        <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+      </div>
+      <div class="footer-links">
+        <a href="../../index.html">Home</a>
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#features">Features</a>
+        <a href="../../index.html#cta-section">Contact</a>
+      </div>
+      <span class="footer-copyright">&copy; 2025 CardioAI. All rights reserved.</span>
+    </footer>
+
+  </main>
+
+  <!-- Chat Bot Floating Button -->
+  <a href="../../chatbot/mainpage.html" class="floating-chat" aria-label="Open Chatbot">
+    <img src="../dashboard/chatbot.png" alt="Chat Bot" onerror="this.parentElement.innerHTML='<i class=\'fas fa-robot\' style=\'color:white;font-size:22px;\'></i>'">
+  </a>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    function toggleUserMenu() {
+      document.getElementById('userDropdown')?.classList.toggle('show');
+    }
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('userMenu');
+      const dd = document.getElementById('userDropdown');
+      if (menu && dd && !menu.contains(e.target)) dd.classList.remove('show');
+    });
+    function confirmLogout() {
+      if (typeof AuthManager !== 'undefined' && AuthManager.handleLogout) {
+        AuthManager.handleLogout();
+      } else {
+        sessionStorage.clear();
+        window.location.href = '../../auth/login.html';
+      }
+    }
+  </script>
+  <script src="../../js/auth-manager.js"></script>
+  <script>AuthManager.initSidebarFooterPanel();</script>
+  <script src="script.js"></script>
+</body>
+</html>

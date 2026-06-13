@@ -1,0 +1,979 @@
+/* =============================================================================
+   Patient Shared Layout — CardioAI
+   Green-tinted sidebar, header, footer, hamburger, user menu, toast, responsive
+   =============================================================================
+   Include AFTER unified-design.css on every patient page.
+   Uses CSS variables from unified-design.css; defines missing ones locally.
+============================================================================= */
+
+/* ══ MISSING VARIABLES (mapped from old unified-design.css) ═══════════════ */
+:root {
+  --bg-sidebar: rgba(170, 213, 42, 0.56);
+  --bg-card: var(--bg-surface);
+  --bg-glass: rgba(255, 255, 255, 0.8);
+  --border-light: var(--border-color);
+  --z-fixed: 300;
+  --z-sticky: 200;
+  --radius-full: var(--radius-pill);
+  --text-placeholder: var(--gray-400);
+  --transition-normal: var(--transition);
+}
+
+/* ══ SIDEBAR ════════════════════════════════════════════════════════════ */
+.dashboard-sidebar {
+  width: var(--sidebar-width);
+  background: var(--bg-sidebar);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  overflow-y: auto;
+  z-index: var(--z-fixed);
+  transition: transform var(--transition-normal);
+  border-right: 1px solid var(--border-light);
+}
+
+.dashboard-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 40px;
+  padding: 0 24px;
+}
+
+.dashboard-sidebar__logo .navbar-brand {
+  font-size: 24px;
+  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+  text-decoration: none;
+}
+
+/* Close (back) button inside the sidebar — matches the chatbot's
+   `.back-button` so the dashboard sidebar mirrors the chatbot's pattern:
+   open it from the hamburger in the page header, close it from this
+   button inside the sidebar itself (or from the backdrop overlay).
+   Hidden on desktop because the dashboard's desktop layout has the
+   sidebar always visible (no transform to toggle); shown on mobile
+   where the sidebar slides in/out. */
+.dashboard-sidebar__close {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(0, 55, 133, 0.08);
+  color: var(--text-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+.dashboard-sidebar__close:hover {
+  background: rgba(0, 55, 133, 0.16);
+  color: var(--primary);
+  transform: scale(1.05);
+}
+
+.dashboard-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+  overflow-x: hidden;
+}
+
+.dashboard-sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 24px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all var(--transition-normal);
+  border-left: 3px solid transparent;
+}
+
+.dashboard-sidebar__item:hover {
+  background: rgba(0, 55, 133, 0.1);
+  color: var(--primary);
+  text-decoration: none;
+  transform: translateX(4px);
+}
+
+.dashboard-sidebar__item.active {
+  background: rgba(0, 55, 133, 0.1);
+  color: var(--primary);
+  border-left-color: var(--primary);
+  font-weight: 600;
+}
+
+.dashboard-sidebar__item i {
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.dashboard-sidebar__footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.sidebar-footer-trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  cursor: pointer;
+  transition: background 0.2s;
+  user-select: none;
+}
+.sidebar-footer-trigger:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.sidebar-footer-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.sidebar-footer-info {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.sidebar-footer-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-footer-role {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.sidebar-footer-chevron {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: transform 0.25s ease;
+}
+.sidebar-footer-chevron.open {
+  transform: rotate(180deg);
+}
+
+.sidebar-footer-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 24px;
+}
+.sidebar-footer-menu.open {
+  max-height: 120px;
+  padding: 0 24px 16px;
+}
+
+.sidebar-footer-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.sidebar-footer-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+  color: var(--text-primary);
+}
+.sidebar-footer-item.danger {
+  color: var(--danger);
+}
+.sidebar-footer-item.danger:hover {
+  background: var(--danger-light);
+}
+.sidebar-footer-item + .sidebar-footer-item {
+  margin-top: 4px;
+}
+.sidebar-footer-item i {
+  width: 18px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ══ MAIN CONTENT ═══════════════════════════════════════════════════════ */
+.dashboard-main {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-body);
+}
+
+/* ══ HEADER ════════════════════════════════════════════════════════════ */
+.dashboard-header {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-light);
+  padding: var(--spacing-md) var(--spacing-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.dashboard-header__left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.dashboard-header__greeting h1 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+.dashboard-header__greeting p {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.dashboard-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.dashboard-header__search {
+  width: 280px;
+  max-width: 100%;
+}
+
+.dashboard-header__search .form-control {
+  height: 40px;
+  background: var(--white);
+}
+
+/* ══ CONTENT AREA ══════════════════════════════════════════════════════ */
+.dashboard-content {
+  flex: 1;
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  overflow-y: auto;
+}
+
+/* ══ FOOTER ════════════════════════════════════════════════════════════ */
+.dashboard-footer {
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: var(--bg-glass);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.footer-brand .navbar-brand {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+}
+
+.footer-copyright {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+/* ══ HAMBURGER / MENU BUTTON ══════════════════════════════════════════ */
+/* Matches the chatbot's `.hamburger-menu` look: a plain fa-bars icon
+   button, no rotating-line animation. The sidebar is now closed from a
+   button INSIDE the sidebar (see `.dashboard-sidebar__close`), so the
+   trigger in the page header just opens. */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 4px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  font-size: 18px;
+}
+
+.hamburger:hover {
+  background: rgba(0, 55, 133, 0.08);
+  color: var(--primary);
+}
+
+.hamburger.active {
+  color: var(--primary);
+  background: rgba(0, 55, 133, 0.08);
+}
+
+/* ══ MOBILE OVERLAY ════════════════════════════════════════════════════ */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: calc(var(--z-fixed) - 1);
+}
+
+.mobile-overlay.active {
+  display: block;
+}
+
+/* ══ USER MENU / DROPDOWN ══════════════════════════════════════════════ */
+.user-menu {
+  position: relative;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.dropdown-menu.show { display: block; }
+
+.dropdown-header {
+  padding: 12px 16px;
+  background: var(--gray-50);
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: var(--border-light);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  transition: background .2s;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+
+.dropdown-item:hover {
+  background: var(--gray-50);
+}
+
+.dropdown-item.danger {
+  color: var(--danger);
+}
+
+.dropdown-item i {
+  width: 16px;
+}
+
+/* ══ TOAST ══════════════════════════════════════════════════════════════ */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+  transition: opacity .4s, transform .4s;
+  max-width: 320px;
+}
+
+.toast-success { background: #779f00; }
+.toast-error { background: #de3b40; }
+.toast-info { background: #003785; }
+
+.toast-icon { font-size: 16px; }
+.toast-content { flex: 1; }
+.toast-close {
+  background: none;
+  border: none;
+  color: white;
+  opacity: .7;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+}
+
+/* ══ FLOATING CHAT BUTTON ══════════════════════════════════════════════ */
+.floating-chat {
+  position: fixed;
+  bottom: 76px;
+  right: 28px;
+  width: 56px;
+  height: 56px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(26, 86, 219, 0.3);
+  transition: all var(--transition-normal);
+  z-index: 999;
+  overflow: hidden;
+  padding: 8px;
+  text-decoration: none;
+}
+
+.floating-chat:hover {
+  background: var(--secondary);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+}
+
+.floating-chat img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+/* ══ COMMON COMPONENTS ══════════════════════════════════════════════════ */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-ghost:hover {
+  background: var(--gray-100);
+  color: var(--primary);
+}
+
+.card-header-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary);
+  margin: 0;
+}
+
+.card-header-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-placeholder);
+}
+
+.empty-state i {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+/* ══ NOTIFICATION BADGE (shared — header bell + sidebar item) ═════════ */
+/* Used by ../shared/notification-count.js to display the unread count. */
+.notification-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--danger, #ef4444);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 2px var(--bg-glass, #fff);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.sidebar-notif-badge {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: var(--danger, #ef4444);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 2px var(--bg-sidebar, rgba(170, 213, 42, 0.56));
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* ══ STATS GRID (common) ═══════════════════════════════════════════════ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  transition: all var(--transition-normal);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xl);
+  flex-shrink: 0;
+}
+
+.stat-icon.primary {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.stat-icon.secondary {
+  background: var(--info-light);
+  color: var(--info);
+}
+
+.stat-icon.success {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.stat-icon.danger {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-top: var(--spacing-xs);
+}
+
+/* ══ ANIMATIONS ════════════════════════════════════════════════════════ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* ══ RESPONSIVE ═════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard-sidebar {
+    transform: translateX(-100%);
+    /* Solid lime-green panel (no transparency) for the slide-out sidebar
+       on mobile, as requested. */
+    background: rgb(203, 228, 128);
+  }
+  .dashboard-sidebar.active {
+    transform: translateX(0);
+  }
+  .dashboard-main {
+    margin-left: 0;
+  }
+  .hamburger {
+    display: flex;
+  }
+  /* Show the close button inside the sidebar only on mobile, where the
+     sidebar is the slide-out overlay panel and the close action is
+     actually useful. (Hidden on desktop — see the rule above.) */
+  .dashboard-sidebar__close {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: var(--spacing-md);
+  }
+  .dashboard-header__search {
+    width: 100%;
+    order: 3;
+  }
+  .dashboard-content {
+    padding: var(--spacing-md);
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-links {
+    justify-content: center;
+  }
+  .floating-chat {
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header__greeting h1 {
+    font-size: var(--font-size-lg);
+  }
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ══ MODAL POLISH (scoped to patient pages) ════════════════════════════
+   Improves the design and spacing of every .modal in the patient pages.
+   The base rules live in css/unified-design.css; the overrides below
+   tighten label/input/button rhythm, fix form-row gaps, and give the
+   form-actions footer a proper border + alignment.
+   ===================================================================== */
+.modal-content {
+  padding: 0;
+}
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--gray-50);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+}
+.modal-header .modal-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal-body {
+  padding: 24px;
+}
+.modal-body > form > .form-group,
+.modal-body .form-group {
+  margin-bottom: 18px;
+}
+.modal-body .form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.modal-body .form-row:last-child { margin-bottom: 0; }
+.modal-body .form-row > .form-group { margin-bottom: 0; }
+@media (max-width: 640px) {
+  .modal-body .form-row { grid-template-columns: 1fr; }
+}
+
+.modal-body .form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.modal-body .form-control,
+.modal-body .form-select,
+.modal-body select.form-control {
+  width: 100%;
+  height: 42px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0 12px;
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  background: var(--white);
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.modal-body textarea.form-control,
+.modal-body textarea {
+  height: auto;
+  min-height: 96px;
+  padding: 10px 12px;
+  line-height: var(--line-height-relaxed);
+  resize: vertical;
+}
+.modal-body .form-control:focus,
+.modal-body .form-select:focus,
+.modal-body select.form-control:focus,
+.modal-body textarea.form-control:focus,
+.modal-body textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 55, 133, 0.12);
+}
+.modal-body .form-text,
+.modal-body small.text-muted,
+.modal-body small {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.modal-body .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-color);
+}
+.modal-body .form-actions .btn { min-width: 110px; }
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color);
+  background: var(--gray-50);
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal .file-upload-area {
+  border: 2px dashed var(--border-color);
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  padding: 28px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+.modal .file-upload-area:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.modal .file-upload-area i {
+  font-size: 28px;
+  color: var(--primary);
+  display: block;
+  margin-bottom: 8px;
+}
+.modal .file-upload-area p { margin: 4px 0; color: var(--text-muted); font-size: var(--font-size-sm); }
+.modal .image-preview,
+.modal .file-preview {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.modal .image-preview img,
+.modal .file-preview img {
+  max-width: 160px;
+  max-height: 120px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+.modal .btn {
+  font-family: inherit;
+}
+.modal .btn-block { width: 100%; }
+
+.modal .success-icon,
+.modal .empty-state {
+  text-align: center;
+}
+.modal .success-icon i { font-size: 56px; }
+
+.modal-lg .modal-content { max-width: 720px; }
+.modal-sm .modal-content { max-width: 380px; }

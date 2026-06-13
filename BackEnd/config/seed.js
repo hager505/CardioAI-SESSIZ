@@ -3,7 +3,10 @@ import bcrypt from "bcrypt";
 import { createPool } from "mysql2";
 const hashedPassword = await bcrypt.hash("11111111", 10);
 const pool = createPool({
-  host: "127.0.0.1", user: "root", password: "", port: 3306,
+  host: process.env.DB_HOST || "127.0.0.1",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "",
+  port: parseInt(process.env.DB_PORT) || 3306,
   connectionLimit: 5,
 }).promise();
 

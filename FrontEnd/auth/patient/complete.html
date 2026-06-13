@@ -1,158 +1,162 @@
+<!-- Patient Account Completion "patient/complete.html" -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Complete Account</title>
-  </head>
-  <body>
-         <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-part1">Cardio</span>
-                <span class="logo-part2">AI</span>
-            </div>
-            <div class="nav-menu">
-                <div class="nav-item"><a href="/startpage/home.html">Home</a></div>
-                <div class="nav-item"><a href="/startpage/home.html">Features</a></div>
-                <div class="nav-item"><a href="/startpage/home.html">About</a></div>
-                <div class="nav-item"><a href="/startpage/home.html">Contact</a></div>
-            </div>
-           
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Complete Profile — CardioAI</title>
+</head>
+<body>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-content">
+      <a href="../../index.html" class="logo">
+        <span class="logo-part1">Cardio</span>
+        <span class="logo-part2">AI</span>
+      </a>
+      <nav class="nav-menu">
+        <div class="nav-item"><a href="../../index.html"><i class="fas fa-home" style="margin-right:6px;font-size:12px;"></i>Home</a></div>
+        <div class="nav-item"><a href="../../index.html#about">About</a></div>
+        <div class="nav-item"><a href="../../index.html#features">Features</a></div>
+        <div class="nav-item"><a href="../../index.html#cta-section">Contact</a></div>
+      </nav>
     </div>
-    
-    
-    <div class="complete-account">
-      <div class="complete-account__container">
-        <div class="complete-account__complete-your-account">
-          Complete Your account
-        </div>
-        <div
-          class="complete-account__provide-essential-medical-details-for-personalized-care"
-        >
-          Provide essential medical details for personalized care.
-        </div>
-        <div class="complete-account__container2">
-          <div class="complete-account__medical-information">
-            Medical Information
-          </div>
-          
-          <!-- Blood Type -->
-          <div class="complete-account__blood-type">Blood Type</div>
-          <div class="complete-account__dropdown-button">
-            <select class="complete-account-select" id="bloodType">
-              <option value="">Select your blood type</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
-            <div class="complete-account__chevron-down">
-             
-            </div>
-          </div>
-          <div class="complete-account__optional">(Optional)</div>
-          
-          <!-- Chronic Diseases -->
-          <div class="complete-account__chronic-diseases">Chronic Diseases</div>
-          <div class="complete-account__textarea">
-            <textarea 
-              class="complete-account-textarea" 
-              id="chronicDiseases"
-              placeholder="Type chronic diseases and press Enter to add..."
-            ></textarea>
-            <div class="complete-account__resizing-handle">
-             
-            </div>
-          </div>
-          
-          <!-- Allergies -->
-          <div class="complete-account__allergies">Allergies</div>
-          <div class="complete-account__textarea2">
-            <textarea 
-              class="complete-account-textarea" 
-              id="allergies"
-              placeholder="Type allergies and press Enter to add..."
-            ></textarea>
-            <div class="complete-account__resizing-handle">
-              <img class="complete-account__group7" src="group6.svg" />
-            </div>
-          </div>
-          
-          <!-- Previous Surgeries -->
-          <div class="complete-account__previous-surgeries">Previous Surgeries</div>
-          <div class="complete-account__textarea3">
-            <textarea 
-              class="complete-account-textarea" 
-              id="previousSurgeries"
-              placeholder="Type previous surgeries and press Enter to add..."
-            ></textarea>
-            <div class="complete-account__resizing-handle">
-             
-            </div>
-          </div>
-          
-          <!-- Current Medications -->
-          <div class="complete-account__current-medications">Current Medications</div>
-          <div class="complete-account__textbox">
-            <div class="complete-account__prescription-document-pdf" id="fileName">
-              No file chosen
-            </div>
-          </div>
-          <div class="complete-account__button" id="uploadBtn">
-            <div class="complete-account__upload-prescription">
-              Upload Prescription
-            </div>
-            <div class="complete-account__upload">
-             
-            </div>
-          </div>
-          
-          <!-- Additional Medical History -->
-          <div class="complete-account__additional-medical-history">
-            Additional Medical History
-          </div>
-          <div class="complete-account__textarea4">
-            <textarea 
-              class="complete-account-textarea" 
-              id="additionalInfo"
-              placeholder="Mention any additional important medical information or past treatments"
-            ></textarea>
-            <div class="complete-account__resizing-handle">
-             
-            </div>
-          </div>
-        </div>
-        
-        <!-- Cancel Button -->
-        <div class="complete-account__button2" id="cancelBtn">
-          <div class="complete-account__cancel">Cancel</div>
-        </div>
-        
-        <!-- Save/Complete Button -->
-        <div class="complete-account__button3" id="saveBtn">
-          <div class="complete-account__save-complete-account">
-            Save/Complete
-          </div>
-        </div>
-        
-        <!-- Back Arrow -->
-        <div class="complete-account__arrow-forward-ios-3" id="backArrow">
-          
+  </header>
+
+  <!-- Completion Form -->
+  <div class="sign-up">
+    <div class="sign-up__container">
+      <!-- Back Button -->
+      <div class="complete-card__back" id="backArrow">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+      </div>
+
+      <h1 class="sign-up__title">
+        <i class="fas fa-heart-pulse" style="color:var(--secondary);margin-right:8px;"></i>
+        Complete Your Profile
+      </h1>
+
+      <p class="complete-card__description">
+        Provide essential medical details to complete registration and get personalized cardiac care.
+      </p>
+
+      <!-- Blood Type -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="bloodType">Blood Type <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="fas fa-tint input-icon" style="color:var(--danger) !important;"></i>
+          <select id="bloodType" class="form-input">
+            <option value="" disabled selected>Select your blood type</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
         </div>
       </div>
-      <div class="complete-account__container14"></div>
+
+      <!-- Chronic Diseases -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="chronicDiseases">
+          Chronic Diseases
+          <span style="color:var(--text-placeholder);font-weight:500;font-size:11px;margin-left:4px;">(Optional)</span>
+        </label>
+        <textarea
+          id="chronicDiseases"
+          class="form-input"
+          rows="3"
+          placeholder="E.g. Diabetes, Hypertension, Asthma..."
+        ></textarea>
+      </div>
+
+      <!-- Allergies -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="allergies">
+          Allergies
+          <span style="color:var(--text-placeholder);font-weight:500;font-size:11px;margin-left:4px;">(Optional)</span>
+        </label>
+        <textarea
+          id="allergies"
+          class="form-input"
+          rows="3"
+          placeholder="E.g. Penicillin, Pollen, Latex..."
+        ></textarea>
+      </div>
+
+      <!-- Previous Surgeries -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="previousSurgeries">
+          Previous Surgeries
+          <span style="color:var(--text-placeholder);font-weight:500;font-size:11px;margin-left:4px;">(Optional)</span>
+        </label>
+        <textarea
+          id="previousSurgeries"
+          class="form-input"
+          rows="3"
+          placeholder="E.g. Appendectomy (2018), Knee replacement (2020)..."
+        ></textarea>
+      </div>
+
+      <!-- Prescription Upload -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="uploadBtn">
+          Prescription Document
+          <span style="color:var(--text-placeholder);font-weight:500;font-size:11px;margin-left:4px;">(Optional, PDF/Image)</span>
+        </label>
+        <div class="prescription-row">
+          <input
+            type="text"
+            id="fileName"
+            class="form-input"
+            placeholder="No file chosen"
+            readonly
+            style="flex:1;"
+          />
+          <button type="button" class="btn btn--primary btn--sm" id="uploadBtn" style="white-space:nowrap;">
+            <i class="fas fa-cloud-upload-alt"></i> Upload
+          </button>
+        </div>
+      </div>
+
+      <!-- Additional Medical History -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="additionalInfo">
+          Additional Medical History
+          <span style="color:var(--text-placeholder);font-weight:500;font-size:11px;margin-left:4px;">(Optional)</span>
+        </label>
+        <textarea
+          id="additionalInfo"
+          class="form-input"
+          rows="4"
+          placeholder="Mention any additional important medical history or past treatments..."
+        ></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="complete-actions">
+        <button type="button" class="btn btn--secondary" id="cancelBtn">
+          <i class="fas fa-arrow-left"></i> Cancel
+        </button>
+        <button type="button" class="btn btn--success" id="saveBtn">
+          <i class="fas fa-save"></i> Save &amp; Complete
+        </button>
+      </div>
     </div>
-    
-    <script src="script.js"></script>
-    <script src="complete.js"></script>
-  </body>
+  </div>
+
+  <script src="complete.js"></script>
+</body>
 </html>

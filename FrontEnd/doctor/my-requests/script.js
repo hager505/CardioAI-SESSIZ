@@ -1,21 +1,31 @@
-// my-requests/script.js — CardioAI
+// doctor/my-requests/script.js — CardioAI
 // No type="module". No imports. Plain script tag.
 
 const API = "http://localhost:5000/api";
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
 function showToast(message, type = "info") {
-  document.getElementById("cardio-toast")?.remove();
+  const container = document.getElementById("toastContainer") || (() => {
+    const c = document.createElement("div");
+    c.id = "toastContainer";
+    c.className = "toast-container";
+    document.body.appendChild(c);
+    return c;
+  })();
   const colors = { success: "#779f00", error: "#de3b40", info: "#003785" };
+  const icons = { success: "fa-check-circle", error: "fa-exclamation-circle", info: "fa-info-circle" };
   const t = document.createElement("div");
-  t.id = "cardio-toast";
-  t.style.cssText = `position:fixed;top:20px;right:24px;z-index:9999;
-    background:${colors[type]};color:#fff;padding:12px 20px;border-radius:8px;
-    font-size:14px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,.2);
-    transition:opacity .4s;max-width:320px;`;
-  t.textContent = message;
-  document.body.appendChild(t);
-  setTimeout(() => { t.style.opacity = "0"; setTimeout(() => t.remove(), 400); }, 3500);
+  t.className = `toast toast-${type}`;
+  t.innerHTML = `
+    <i class="fas ${icons[type] || icons.info} toast-icon"></i>
+    <span class="toast-content">${message}</span>
+    <button class="toast-close" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>`;
+  container.appendChild(t);
+  setTimeout(() => {
+    t.style.opacity = "0";
+    t.style.transform = "translateX(100%)";
+    setTimeout(() => t.remove(), 400);
+  }, 3500);
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -80,14 +90,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const specEl = document.getElementById("doctorSpecialty");
   if (specEl) specEl.textContent = user.specialty ?? "—";
 
-  const avatarEl = document.getElementById("doctorAvatar");
-  if (avatarEl) {
-    const saved = localStorage.getItem(`avatar_${userId}`);
-    const url = user.avatar_url || saved || avatarUrl(user.full_name);
-    avatarEl.style.backgroundImage = `url('${url}')`;
-    avatarEl.style.backgroundSize = "cover";
-    avatarEl.style.backgroundPosition = "center";
-    avatarEl.textContent = "";
+  if (typeof AuthManager !== "undefined") {
+    AuthManager.initDoctorAvatar(document.getElementById("doctorAvatar"), userId, user.full_name);
   }
 
   // ── Load requests ─────────────────────────────────────────────────────────
@@ -111,7 +115,38 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("refillModal")?.addEventListener("click", e => {
     if (e.target === document.getElementById("refillModal")) closeModal();
   });
+
 });
+
+// ─── User Menu ────────────────────────────────────────────────────────────────
+function toggleUserMenu() {
+  const dropdown = document.getElementById("userDropdown");
+  if (dropdown) dropdown.classList.toggle("show");
+}
+
+document.addEventListener("click", (e) => {
+  const menu = document.getElementById("userMenu");
+  const dropdown = document.getElementById("userDropdown");
+  if (menu && dropdown && !menu.contains(e.target)) {
+    dropdown.classList.remove("show");
+  }
+});
+
+// ─── Logout ──────────────────────────────────────────────────────────────────
+function confirmLogout() {
+  if (typeof AuthManager !== 'undefined' && AuthManager.handleLogout) {
+    AuthManager.handleLogout();
+  } else {
+    sessionStorage.clear();
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userType");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("token");
+    window.location.href = "../../index.html";
+  }
+}
+window.toggleUserMenu = toggleUserMenu;
+window.confirmLogout = confirmLogout;
 
 // ─── Load from API ────────────────────────────────────────────────────────────
 async function loadRequests(statusFilter) {
@@ -156,6 +191,33 @@ function renderRequests(requests) {
   list.querySelectorAll(".btn-review").forEach(btn => {
     btn.addEventListener("click", () => openModal(parseInt(btn.dataset.id)));
   });
+  list.querySelectorAll(".btn-delete").forEach(btn => {
+    btn.addEventListener("click", () => handleDelete(parseInt(btn.dataset.id)));
+  });
+}
+
+// ─── Category detection ────────────────────────────────────────────────────────
+// Patient-facing request flows (the /patient/requests page and the
+// refill-from-medical-records flow) all stamp the message with a
+// recognisable prefix; this function sniffs that prefix and falls back
+// to keyword matching so legacy / external rows still categorise
+// correctly. Returns one of:
+//   "refill"  — prescription refill
+//   "lab"     — lab results review
+//   "custom"  — any other bespoke message
+const REQUEST_ICON_MAP = {
+  refill: { icon: "fas fa-pills",                  label: "Prescription Refill" },
+  lab:    { icon: "fas fa-flask",                 label: "Lab Results Review" },
+  custom: { icon: "fas fa-comment-medical",       label: "Custom Request"     },
+};
+
+function detectRequestCategory(req) {
+  const msg = (req.message ?? "").toLowerCase();
+  const title = (req.title ?? "").toLowerCase();
+  const haystack = `${msg} ${title}`;
+  if (haystack.startsWith("refill:") || /\brefill\b/.test(haystack)) return "refill";
+  if (haystack.startsWith("lab review") || haystack.startsWith("lab:") || /\blab\s*review\b/.test(haystack)) return "lab";
+  return "custom";
 }
 
 function createCard(req) {
@@ -164,20 +226,31 @@ function createCard(req) {
   const isUrgent = priority === "high";
   const name = req.patient_name ?? req.patientName ?? "Unknown";
   const msg = req.message ?? "No message";
-  const category = msg.toLowerCase().includes("refill") ? "refill" : "lab";
+  const category = detectRequestCategory(req);
+  const iconMeta = REQUEST_ICON_MAP[category] ?? REQUEST_ICON_MAP.custom;
   const priorityCls = priority === "high" ? "high" : priority === "medium" ? "medium" : "low";
+
+  // Coloured icon pill: each category gets a tinted background that
+  // matches the request type, and the FontAwesome icon sits centered
+  // inside. We use the existing token palette so the chip matches the
+  // surrounding stat cards / badges / table rows.
+  const iconBg = {
+    refill: "background:rgba(135,175,18,0.12);color:#779f00;",  // green (secondary)
+    lab:    "background:rgba(0,55,133,0.10);color:#003785;",  // blue   (primary)
+    custom: "background:rgba(124,58,237,0.10);color:#7c3aed;",  // purple (custom)
+  }[category];
 
   return `
     <div class="request-card${isUrgent ? " urgent" : ""}" data-category="${category}" data-status="${status}">
       <div class="req-info">
-        <img src="${category === "refill" ? "Prescription Refill Request.png" : "Lab Results Review.png"}"
-          class="req-icon"
-          onerror="this.src='https://cdn-icons-png.flaticon.com/512/2965/2965301.png'">
+        <span class="req-icon-tile" style="${iconBg}" aria-hidden="true">
+          <i class="${iconMeta.icon}"></i>
+        </span>
         <div class="req-details">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;">
             <h3>${escHtml(name)}
               <span style="font-size:12px;font-weight:400;color:#666;">
-                · ${category === "refill" ? "Prescription Refill" : "Lab Results"}
+                · ${escHtml(iconMeta.label)}
               </span>
             </h3>
             <span class="badge ${priorityCls}">${escHtml(req.priority ?? "Medium")} Priority</span>
@@ -189,7 +262,12 @@ function createCard(req) {
           </div>
         </div>
       </div>
-      <button class="btn-review" data-id="${req.id}">Review</button>
+      <div class="req-actions">
+        <button class="btn-review" data-id="${req.id}">Review</button>
+        <button class="btn-delete" data-id="${req.id}" title="Delete request" aria-label="Delete request">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
     </div>`;
 }
 
@@ -213,11 +291,10 @@ function filterRequests(filter) {
   } else if (filter === "pending" || filter === "approved" || filter === "resolved") {
     renderRequests(allRequests.filter(r => (r.status ?? "").toLowerCase() === filter));
   } else {
-    // category filter: lab / refill
-    renderRequests(allRequests.filter(r => {
-      const cat = (r.message ?? "").toLowerCase().includes("refill") ? "refill" : "lab";
-      return cat === filter;
-    }));
+    // category filter: lab / refill / custom — uses the same
+    // detectRequestCategory helper that createCard() uses so a request
+    // is filtered the same way it would be displayed.
+    renderRequests(allRequests.filter(r => detectRequestCategory(r) === filter));
   }
 }
 window.filterRequests = filterRequests;
@@ -291,3 +368,19 @@ async function handleAction(action) {
   closeModal();
   await loadRequests(currentFilter !== "all" ? currentFilter : null);
 }
+
+// ─── Delete ────────────────────────────────────────────────────────────────
+async function handleDelete(reqId) {
+  const req = allRequests.find(r => r.id === reqId);
+  const who = req?.patient_name ?? req?.patientName ?? "this request";
+  if (!confirm(`Delete the request from ${who}? This cannot be undone.`)) return;
+
+  const result = await apiFetch(`/doctor/requests/${reqId}`, { method: "DELETE" });
+  if (!result) {
+    showToast("Failed to delete request", "error");
+    return;
+  }
+  showToast("Request deleted", "success");
+  await loadRequests(currentFilter !== "all" ? currentFilter : null);
+}
+

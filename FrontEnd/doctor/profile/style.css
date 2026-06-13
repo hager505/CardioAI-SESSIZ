@@ -1,0 +1,215 @@
+/* doctor/profile/style.css */
+.profile-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+}
+
+/* Cards */
+.profile-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+  margin-bottom: var(--spacing-lg);
+}
+.profile-card:hover {
+  box-shadow: var(--shadow-md);
+}
+.profile-card .card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-subtle);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.profile-card .card-header-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+.profile-card .card-body {
+  padding: var(--spacing-xl);
+}
+
+/* Avatar card */
+.profile-avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.profile-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0 auto;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 14px rgba(0,55,133,0.2);
+}
+.profile-avatar-upload {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  border: 3px solid var(--bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+.profile-avatar-upload:hover {
+  background: var(--primary-dark);
+}
+.profile-avatar-hint {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-top: var(--spacing-sm);
+}
+
+/* Form fields */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+.form-group:last-child {
+  margin-bottom: 0;
+}
+.form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-sizing: border-box;
+}
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0,55,133,0.1);
+}
+.form-control[readonly] {
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: inherit;
+  text-decoration: none;
+}
+.btn-primary {
+  background: #a2c53b;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #8fb530;
+  box-shadow: 0 4px 12px rgba(162,197,59,0.35);
+}
+.btn-outline-primary {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn-outline-primary:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+.btn-ghost:hover {
+  background: var(--gray-50);
+  border-color: var(--gray-300);
+}
+.btn-sm {
+  padding: 6px 14px;
+  font-size: var(--font-size-xs);
+}
+.btn-lg {
+  padding: 12px 28px;
+  font-size: var(--font-size-base);
+}
+
+/* Save bar */
+.profile-save-bar {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  margin-top: var(--spacing-xl);
+}
+.profile-save-bar .btn {
+  min-width: 160px;
+}
+
+/* Avatar card body center */
+.profile-card .card-body.text-center {
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .profile-save-bar {
+    flex-direction: column;
+  }
+  .profile-save-bar .btn {
+    width: 100%;
+  }
+}

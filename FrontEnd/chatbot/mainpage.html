@@ -6,45 +6,79 @@
     <title>CardioAI Chatbot</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <link rel="icon" href="chatbot.png" type="image/png">
 </head>
 <body>
     <div class="chatbot-main-page">
-        <!-- Sidebar -->
-        <div class="sidebar">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Sidebar (Active by default on desktop) -->
+        <div class="sidebar" id="sidebar" aria-hidden="true">
             <!-- Header -->
             <div class="header-section">
-                <div class="logo-container">
+                <div class="logo-container" id="logoContainer" title="Go to Homepage" role="button" tabindex="0">
                     <img src="chatbot.png" alt="CardioAI Logo" class="logo-img" id="logoImage">
                     <div class="logo-text">
                         <span class="blue">Cardio</span>
                         <span class="green">AI</span>
                     </div>
                 </div>
-                <div class="back-button" id="backButton">
-                    <i class="fas fa-arrow-left"></i>
+                <div class="header-section-right">
+                    <!-- Clean controller: X button removed, only back-button left -->
+                    <div class="back-button" id="backButton" title="Collapse Sidebar">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
                 </div>
             </div>
 
             <!-- Control Panel -->
             <div class="control-panel">
-                <div class="menu-button" id="menuButton">
+                <div class="menu-button" id="menuButton" role="button" tabindex="0">
                     <i class="fas fa-bars"></i>
-                    <span>Menu</span>
+                    <span data-i18n="menu">Menu</span>
                 </div>
                 <div class="new-chat-button" id="newChatButton">
                     <i class="fas fa-plus-circle"></i>
-                    <span>New Chat</span>
+                    <span data-i18n="newChat">New Chat</span>
                 </div>
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search" id="searchInput">
+                    <input type="text" placeholder="Search" id="searchInput" data-i18n-placeholder="search">
+                </div>
+            </div>
+
+            <!-- Menu Dropdown -->
+            <div class="menu-dropdown" id="menuDropdown">
+                <div class="menu-dropdown-header">
+                    <span data-i18n="menu">Menu</span>
+                    <div class="menu-close" id="menuClose">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="menu-item" id="menuSettings">
+                    <i class="fas fa-cog"></i>
+                    <span data-i18n="settings">Settings</span>
+                </div>
+                <div class="menu-item" id="menuHelp">
+                    <i class="fas fa-question-circle"></i>
+                    <span data-i18n="help">Help</span>
+                </div>
+                <div class="menu-item" id="menuAbout">
+                    <i class="fas fa-info-circle"></i>
+                    <span data-i18n="about">About</span>
+                </div>
+                <div class="menu-divider"></div>
+                <div class="menu-item" id="menuLogout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span data-i18n="logout">Logout</span>
                 </div>
             </div>
 
             <!-- Chats List -->
             <div class="chats-section">
-                <div class="section-title">Chats</div>
+                <div class="section-title" data-i18n="chats">Chats</div>
                 <div class="chats-list" id="chatsList">
                     <!-- Chats will be loaded here -->
                 </div>
@@ -53,36 +87,54 @@
             <!-- User Section -->
             <div class="user-section">
                 <div class="user-info">
-                    <div class="user-avatar">
-                        <div class="avatar-placeholder"></div>
+                    <div class="user-avatar" id="userAvatar">
+                        <div class="avatar-placeholder" id="avatarPlaceholder">U</div>
                     </div>
                     <div class="user-details">
-                        <div class="username" id="username">Hager-abdelnaser</div>
-                        <div class="user-status" id="userStatus">Online</div>
+                        <div class="username" id="username">User</div>
+                        <div class="user-status" id="userStatus" data-i18n="online">Online</div>
                     </div>
                 </div>
-                <div class="settings-button" id="settingsButton">
+                <div class="settings-button" id="settingsButton" title="Settings">
                     <i class="fas fa-ellipsis-v"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Divider -->
+        <!-- Divider (Hidden to prevent shifting line glitches) -->
         <div class="divider"></div>
 
         <!-- Main Content -->
         <div class="main-content">
             <!-- Top Header -->
             <div class="content-header">
-                <div class="page-title">
+                <div class="hamburger-menu" id="hamburgerMenu" aria-label="Open menu" role="button" tabindex="0">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="page-title" id="pageTitleMain" role="button" tabindex="0" title="Go to Homepage">
                     <span class="blue">Cardio</span>
                     <span class="green">AI</span>
-                    <span class="title-sub">AI Assistant</span>
+                    <span class="title-sub" data-i18n="aiAssistant">AI Assistant</span>
                 </div>
                 <div class="header-controls">
-                    <div class="exit-button" id="exitButton">
+                    <div class="model-selector" id="modelSelector">
+                        <button class="model-selector-button" id="modelSelectorButton" type="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-brain"></i>
+                            <span id="selectedModelName" data-i18n="generalModel">General Model</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="model-selector-menu" id="modelSelectorMenu" role="menu">
+                            <button class="model-option active" type="button" data-model="general-model" role="menuitem" onclick="selectModel('general-model')">
+                                <i class="fas fa-globe"></i> <span data-i18n="generalModel">General Model</span>
+                            </button>
+                            <div class="model-divider"></div>
+                            <button class="model-option" type="button" data-model="cardioai-vitals" role="menuitem" onclick="selectModel('cardioai-vitals')">🫀 <span data-i18n="cardioaiVitals">CardioAI Vitals</span></button>
+                            <button class="model-option" type="button" data-model="cardioai-ecg" role="menuitem" onclick="selectModel('cardioai-ecg')">📊 <span data-i18n="cardioaiECG">CardioAI ECG</span></button>
+                        </div>
+                    </div>
+                    <div class="exit-button" id="exitButton" title="Exit Chat">
+                        <span data-i18n="back">Back</span>
                         <i class="fas fa-arrow-left"></i>
-                        <span>Back</span>
                     </div>
                 </div>
             </div>
@@ -94,19 +146,27 @@
                     <div class="welcome-logo">
                         <img src="chatbot.png" alt="CardioAI Logo">
                     </div>
-                    <div class="welcome-text" id="welcomeText">What can I help you today?</div>
+                    <div class="welcome-text" id="welcomeText" data-i18n="welcome">What can I help you today?</div>
                     <div class="welcome-suggestions">
-                        <button class="suggestion-btn" data-text="What are heart disease symptoms?">
-                            <i class="fas fa-heartbeat"></i>
-                            Heart disease symptoms
+                        <button class="suggestion-btn" data-text="What are heart disease symptoms?" data-i18n="heartDiseaseSymptoms">
+                            <i class="fas fa-heartbeat text-red"></i>
+                            <span data-i18n="heartDiseaseSymptoms">Heart disease symptoms</span>
                         </button>
-                        <button class="suggestion-btn" data-text="How to maintain heart health?">
-                            <i class="fas fa-heart"></i>
-                            Heart health tips
+                        <button class="suggestion-btn" data-text="How to maintain heart health?" data-i18n="heartHealthTips">
+                            <i class="fas fa-heart text-pink"></i>
+                            <span data-i18n="heartHealthTips">Heart health tips</span>
                         </button>
-                        <button class="suggestion-btn" data-text="What tests do I need?">
-                            <i class="fas fa-stethoscope"></i>
-                            Medical tests
+                        <button class="suggestion-btn" data-text="What tests do I need?" data-i18n="medicalTests">
+                            <i class="fas fa-stethoscope text-blue"></i>
+                            <span data-i18n="medicalTests">Medical tests</span>
+                        </button>
+                        <button class="suggestion-btn vitals-check-btn" id="quickVitalsCheck" data-i18n="vitalsCheck">
+                            <i class="fas fa-chart-line text-green"></i>
+                            <span data-i18n="vitalsCheck">Vitals Check</span>
+                        </button>
+                        <button class="suggestion-btn ecg-upload-btn" id="quickECGAnalysis" data-i18n="ecgAnalysis">
+                            <i class="fas fa-heart-pulse text-indigo"></i>
+                            <span data-i18n="ecgAnalysis">ECG Analysis</span>
                         </button>
                     </div>
                 </div>
@@ -116,25 +176,16 @@
             </div>
 
             <!-- Message Input Container -->
-            <div class="message-input-container">
-                <input type="text" placeholder="What can I help you today?" id="messageInput">
-                <div class="input-controls">
-                    <div class="media-controls">
-                        <div class="media-button" id="voiceButton" title="Voice Message">
-                            <i class="fas fa-microphone"></i>
+            <div class="message-input-wrapper-outer">
+                <div class="message-input-container">
+                    <input type="text" placeholder="What can I help you today?" id="messageInput" data-i18n-placeholder="messagePlaceholder">
+                    <div class="input-controls">
+                        <div class="stop-button" id="stopButton" title="Stop Generating" style="display: none;">
+                            <i class="fas fa-stop"></i>
                         </div>
-                        <div class="media-button" id="imageUploadButton" title="Upload Image">
-                            <i class="fas fa-image"></i>
+                        <div class="send-button" id="sendButton" title="Send Message">
+                            <i class="fas fa-arrow-up"></i>
                         </div>
-                        <div class="media-button" id="cameraButton" title="Take Photo">
-                            <i class="fas fa-camera"></i>
-                        </div>
-                        <div class="media-button" id="fileUploadButton" title="Upload File">
-                            <i class="fas fa-paperclip"></i>
-                        </div>
-                    </div>
-                    <div class="send-button" id="sendButton" title="Send Message">
-                        <i class="fas fa-arrow-up"></i>
                     </div>
                 </div>
             </div>
@@ -146,106 +197,18 @@
         </div>
     </div>
 
-    <!-- Upload Modal -->
-    <div class="upload-modal" id="uploadModal">
-        <div class="upload-content">
-            <div class="upload-header">
-                <div class="upload-title" id="uploadTitle">Upload File</div>
-                <div class="close-upload" id="closeUpload">&times;</div>
-            </div>
-            <div class="upload-options">
-                <div class="upload-option" id="uploadImageOption">
-                    <i class="fas fa-image"></i>
-                    <span>Upload Image</span>
-                    <input type="file" id="imageInput" class="file-input" accept="image/*">
-                </div>
-                <div class="upload-option" id="takePhotoOption">
-                    <i class="fas fa-camera"></i>
-                    <span>Take Photo</span>
-                </div>
-                <div class="upload-option" id="uploadFileOption">
-                    <i class="fas fa-file"></i>
-                    <span>Upload File</span>
-                    <input type="file" id="fileInput" class="file-input" accept="*/*">
-                </div>
-                <div class="upload-option" id="uploadAudioOption">
-                    <i class="fas fa-microphone"></i>
-                    <span>Record Audio</span>
-                </div>
-            </div>
-            <div class="upload-preview" id="uploadPreview">
-                <!-- Preview will be shown here -->
-            </div>
-            <div class="upload-actions">
-                <button class="upload-cancel-btn" id="uploadCancel">Cancel</button>
-                <button class="upload-send-btn" id="uploadSend" disabled>Send</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Camera Modal -->
-    <div class="camera-modal" id="cameraModal">
-        <div class="camera-content">
-            <div class="camera-header">
-                <div class="camera-title">Take Photo</div>
-                <div class="close-camera" id="closeCamera">&times;</div>
-            </div>
-            <div class="camera-view">
-                <video id="cameraVideo" autoplay playsinline></video>
-                <canvas id="cameraCanvas" style="display: none;"></canvas>
-            </div>
-            <div class="camera-controls">
-                <button class="camera-capture-btn" id="captureButton">
-                    <i class="fas fa-camera"></i>
-                </button>
-                <button class="camera-switch-btn" id="switchCamera">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Audio Recorder Modal -->
-    <div class="audio-modal" id="audioModal">
-        <div class="audio-content">
-            <div class="audio-header">
-                <div class="audio-title">Record Audio</div>
-                <div class="close-audio" id="closeAudio">&times;</div>
-            </div>
-            <div class="audio-visualizer">
-                <canvas id="audioVisualizer"></canvas>
-            </div>
-            <div class="audio-timer" id="audioTimer">00:00</div>
-            <div class="audio-controls">
-                <button class="audio-record-btn" id="recordButton">
-                    <i class="fas fa-microphone"></i>
-                </button>
-                <button class="audio-stop-btn" id="stopButton" disabled>
-                    <i class="fas fa-stop"></i>
-                </button>
-                <button class="audio-play-btn" id="playButton" disabled>
-                    <i class="fas fa-play"></i>
-                </button>
-            </div>
-            <div class="audio-actions">
-                <button class="audio-cancel-btn" id="audioCancel">Cancel</button>
-                <button class="audio-send-btn" id="audioSend" disabled>Send</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Settings Modal -->
     <div class="settings-modal" id="settingsModal">
         <div class="settings-content">
             <div class="settings-header">
-                <div class="settings-title" id="settingsTitle">Settings</div>
+                <div class="settings-title" id="settingsTitle" data-i18n="settings">Settings</div>
                 <div class="close-settings" id="closeSettings">&times;</div>
             </div>
             <div class="settings-body">
                 <div class="setting-option">
                     <div class="setting-label">
                         <i class="fas fa-moon"></i>
-                        <span id="darkModeLabel">Dark Mode</span>
+                        <span id="darkModeLabel" data-i18n="darkMode">Dark Mode</span>
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="darkModeToggle">
@@ -255,7 +218,7 @@
                 <div class="setting-option">
                     <div class="setting-label">
                         <i class="fas fa-language"></i>
-                        <span id="languageLabel">Language</span>
+                        <span id="languageLabel" data-i18n="language">Language</span>
                     </div>
                     <select class="language-select" id="languageSelect">
                         <option value="en">English</option>
@@ -265,7 +228,7 @@
                 <div class="setting-option">
                     <div class="setting-label">
                         <i class="fas fa-volume-up"></i>
-                        <span>Notification Sound</span>
+                        <span data-i18n="notificationSound">Notification Sound</span>
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="soundToggle" checked>
@@ -275,7 +238,7 @@
                 <div class="setting-option">
                     <div class="setting-label">
                         <i class="fas fa-bell"></i>
-                        <span>Desktop Notifications</span>
+                        <span data-i18n="desktopNotifications">Desktop Notifications</span>
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="notificationsToggle">
@@ -286,11 +249,11 @@
         </div>
     </div>
 
-    <!-- Profile Settings Modal (الجديدة) -->
+    <!-- Profile Settings Modal -->
     <div class="profile-settings-modal" id="profileSettingsModal">
         <div class="profile-settings-content">
             <div class="profile-settings-header">
-                <div class="profile-settings-title" id="profileSettingsTitle">Profile Settings</div>
+                <div class="profile-settings-title" id="profileSettingsTitle" data-i18n="profileSettings">Profile Settings</div>
                 <div class="close-profile-settings" id="closeProfileSettings">&times;</div>
             </div>
             <div class="profile-settings-body">
@@ -298,7 +261,7 @@
                 <div class="profile-setting-option">
                     <div class="profile-setting-label">
                         <i class="fas fa-moon"></i>
-                        <span id="profileDarkModeLabel">Dark Mode</span>
+                        <span id="profileDarkModeLabel" data-i18n="darkMode">Dark Mode</span>
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="profileDarkModeToggle">
@@ -310,7 +273,7 @@
                 <div class="profile-setting-option">
                     <div class="profile-setting-label">
                         <i class="fas fa-language"></i>
-                        <span id="profileLanguageLabel">Language</span>
+                        <span id="profileLanguageLabel" data-i18n="language">Language</span>
                     </div>
                     <div class="profile-language-options">
                         <button class="lang-btn active" data-lang="en">English</button>
@@ -320,9 +283,70 @@
                 
                 <!-- Apply/Cancel Buttons -->
                 <div class="profile-settings-actions">
-                    <button class="profile-settings-cancel" id="profileSettingsCancel">Cancel</button>
-                    <button class="profile-settings-save" id="profileSettingsSave">Save</button>
+                    <button class="profile-settings-cancel" id="profileSettingsCancel" data-i18n="cancel">Cancel</button>
+                    <button class="profile-settings-save" id="profileSettingsSave" data-i18n="save">Save</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vitals Input Modal -->
+    <div class="vitals-modal" id="vitalsModal">
+        <div class="vitals-content">
+            <div class="vitals-header">
+                <div class="vitals-title" data-i18n="vitalsCheck">Vitals Check</div>
+                <div class="close-vitals" id="closeVitals">&times;</div>
+            </div>
+            <div class="vitals-body">
+                <div class="vitals-source">
+                    <div class="vitals-source-field" id="vitalsSourceSelectWrap">
+                        <label for="vitalsPatientSelect" data-i18n="selectPatient">Select Patient</label>
+                        <select id="vitalsPatientSelect" class="vitals-select">
+                            <option value="" data-i18n="loadingPatients">Loading patients…</option>
+                        </select>
+                    </div>
+                    <div class="vitals-source-actions">
+                        <button class="vitals-load-btn" id="vitalsLoadBtn" type="button">
+                            <i class="fas fa-cloud-download-alt"></i>
+                            <span data-i18n="loadLatestVitals">Load Latest Vitals</span>
+                        </button>
+                    </div>
+                    <div class="vitals-notice" id="vitalsNotice" hidden></div>
+                </div>
+                <div class="vitals-grid">
+                    <div class="vitals-field">
+                        <label data-i18n="systolicBP">Systolic BP (mmHg)</label>
+                        <input type="number" id="vitals-bpsys" placeholder="120" step="0.1">
+                    </div>
+                    <div class="vitals-field">
+                        <label data-i18n="diastolicBP">Diastolic BP (mmHg)</label>
+                        <input type="number" id="vitals-bpdia" placeholder="80" step="0.1">
+                    </div>
+                    <div class="vitals-field">
+                        <label data-i18n="heartRate">Heart Rate (bpm)</label>
+                        <input type="number" id="vitals-hr" placeholder="72" step="0.1">
+                    </div>
+                    <div class="vitals-field">
+                        <label data-i18n="temperature">Temperature (°C)</label>
+                        <input type="number" id="vitals-temp" placeholder="36.6" step="0.1">
+                    </div>
+                    <div class="vitals-field">
+                        <label data-i18n="respiratoryRate">Respiratory Rate (/min)</label>
+                        <input type="number" id="vitals-rr" placeholder="16" step="0.1">
+                    </div>
+                    <div class="vitals-field">
+                        <label data-i18n="oxygenSaturation">Oxygen Saturation (%)</label>
+                        <input type="number" id="vitals-spo2" placeholder="98" step="0.1">
+                    </div>
+                    <div class="vitals-field">
+                        <label data-i18n="bmi">BMI</label>
+                        <input type="number" id="vitals-bmi" placeholder="24.5" step="0.1">
+                    </div>
+                </div>
+            </div>
+            <div class="vitals-actions">
+                <button class="vitals-cancel-btn" id="vitalsCancel" data-i18n="cancel">Cancel</button>
+                <button class="vitals-analyze-btn" id="vitalsAnalyze" data-i18n="analyze">Analyze Vitals</button>
             </div>
         </div>
     </div>
@@ -331,6 +355,7 @@
     <input type="file" id="hiddenImageInput" style="display: none;" accept="image/*">
     <input type="file" id="hiddenFileInput" style="display: none;" accept="*/*">
     <input type="file" id="hiddenAudioInput" style="display: none;" accept="audio/*">
+    <input type="file" id="hiddenVideoInput" style="display: none;" accept="video/*">
 
     <!-- Audio element for playback -->
     <audio id="audioPlayer" style="display: none;"></audio>
@@ -340,6 +365,9 @@
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
     </audio>
 
-    <script src="chat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="chat.js?v=5"></script>
 </body>
 </html>

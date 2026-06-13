@@ -1,135 +1,165 @@
+<!-- Patient Registration "patient/RegisterPatient.html" -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Sign Up</title>
-  </head>
-  <body>
-    <!-- Header -->
-    <div class="header">
-      <div class="header-content">
-        <div class="logo">
-          <span class="logo-part1">Cardio</span>
-          <span class="logo-part2">AI</span>
-        </div>
-        <div class="nav-menu">
-          <div class="nav-item"><a href="../../index.html">Home</a></div>
-          <div class="nav-item"><a href="../../index.html">Features</a></div>
-          <div class="nav-item"><a href="../../index.html">About</a></div>
-          <div class="nav-item"><a href="../../index.html">Contact</a></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../../css/unified-design.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Patient Sign Up — CardioAI</title>
+</head>
+<body>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- Navbar (unified design system) -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-content">
+      <a href="../../index.html" class="navbar-brand">
+        <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+      </a>
+      <ul class="navbar-nav" id="navbarNav">
+        <li><a href="../../index.html" class="nav-link"><i class="fas fa-home" style="margin-right:6px;font-size:12px;"></i>Home</a></li>
+        <li><a href="../../index.html" class="nav-link">About</a></li>
+        <li><a href="../../index.html" class="nav-link">Features</a></li>
+        <li><a href="../../index.html#cta-section" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="navbar-actions" id="navbarActions"></div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu">
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Registration Form -->
+  <div class="sign-up">
+    <div class="sign-up__container">
+      <h1 class="sign-up__title">
+        <i class="fas fa-user-plus" style="color:var(--primary);margin-right:8px;"></i>
+        Create Your Account
+      </h1>
+
+      <!-- Full Name -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="fullName">Full Name <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="fas fa-user input-icon"></i>
+          <input type="text" id="fullName" class="form-input" placeholder="John Doe" autocomplete="name" />
         </div>
       </div>
-    </div>
-    
-    <div class="sign-up">
-      <div class="sign-up__container">
-        <div class="sign-up__create-your-account">Create Your Account</div>
-        
-        <!-- Full Name -->
-        <div class="sign-up__textbox">
-          <div class="sign-up__full-name">Full Name</div>
-          <div class="sign-up__textfield">
-            <input type="text" class="input-field" placeholder="John Doe" id="fullName">
-          </div>
+
+      <!-- National ID -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="nationalId">National ID <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="fas fa-id-card input-icon"></i>
+          <input type="text" id="nationalId" class="form-input" placeholder="123-456-789" autocomplete="off" />
         </div>
-        
-        <!-- National ID -->
-        <div class="sign-up__textbox2">
-          <div class="sign-up__national-id">National ID</div>
-          <div class="sign-up__textfield">
-            <input type="text" class="input-field" placeholder="123-456-789" id="nationalId">
-          </div>
+      </div>
+
+      <!-- Date of Birth -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="dateOfBirth">Date of Birth <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="fas fa-calendar-alt input-icon"></i>
+          <input type="date" id="dateOfBirth" class="form-input" />
         </div>
-        
-        <!-- Date of Birth -->
-        <div class="sign-up__date-of-birth">Date of Birth</div>
-        <div class="sign-up__button date-btn">
-          <input type="date" class="date-input" id="dateOfBirth">
-        </div>
-        
-        <!-- Gender -->
-        <div class="sign-up__gender">Gender</div>
-        <div class="sign-up__dropdown-button gender-btn">
-          <select class="gender-select" id="gender">
-            <option value="">Select gender</option>
+      </div>
+
+      <!-- Gender -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="gender">Gender <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="fas fa-venus-mars input-icon"></i>
+          <select id="gender" class="form-input">
+            <option value="" disabled selected>Select gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-           
           </select>
         </div>
-        
-        <!-- Phone Number -->
-        <div class="sign-up__textbox3">
-          <div class="sign-up__phone-number">Phone Number</div>
-          <div class="sign-up__textfield">
-            <input type="tel" class="input-field" placeholder="(123) 456-7890" id="phoneNumber">
-          </div>
-        </div>
-        
-        <!-- Email Address -->
-        <div class="sign-up__textbox4">
-          <div class="sign-up__email-address">Email Address</div>
-          <div class="sign-up__textfield">
-            <input type="email" class="input-field" placeholder="john.doe@example.com" id="email">
-          </div>
-        </div>
-        
-        <!-- Password -->
-        <div class="sign-up__textbox5">
-          <div class="sign-up__password">Password</div>
-          <div class="sign-up__textfield">
-            <input type="password" class="input-field" placeholder="••••••••" id="password">
-          </div>
-        </div>
-        
-        <!-- Confirm Password -->
-        <div class="sign-up__textbox6">
-          <div class="sign-up__confirm-password">Confirm Password</div>
-          <div class="sign-up__textfield">
-            <input type="password" class="input-field" placeholder="••••••••" id="confirmPassword">
-          </div>
-        </div>
-        
-        <!-- Terms Checkbox -->
-        <div class="sign-up__checkbox">
-          <div class="sign-up__frame">
-            <div class="sign-up__rectangle" id="checkbox"></div>
-            <div class="sign-up__i-agree-to-the-terms-privacy-policy">
-              <span>
-                <span class="i-agree-to-the-terms-privacy-policy-span">
-                  I agree to the
-                </span>
-                <span class="i-agree-to-the-terms-privacy-policy-span2" id="privacyLink">
-                  Terms &amp; Privacy Policy
-                </span>
-              </span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Complete Account Button -->
-        <div class="sign-up__button2" id="completeBtn">
-          <div class="sign-up__complete-my-account">Complete my account</div>
-        </div>
-        
-        <img class="sign-up__line" src="line0.svg" />
-        
-        <!-- Login Button -->
-        <div class="sign-up__button3" id="loginBtn">
-          <!-- <div class="sign-up__log-in">Log in</div> -->
-          <a href="../login.html" class="sign-up__log-in">Log in</a>
-        </div>
-        
-        <div class="sign-up__already-have-an-account">
-          Already have an account?
+      </div>
+
+      <!-- Phone Number -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="phoneNumber">Phone Number <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="fas fa-phone input-icon"></i>
+          <input type="tel" id="phoneNumber" class="form-input" placeholder="(123) 456-7890" autocomplete="tel" />
         </div>
       </div>
+
+      <!-- Email -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="email">Email Address <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="fas fa-envelope input-icon"></i>
+          <input type="email" id="email" class="form-input" placeholder="john.doe@example.com" autocomplete="email" />
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="password">Password <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="fas fa-lock input-icon"></i>
+          <input type="password" id="password" class="form-input" placeholder="Create a strong password" autocomplete="new-password" />
+          <button type="button" class="toggle-password" id="togglePassword1">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="sign-up__field">
+        <label class="sign-up__label" for="confirmPassword">Confirm Password <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="fas fa-lock input-icon"></i>
+          <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" autocomplete="new-password" />
+          <button type="button" class="toggle-password" id="togglePassword2">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Terms Checkbox -->
+      <div class="sign-up__checkbox">
+        <label class="checkbox-wrapper" id="privacyLabel">
+          <input type="checkbox" id="termsCheckbox" />
+          <span class="checkbox-custom" id="checkbox"></span>
+          <span class="checkbox-label">
+            I agree to the <a href="#" id="privacyLink">Terms &amp; Privacy Policy</a>
+          </span>
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button class="btn btn--primary btn--full btn--lg" id="completeBtn" disabled>
+        <i class="fas fa-check-circle"></i>
+        Complete My Account
+      </button>
+
+      <!-- Divider -->
+      <div class="divider"><span>or</span></div>
+
+      <!-- Login Link -->
+      <div class="sign-up__login-link">
+        <a href="../login.html" class="sign-up__login-btn" id="loginBtn">
+          <i class="fas fa-sign-in-alt" style="margin-right:6px;"></i>Log in to existing account
+        </a>
+        <p class="sign-up__login-text">Already have an account?</p>
+      </div>
     </div>
-    
-    <!-- <script src="script.js"></script> -->
-    <script src="RegisterPatient.js"></script>
-  </body>
+  </div>
+
+  <script src="../../js/auth-manager.js"></script>
+  <script src="RegisterPatient.js"></script>
+  <script>document.addEventListener('DOMContentLoaded',function(){AuthManager.redirectIfAuthenticated();});</script>
+</body>
 </html>

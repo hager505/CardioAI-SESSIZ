@@ -2,200 +2,269 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cardio AI - Cardiac Care Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CardioAI - AI-powered cardiac care platform for proactive heart monitoring and predictive analytics">
+    <meta name="keywords" content="cardiac care, AI health, heart monitoring, predictive analytics, medical AI">
+    <meta name="author" content="CardioAI">
+    <meta name="theme-color" content="#003785">
+    <meta property="og:title" content="CardioAI - Pioneering AI for Proactive Cardiac Care">
+    <meta property="og:description" content="Intelligent Heart Monitoring & Predictive Cardiac Care">
+    <meta property="og:image" content="images/logo.png">
+    <meta property="og:type" content="website">
+    <title>CardioAI - Pioneering AI for Proactive Cardiac Care</title>
+
+    <!-- Unified Design System -->
+    <link rel="stylesheet" href="css/unified-design.css">
+    <!-- Landing Page Specific Styles -->
     <link rel="stylesheet" href="style/style.css">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-part1">Cardio</span>
-                <span class="logo-part2">AI</span>
-            </div>
-            <div class="nav-menu">
-                <div class="nav-item"><a href="#home">Home</a></div>
-                <div class="nav-item"><a href="#features">Features</a></div>
-                <div class="nav-item"><a href="#about">About</a></div>
-                <div class="nav-item"><a href="#contact">Contact</a></div>
-            </div>
-            <div class="signup-btn">
-                <a href="#cta-section">Sign up</a>
-            </div>
-        </div>
-    </div>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
 
- 
- <!-- Hero Section -->
-<div class="hero-section" id="home">
-    <div class="hero-container">
-        <!-- Left: Content -->
-        <div class="hero-content-side">
-            <div class="hero-text-content">
-                <h1 class="hero-title">
-                    Cardio AI: Pioneering AI for<br>
-                    Proactive Cardiac Care
-                </h1>
-                <p class="hero-subtitle">
-                    Intelligent Heart Monitoring & Predictive Cardiac Care
-                </p>
-                
-                <div class="hero-buttons">
-                    <a href="#features" class="btn-primary">
-                        Learn More <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="#cta-section" class="btn-secondary">
-                        Get Started
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Right: Logo Image -->
-        <div class="hero-logo-side">
-            <div class="logo-image-container">
-                <!-- هنا ضعي صورتك -->
-                <img src="images/logo.png" alt="Cardio AI Logo" class="logo-big-image">
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- Navigation Header -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-content">
+            <!-- Logo -->
+            <a href="#home" class="navbar-brand">
+                <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+            </a>
 
-    <!-- About Section -->
-    <div class="about-section" id="about">
-        <div class="section-title">What is CardionAI?</div>
-        <div class="about-content">
-            CardionAI is an integrated heart-health platform designed to monitor vital signs, 
-            analyze medical data, predict potential risks, and provide instant communication 
-            between patients and doctors. Using AI-driven models, CardionAI tracks heart 
-            performance trends and alerts both the patient and the physician when something 
-            requires attention.
-        </div>
-    </div>
+            <!-- Navigation Links -->
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
 
-    <!-- Features Section -->
-    <div class="features-section" id="features">
-        <div class="section-title">Key Advantages of CardioAI</div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-brain"></i></div>
-                <div class="feature-title">Early Complication Prediction</div>
-                <div class="feature-desc">
-                Our AI's predictive models identify potential cardiac complications long before
-                 traditional symptoms appear, enabling timely intervention.
-                </div>
+            <!-- Auth Buttons / User Menu -->
+            <div class="navbar-actions" id="navbarActions">
+                <!-- Content will be populated by AuthManager based on auth state -->
             </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                <div class="feature-title">Long-Term Data Analysis</div>
-                <div class="feature-desc">
-                    Beyond immediate post-op, our system continuously analyzes long-term data trends,
-                     offering sustained oversight and adaptive care plans.
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-user-md"></i></div>
-                <div class="feature-title">Personalized Models</div>
-                <div class="feature-desc">
-                   Each patient receives a unique AI model built from their complete medical
-                    history, ensuring highly accurate and relevant insights.
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-heartbeat"></i></div>
-                <div class="feature-title">Real-time Monitoring</div>
-                <div class="feature-desc">
-                   Beyond immediate post-op, our system continuously analyzes long-term data trends,
-                    offering sustained oversight and adaptive care plans.
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Platform Section -->
-    <div class="platform-section">
-        <div class="section-title">Inside Cardion AI Platform</div>
-        <div class="platform-content">
-            <div class="platform-text">
-                <p><strong>Cardion AI</strong>  is an advanced, AI-powered platform designed to revolutionize post-operative cardiac monitoring. By combining real-time vital tracking with predictive analytics, the system enables hospitals and clinicians to identify complications early, enhance patient safety, and improve treatment outcomes.
-Our platform provides two fully integrated portals:</p>
-                
-                <div class="portal-cards">
-                    <div class="portal-card">
-                        <h3><i class="fas fa-user"></i> Patient Portal</h3>
-                        <p>Track vital signs, upload medical records, receive AI-powered insights.</p>
+            <!-- Mobile Hamburger Menu -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu">
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section" id="home">
+            <div class="container">
+                <div class="hero-container">
+                    <!-- Left: Content -->
+                    <div class="hero-content-side">
+                        <div class="hero-text-content">
+                            <span class="hero-eyebrow">
+                                <i class="fas fa-heart-pulse"></i> Proactive Cardiac Intelligence
+                            </span>
+                            <h1 class="hero-title text-balance">
+                                CardioAI: Pioneering AI for Proactive Cardiac Care
+                            </h1>
+                            <p class="hero-subtitle text-pretty">
+                                Intelligent Heart Monitoring &amp; Predictive Cardiac Care
+                            </p>
+
+                            <div class="hero-buttons">
+                                <a href="#features" class="btn btn-primary btn-lg">
+                                    Learn More <i class="fas fa-arrow-right"></i>
+                                </a>
+                                <a href="#cta-section" class="btn btn-secondary btn-lg">
+                                    Get Started
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="portal-card">
-                        <h3><i class="fas fa-stethoscope"></i> Doctor Portal</h3>
-                        <p>Real-time monitoring, risk predictions, medical history access.</p>
+
+                    <!-- Right: Logo Image -->
+                    <div class="hero-logo-side">
+                        <div class="logo-image-container">
+                            <img src="images/logo.png" alt="CardioAI platform logo" class="logo-big-image">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="platform-image">
-                <img src="images/logo.png" alt="Platform Dashboard">
-            </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- CTA Section -->
-    <div class="cta-section" id="cta-section">
-        <div class="container">
-            <h2 class="cta-title">Ready to Transform Cardiac Care?</h2>
-            <p class="cta-subtitle">Join thousands of healthcare professionals using Cardio AI</p>
-            
-            <div class="cta-buttons">
-                <a href="./auth/patient/RegisterPatient.html" class="cta-btn patient-btn"> Sign Up as Patient</a>
-                
-                <a href="./auth/doctor/RegisterDoctor.html" class="cta-btn doctor-btn">Sign Up as Doctor</a>
+        <!-- About Section -->
+        <section class="about-section reveal" id="about">
+            <div class="container">
+                <h2 class="section-title text-center mb-xl">What is CardioAI?</h2>
+                <div class="about-content card card-body-lg">
+                    <p class="text-lg text-center">
+                        CardioAI is an integrated heart-health platform designed to monitor vital signs,
+                        analyze medical data, predict potential risks, and provide instant communication
+                        between patients and doctors. Using AI-driven models, CardioAI tracks heart
+                        performance trends and alerts both the patient and the physician when something
+                        requires attention.
+                    </p>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section reveal" id="features">
+            <div class="container">
+                <h2 class="section-title text-center mb-xl">Key Advantages of CardioAI</h2>
+                <div class="features-grid grid grid-cols-4 gap-lg">
+                    <div class="feature-card card card-interactive reveal">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="feature-title">Early Complication Prediction</h3>
+                        <p class="feature-desc">
+                            Our AI's predictive models identify potential cardiac complications long before
+                            traditional symptoms appear, enabling timely intervention.
+                        </p>
+                    </div>
+                    <div class="feature-card card card-interactive reveal">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">Long-Term Data Analysis</h3>
+                        <p class="feature-desc">
+                            Beyond immediate post-op, our system continuously analyzes long-term data trends,
+                            offering sustained oversight and adaptive care plans.
+                        </p>
+                    </div>
+                    <div class="feature-card card card-interactive reveal">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h3 class="feature-title">Personalized Models</h3>
+                        <p class="feature-desc">
+                            Each patient receives a unique AI model built from their complete medical
+                            history, ensuring highly accurate and relevant insights.
+                        </p>
+                    </div>
+                    <div class="feature-card card card-interactive reveal">
+                        <div class="feature-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3 class="feature-title">Real-time Monitoring</h3>
+                        <p class="feature-desc">
+                            Continuous, around-the-clock tracking of vital signs delivers instant alerts
+                            so care teams can respond the moment readings drift out of range.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platform Section -->
+        <section class="platform-section reveal">
+            <div class="container">
+                <h2 class="section-title text-center mb-xl">Inside the CardioAI Platform</h2>
+                <div class="platform-content card card-body-lg">
+                    <div class="platform-text">
+                        <p class="text-lg">
+                            <strong>CardioAI</strong> is an advanced, AI-powered platform designed to revolutionize
+                            post-operative cardiac monitoring. By combining real-time vital tracking with predictive
+                            analytics, the system enables hospitals and clinicians to identify complications early,
+                            enhance patient safety, and improve treatment outcomes.
+                        </p>
+                        <p class="text-lg mb-lg">
+                            Our platform provides two fully integrated portals:
+                        </p>
+
+                        <div class="portal-cards grid grid-cols-2 gap-lg">
+                            <div class="portal-card card reveal">
+                                <div class="card-body">
+                                    <h3 class="flex items-center gap-sm">
+                                        <i class="fas fa-user text-brand-primary"></i>
+                                        Patient Portal
+                                    </h3>
+                                    <p class="text-secondary">Track vital signs, upload medical records, and receive AI-powered insights.</p>
+                                </div>
+                            </div>
+                            <div class="portal-card card reveal">
+                                <div class="card-body">
+                                    <h3 class="flex items-center gap-sm">
+                                        <i class="fas fa-stethoscope text-brand-secondary"></i>
+                                        Doctor Portal
+                                    </h3>
+                                    <p class="text-secondary">Real-time monitoring, risk predictions, and full medical history access.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="platform-image">
+                        <img src="images/logo.png" alt="CardioAI platform dashboard preview" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section reveal" id="cta-section">
+            <div class="container text-center">
+                <h2 class="cta-title text-balance">Ready to Transform Cardiac Care?</h2>
+                <p class="cta-subtitle">Join thousands of healthcare professionals using CardioAI</p>
+
+                <div class="cta-buttons flex justify-content-center gap-md">
+                    <a href="./auth/patient/RegisterPatient.html" class="btn btn-secondary btn-xl">
+                        <i class="fas fa-user-plus"></i> Sign Up as Patient
+                    </a>
+                    <a href="./auth/doctor/RegisterDoctor.html" class="btn btn-success btn-xl">
+                        <i class="fas fa-user-md"></i> Sign Up as Doctor
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <div class="footer" id="contact">
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <span class="logo-part1">Cardio</span>
-                    <span class="logo-part2">AI</span>
-                </div>
-                <div class="copyright">© 2025 CardioAI. All rights reserved.</div>
-            </div>
-            
-            <div class="footer-section">
-                <div class="footer-title">Quick Links</div>
-                <div class="footer-links">
-                    <a href="#home">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#features">Features</a>
-                </div>
-            </div>
-            
-            <div class="footer-section">
-                <div class="footer-title">Contact Us</div>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i> +20 1553688106
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Company Info -->
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i> info@cardioai.com
-                    </div>
+                    <p class="footer-description">
+                        Pioneering AI for proactive cardiac care. Transforming heart health monitoring with intelligent predictive analytics.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-section">
+                    <h4 class="footer-title">Contact Us</h4>
+                    <ul class="footer-links contact-info">
+                        <li><a href="tel:+201018846037"><i class="fas fa-phone"></i> +20 1018846037</a></li>
+                        <li><a href="mailto:info@cardioai.com"><i class="fas fa-envelope"></i> info@cardioai.com</a></li>
+                        <li><span class="contact-item"><i class="fas fa-map-marker-alt"></i> Cairo, Egypt</span></li>
+                    </ul>
                 </div>
             </div>
-            
-            <div class="footer-section">
-                <div class="footer-title">Follow Us</div>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                </div>
+            <div class="footer-bottom copyright">
+                <span class="footer-copyright">&copy; 2025 CardioAI. All rights reserved.</span>
             </div>
         </div>
-    </div>
+    </footer>
 
+    <!-- Scripts -->
+    <script src="js/auth-manager.js"></script>
     <script src="scripts/home.js"></script>
 </body>
 </html>

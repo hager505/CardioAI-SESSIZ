@@ -1,107 +1,104 @@
+<!-- Login "login.html" -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="patient/style.css" />
-    <title>Login</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/unified-design.css" />
+  <link rel="stylesheet" href="css/login.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Welcome Back — CardioAI</title>
 </head>
 <body>
-        <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-part1">Cardio</span>
-                <span class="logo-part2">AI</span>
-            </div>
-            <div class="nav-menu">
-                <div class="nav-item"><a href="../index.html">Home</a></div>
-                <div class="nav-item"><a href="../index.html">Features</a></div>
-                <div class="nav-item"><a href="../index.html">About</a></div>
-                <div class="nav-item"><a href="../index.html">Contact</a></div>
-            </div>
-          
-        </div>
-    </div>
-    
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Login Form Card -->
-        <div class="login-card">
-            <div class="login-card__header">
-                <h2 class="login-card__title">Welcome Back</h2>
-                <p class="login-card__subtitle">Please enter your details to login</p>
-            </div>
-            
-            <!-- Login Form -->
-            <form class="login-form" id="loginForm">
-                <!-- Email/Phone Input -->
-                <div class="form-group">
-                    <label for="emailOrPhone" class="form-label">Email or Phone Number</label>
-                    <div class="input-container">
-                        <input type="text" 
-                               id="emailOrPhone" 
-                               class="form-input"
-                               placeholder="your.email@example.com or +1234567890"
-                               required>
-                    </div>
-                </div>
-                
-                <!-- Password Input -->
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-container">
-                        <input type="password" 
-                               id="password" 
-                               class="form-input"
-                               placeholder="••••••••"
-                               required>
-                    </div>
-                </div>
-                
-                <!-- Remember Me & Forgot Password -->
-                <div class="form-options">
-                    <div class="remember-me">
-                        <input type="checkbox" id="rememberMe" class="checkbox-input">
-                        <label for="rememberMe" class="checkbox-label">
-                            <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">Remember me</span>
-                        </label>
-                    </div>
-                    
-                    <a href="#" class="forgot-password" id="forgotPasswordLink">
-                        Forgot Password?
-                    </a>
-                </div>
-                
-                <!-- Login Button -->
-                <button type="submit" class="submit-btn" id="loginBtn">
-                    Log In
-                </button>
-                
-                <!-- Sign Up Section -->
-                <div class="signup-section">
-                    <span class="signup-text">Don't have an account?</span>
-                    <!-- <button type="button" class="signup-btn" id="signupBtn">
-                        Sign Up
-                    </button> -->
-                    <a href="./doctor/RegisterDoctor.html">
-                        <button type="button" class="signup-btn" id="signupBtn">
-                            Sign Up As A doctor
-                        </button>
 
-                    </a>
-                    <a href="./patient/RegisterPatient.html">
-                    <button type="button" class="signup-btn" id="signupBtn">
-                        Sign Up As A Patient
-                    </button>
-                    </a>
-                </div>
-            </form>
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- Navbar (unified design system) -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-content">
+      <a href="../index.html" class="navbar-brand">
+        <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+      </a>
+      <ul class="navbar-nav" id="navbarNav">
+        <li><a href="../index.html" class="nav-link"><i class="fas fa-home" style="margin-right:6px;font-size:12px;"></i>Home</a></li>
+        <li><a href="../index.html#about" class="nav-link">About</a></li>
+        <li><a href="../index.html#features" class="nav-link">Features</a></li>
+        <li><a href="../index.html#cta-section" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="navbar-actions" id="navbarActions"></div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu">
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Login Card -->
+  <main class="login-main">
+    <div class="login-card">
+      <div class="login-card__header">
+        <h1 class="login-card__title">Welcome Back</h1>
+        <p class="login-card__subtitle">Sign in to your dashboard</p>
+      </div>
+
+      <form class="login-form" id="loginForm" onsubmit="return false;">
+        <!-- Email -->
+        <div class="login-form__group">
+          <label class="login-form__label" for="emailOrPhone">Email</label>
+          <div class="login-input-wrap">
+            <i class="fas fa-envelope login-input-icon"></i>
+            <input type="text" id="emailOrPhone" class="login-form__input" placeholder="you@example.com" required autocomplete="email" />
+          </div>
         </div>
-    </main>
-    
-    <script src="login.js"></script>
+
+        <!-- Password -->
+        <div class="login-form__group">
+          <label class="login-form__label" for="password">Password</label>
+          <div class="login-input-wrap">
+            <i class="fas fa-lock login-input-icon"></i>
+            <input type="password" id="password" class="login-form__input" placeholder="Enter your password" required autocomplete="current-password" />
+            <button type="button" class="toggle-password" id="togglePassword">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me & Forgot -->
+        <div class="login-form__options">
+          <label class="login-checkbox">
+            <input type="checkbox" id="rememberMe" />
+            <span class="login-checkbox__custom"></span>
+            <span class="login-checkbox__text">Remember me</span>
+          </label>
+          <a href="#" class="login-forgot" id="forgotPasswordLink">Forgot Password?</a>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" class="login-submit" id="loginBtn">Sign In</button>
+
+        <!-- Divider -->
+        <div class="login-divider"><span>New here?</span></div>
+
+        <!-- Sign Up Options -->
+        <div class="login-signup">
+          <a href="./doctor/RegisterDoctor.html" class="login-signup__btn login-signup__btn--doctor">
+            <i class="fas fa-user-md"></i> Join as Doctor
+          </a>
+          <a href="./patient/RegisterPatient.html" class="login-signup__btn login-signup__btn--patient">
+            <i class="fas fa-user"></i> Join as Patient
+          </a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="../js/auth-manager.js"></script>
+  <script src="login.js"></script>
+  <script>document.addEventListener('DOMContentLoaded',function(){AuthManager.redirectIfAuthenticated();});</script>
 </body>
 </html>

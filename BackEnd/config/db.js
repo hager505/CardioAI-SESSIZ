@@ -3,10 +3,10 @@ import { createPool } from "mysql2";
 const DB_NAME = "cardioai";
 
 const db = createPool({
-  host: "127.0.0.1",
-  user: "root",
-  password: "",
-  port: 3306,
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "",
+  port: process.env.DB_PORT || 3306,
   database: DB_NAME,
   connectionLimit: 10,
 }).promise();
@@ -126,6 +126,8 @@ CREATE TABLE IF NOT EXISTS vital_signs (
   blood_pressure   VARCHAR(20),
   spo2             INT,
   body_temperature DECIMAL(4,1),
+  respiratory_rate INT,
+  bmi              DECIMAL(4,1),
   recorded_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE
 );`;
@@ -136,6 +138,12 @@ CREATE TABLE IF NOT EXISTS medications (
   patient_id      INT NOT NULL,
   medication_name VARCHAR(200),
   dosage          VARCHAR(100),
+  frequency       VARCHAR(50),
+  time_of_day     VARCHAR(50),
+  start_date      DATE,
+  end_date        DATE,
+  instructions    TEXT,
+  prescribed_by   INT,
   status          ENUM('active','past'),
   refill_due      DATE,
   created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -194,6 +202,44 @@ CREATE TABLE IF NOT EXISTS notifications(
   FOREIGN KEY(patient_id) REFERENCES patients(id) ON DELETE CASCADE
 ); `;
 
+// ── Chat History ────────────────────────────────────────────
+const createChatSessions = `
+CREATE TABLE IF NOT EXISTS chat_sessions (
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  user_id       INT NOT NULL,
+  user_type     ENUM('patient','doctor') NOT NULL,
+  title         VARCHAR(255) DEFAULT 'New Chat',
+  created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_user (user_id, user_type),
+  INDEX idx_updated (updated_at)
+);`;
+
+const createChatMessages = `
+CREATE TABLE IF NOT EXISTS chat_messages (
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  session_id    INT NOT NULL,
+  role          ENUM('user','assistant','system') NOT NULL,
+  content       TEXT NOT NULL,
+  created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (session_id) REFERENCES chat_sessions(id) ON DELETE CASCADE,
+  INDEX idx_session (session_id, created_at)
+);`;
+
+// ── Clinical Notes (per patient, written by doctors) ─────────
+const createClinicalNotes = `
+CREATE TABLE IF NOT EXISTS clinical_notes (
+  id         INT AUTO_INCREMENT PRIMARY KEY,
+  patient_id INT NOT NULL,
+  doctor_id  INT,
+  note       TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
+  FOREIGN KEY (doctor_id)  REFERENCES doctors(id)  ON DELETE SET NULL,
+  INDEX idx_patient (patient_id, created_at)
+);`;
+
 // ── Init ───────────────────────────────────────────────────
 export async function initDB() {
   await db.query(`CREATE DATABASE IF NOT EXISTS ${DB_NAME}
@@ -214,11 +260,42 @@ export async function initDB() {
     ["patient_files", createPatientFiles],
     ["doctor_requests", createDoctorRequests],
     ["notifications", createNotifications],
+    ["chat_sessions", createChatSessions],
+    ["chat_messages", createChatMessages],
+    ["clinical_notes", createClinicalNotes],
   ];
 
   for (const [name, sql] of tables) {
     await db.query(sql);
     console.log(`✅ Table ready: ${name} `);
+  }
+
+  // ─── Migrations: add columns to existing tables ───────────────────────
+  const migrations = [
+    { sql: `ALTER TABLE vital_signs ADD COLUMN IF NOT EXISTS respiratory_rate INT`, fallback: `ALTER TABLE vital_signs ADD COLUMN respiratory_rate INT` },
+    { sql: `ALTER TABLE vital_signs ADD COLUMN IF NOT EXISTS bmi DECIMAL(4,1)`,     fallback: `ALTER TABLE vital_signs ADD COLUMN bmi DECIMAL(4,1)` },
+    { sql: `ALTER TABLE medications ADD COLUMN IF NOT EXISTS frequency VARCHAR(50)`,         fallback: `ALTER TABLE medications ADD COLUMN frequency VARCHAR(50)` },
+    { sql: `ALTER TABLE medications ADD COLUMN IF NOT EXISTS time_of_day VARCHAR(50)`,       fallback: `ALTER TABLE medications ADD COLUMN time_of_day VARCHAR(50)` },
+    { sql: `ALTER TABLE medications ADD COLUMN IF NOT EXISTS start_date DATE`,               fallback: `ALTER TABLE medications ADD COLUMN start_date DATE` },
+    { sql: `ALTER TABLE medications ADD COLUMN IF NOT EXISTS end_date DATE`,                 fallback: `ALTER TABLE medications ADD COLUMN end_date DATE` },
+    { sql: `ALTER TABLE medications ADD COLUMN IF NOT EXISTS instructions TEXT`,             fallback: `ALTER TABLE medications ADD COLUMN instructions TEXT` },
+    { sql: `ALTER TABLE medications ADD COLUMN IF NOT EXISTS prescribed_by INT`,             fallback: `ALTER TABLE medications ADD COLUMN prescribed_by INT` },
+  ];
+  for (const m of migrations) {
+    try {
+      await db.query(m.sql);
+    } catch (err) {
+      if (err.errno === 1064) {
+        // "IF NOT EXISTS" syntax not supported (MySQL < 8.0.16), retry without it
+        try {
+          await db.query(m.fallback);
+        } catch (err2) {
+          if (err2.errno !== 1060) console.error(`⚠️ Migration failed: ${m.fallback}`, err2.message);
+        }
+      } else if (err.errno !== 1060) {
+        console.error(`⚠️ Migration failed: ${m.sql}`, err.message);
+      }
+    }
   }
   console.log("🎉 All tables initialized\n");
 }

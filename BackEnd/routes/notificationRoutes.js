@@ -1,7 +1,13 @@
 import express from 'express';
-import { markNotificationRead, markAllNotificationsRead } from '../controllers/notificationController.js';
+import {
+  createNotification,
+  markNotificationRead,
+  markAllNotificationsRead,
+} from '../controllers/notificationController.js';
 const router = express.Router();
-router.patch('/read-all', markAllNotificationsRead);  
-router.patch('/:id/read', markNotificationRead);     
+
+router.post('/',            createNotification);          // POST /api/notifications
+router.patch('/read-all',   markAllNotificationsRead);    // PATCH /api/notifications/read-all
+router.patch('/:id/read',   markNotificationRead);        // PATCH /api/notifications/:id/read
 
 export default router;

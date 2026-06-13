@@ -1,3 +1,4 @@
+// patient/notifications/script.js
 // ─── Auth Guard ───────────────────────────────────────────────────────────────
 const userData = JSON.parse(sessionStorage.getItem('user_data') || 'null');
 const userRole = sessionStorage.getItem('user_role');
@@ -20,7 +21,7 @@ function showToast(message, type = 'success') {
 
   const toast = document.createElement('div');
   toast.className = 'toast-runtime';
-  toast.innerHTML = `<i class="fas fa-${icons[type] || icons.info}"></i><span>${message}</span>`;
+  toast.innerHTML = `<i class="fas fa-${icons[type] || icons.info}"></i><span>${escapeHtml(message)}</span>`;
 
   Object.assign(toast.style, {
     position: 'fixed', bottom: '24px', right: '24px',
@@ -40,60 +41,88 @@ function showToast(message, type = 'success') {
   }, 3500);
 }
 
-// ─── Avatar ───────────────────────────────────────────────────────────────────
-function renderAvatar() {
-  // Notification page uses .header-right with icons — inject avatar there
-  const container = document.querySelector('.header-right');
-  if (!container) return;
-
-  const saved    = localStorage.getItem(`avatar_${userId}`);
-  const name     = userData?.full_name || '';
-  const parts    = name.trim().split(' ');
-  const initials = ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase();
-
-  const avatarEl = document.createElement('div');
-  Object.assign(avatarEl.style, {
-    width: '36px', height: '36px', borderRadius: '50%',
-    background: '#003785', color: '#fff',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontWeight: '600', fontSize: '14px', cursor: 'pointer',
-    marginLeft: '8px', flexShrink: '0'
-  });
-
-  if (saved) {
-    avatarEl.innerHTML = `<img src="${saved}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;" alt="avatar">`;
-  } else {
-    avatarEl.textContent = initials;
-  }
-
-  container.appendChild(avatarEl);
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
-// ─── Notification type config ─────────────────────────────────────────────────
+// ─── Type inference ──────────────────────────────────────────────────────────
+// The DB notifications table doesn't have a type column, so we infer one
+// from the title and message. Order matters: more specific matches first.
+function inferType(n) {
+  const t = `${n.title || ''} ${n.message || ''}`.toLowerCase();
+
+  // Critical — anything that explicitly sounds like an emergency
+  if (/urgent|critical|emergency|immediate|seeks? care|afib|atrial fibrillation|heart attack|stroke/.test(t)) {
+    return 'critical';
+  }
+
+  // AI / predictive insights
+  if (/ai |recommend|insight|trend|risk|preventive|predict/.test(t)) {
+    return 'warning';
+  }
+
+  // Appointments + reminders
+  if (/appointment|schedule|booking|follow-up|follow up|consultation|reminder/.test(t)) {
+    return 'info';
+  }
+
+  // Medications
+  if (/medication|medicine|refill|dosage|prescription|pill/.test(t)) {
+    return 'success';
+  }
+
+  // Vitals, records, system
+  if (/vital|record|upload|document|profile|password|system|device/.test(t)) {
+    return 'system';
+  }
+
+  return 'info';
+}
+
 const TYPE_CONFIG = {
-  critical: { icon: 'exclamation-triangle', label: 'Critical',     cssClass: 'alert-critical', filterKey: 'critical' },
-  warning:  { icon: 'brain',               label: 'Preventive',   cssClass: 'alert-warning',  filterKey: 'warning'  },
-  info:     { icon: 'calendar-check',      label: 'Follow-up',    cssClass: 'alert-info',     filterKey: 'info'     },
-  success:  { icon: 'pills',               label: 'Daily Care',   cssClass: 'alert-success',  filterKey: 'success'  },
-  system:   { icon: 'cog',                 label: 'System',       cssClass: 'alert-info',     filterKey: 'system'   },
+  critical: { icon: 'exclamation-triangle', label: 'Health Alert',   cssClass: 'alert-critical' },
+  warning:  { icon: 'brain',                label: 'AI Insight',     cssClass: 'alert-warning'  },
+  info:     { icon: 'calendar-check',       label: 'Reminder',       cssClass: 'alert-info'     },
+  success:  { icon: 'pills',                label: 'Medication',     cssClass: 'alert-success'  },
+  system:   { icon: 'cog',                  label: 'System',         cssClass: 'alert-system'   },
 };
 
-// ─── State ─────────────────────────────────────────────────────────────────────
-let allNotifications = [];   // from API
+// ─── State ────────────────────────────────────────────────────────────────────
+let allNotifications = [];
 let activeFilter     = 'all';
 let currentDetailId  = null;
 
-// ─── Fetch notifications ───────────────────────────────────────────────────────
+// ─── Fetch notifications ──────────────────────────────────────────────────────
 async function loadNotifications() {
   try {
     const res  = await fetch(`${API}/patients/${userId}/notifications`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-    allNotifications = json.data || [];
+    allNotifications = json.data || json.notifications || [];
   } catch {
-    // Offline: use sessionStorage cache
     const cached = sessionStorage.getItem('notifications_cache');
     allNotifications = cached ? JSON.parse(cached) : [];
     if (allNotifications.length) showToast('Showing cached notifications — offline', 'info');
+  }
+
+  // Seed a few welcome notifications for brand-new accounts so the
+  // notification center isn't empty on first visit.
+  if (allNotifications.length === 0 && !localStorage.getItem(`notif_seeded_${userId}`)) {
+    await seedDemoNotifications();
+    try {
+      const res = await fetch(`${API}/patients/${userId}/notifications`);
+      if (res.ok) {
+        const json = await res.json();
+        allNotifications = json.data || [];
+      }
+    } catch { /* ignore */ }
+    localStorage.setItem(`notif_seeded_${userId}`, '1');
   }
 
   sessionStorage.setItem('notifications_cache', JSON.stringify(allNotifications));
@@ -101,82 +130,93 @@ async function loadNotifications() {
   updateBadge();
 }
 
+async function seedDemoNotifications() {
+  const seeds = [
+    { title: 'Welcome to CardioAI', message: 'Your personal heart-health assistant is ready. Book your first appointment to get started.' },
+    { title: 'AI Health Recommendation', message: 'Based on your profile, we recommend recording your vitals at least once a week to track trends.' },
+    { title: 'Appointment Reminder', message: 'You have no upcoming appointments. Tap "New Appointment" on the Appointments page to schedule one.' },
+  ];
+  for (const s of seeds) {
+    try {
+      await fetch(`${API}/notifications`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ patient_id: parseInt(userId, 10), title: s.title, message: s.message }),
+      });
+    } catch { /* ignore */ }
+  }
+}
+
 // ─── Render cards ─────────────────────────────────────────────────────────────
 function renderNotifications() {
-  const grid = document.querySelector('.notifications-grid');
+  const grid = document.getElementById('notificationsGrid');
   if (!grid) return;
 
   const readIds = JSON.parse(localStorage.getItem(`read_notifs_${userId}`) || '[]');
 
-  const visible = allNotifications.filter(n => {
-    if (activeFilter === 'all') return true;
-    return (n.notification_type || 'info') === activeFilter;
-  });
+  const visible = allNotifications
+    .map(n => ({ n, type: inferType(n) }))
+    .filter(({ type }) => activeFilter === 'all' || type === activeFilter);
 
   if (!visible.length) {
     grid.innerHTML = `
-      <div style="text-align:center;padding:48px;color:#6b7280;grid-column:1/-1;">
-        <i class="fas fa-bell-slash" style="font-size:48px;margin-bottom:16px;display:block;opacity:.4;"></i>
-        <p>No notifications in this category</p>
+      <div class="notifications-empty">
+        <i class="fas fa-bell-slash"></i>
+        <h3>No notifications in this category</h3>
+        <p>New updates will appear here when your care team sends them, or when you take actions like booking an appointment.</p>
       </div>`;
     return;
   }
 
   grid.innerHTML = '';
 
-  visible.forEach(n => {
-    const type     = n.notification_type || 'info';
+  visible.forEach(({ n, type }) => {
     const cfg      = TYPE_CONFIG[type] || TYPE_CONFIG.info;
-    const isRead   = readIds.includes(n.id) || n.is_read;
+    const isRead   = readIds.includes(n.id) || !!n.is_read;
     const timeStr  = relativeTime(n.created_at);
 
     const card = document.createElement('div');
-    card.className   = `notification-card ${cfg.cssClass}${isRead ? ' read-notification' : ''}`;
-    card.dataset.type = cfg.filterKey;
+    card.className   = `notification-card ${cfg.cssClass}${isRead ? ' read' : ''}`;
     card.dataset.id   = n.id;
+    card.dataset.type = type;
 
     card.innerHTML = `
-      <div class="notification-icon">
-        <i class="fas fa-${cfg.icon}"></i>
-      </div>
+      <div class="notification-icon"><i class="fas fa-${cfg.icon}"></i></div>
       <div class="notification-content">
         <div class="notification-header">
           <h3 class="notification-title">${escapeHtml(n.title || 'Notification')}</h3>
-          <span class="notification-tag ${cfg.filterKey}">${cfg.label}</span>
+          <span class="notification-tag ${type}">${cfg.label}</span>
         </div>
         <p class="notification-desc">${escapeHtml(n.message || '')}</p>
         <div class="notification-footer">
-          <span class="notification-time">${timeStr}</span>
+          <span class="notification-time"><i class="far fa-clock"></i> ${timeStr}</span>
           <div class="notification-actions">
-            <button class="notification-action-btn primary view-detail-btn" data-id="${n.id}">
-              View Details
+            <button class="notification-action-btn view-detail-btn" data-id="${n.id}">
+              <i class="fas fa-eye"></i> Details
             </button>
-            ${!isRead ? `<button class="notification-action-btn mark-read-btn" data-id="${n.id}">Mark Read</button>` : ''}
+            ${!isRead ? `<button class="notification-action-btn mark-read-btn" data-id="${n.id}">
+                          <i class="fas fa-check"></i> Mark Read
+                        </button>` : ''}
           </div>
         </div>
       </div>`;
 
-    // View detail
-    card.querySelector('.view-detail-btn').addEventListener('click', e => {
+    card.querySelector('.view-detail-btn')?.addEventListener('click', e => {
       e.stopPropagation();
-      openDetailModal(n);
+      openDetailModal(n, type);
     });
-
-    // Mark read
     card.querySelector('.mark-read-btn')?.addEventListener('click', e => {
       e.stopPropagation();
       markAsRead(n.id);
     });
-
-    // Card click also opens detail
-    card.addEventListener('click', () => openDetailModal(n));
+    card.addEventListener('click', () => openDetailModal(n, type));
 
     grid.appendChild(card);
   });
 }
 
-// ─── Detail Modal ──────────────────────────────────────────────────────────────
-function openDetailModal(n) {
+// ─── Detail modal ─────────────────────────────────────────────────────────────
+function openDetailModal(n, type) {
   currentDetailId = n.id;
   const modal = document.getElementById('notificationDetailModal');
   if (!modal) return;
@@ -185,98 +225,122 @@ function openDetailModal(n) {
   document.getElementById('detailMessage').textContent = n.message || '';
 
   const instructionsEl = document.getElementById('detailInstructions');
-  // Show action_data JSON if present, otherwise show a generic follow-up note
-  if (n.action_data) {
-    try {
-      const data = typeof n.action_data === 'string' ? JSON.parse(n.action_data) : n.action_data;
-      instructionsEl.innerHTML = buildInstructionsHTML(data);
-    } catch {
-      instructionsEl.innerHTML = '';
-    }
-  } else {
-    instructionsEl.innerHTML = `
-      <div class="instructions" style="margin-top:16px;">
-        <h4 style="margin-bottom:8px;color:#374151;">Next Steps</h4>
-        <ul style="padding-left:20px;color:#6b7280;line-height:1.8;">
-          <li>Follow up with your care team if needed</li>
-          <li>Monitor your symptoms</li>
-          <li>Contact support if you have questions</li>
-        </ul>
-      </div>`;
+  if (instructionsEl) {
+    instructionsEl.innerHTML = buildNextStepsHTML(type);
   }
 
-  modal.classList.add('active');
+  // Tweak the "Take Action" button label based on inferred type
+  const takeActionBtn = document.getElementById('detailTakeActionBtn');
+  const actionLabel = {
+    critical: 'Acknowledge & Notify Care Team',
+    info:     'Open Appointments',
+    success:  'Open Medications',
+    warning:  'View AI Analysis',
+    system:   'View Details',
+  }[type] || 'Take Action';
+  if (takeActionBtn) takeActionBtn.innerHTML = `<i class="fas fa-play-circle mr-sm"></i> ${actionLabel}`;
 
-  // Wire modal action buttons
-  document.querySelector('.detail-action-btn.secondary').onclick = () => {
-    markAsRead(currentDetailId);
-    modal.classList.remove('active');
-  };
-  document.querySelector('.detail-action-btn.primary').onclick = () => {
-    handleNotificationAction(n);
-    modal.classList.remove('active');
-  };
+  // Persist the "currently shown notification" so the buttons can act
+  modal.dataset.currentId    = n.id;
+  modal.dataset.currentType  = type;
+
+  modal.classList.add('active');
 }
 
-function buildInstructionsHTML(data) {
-  if (!data.steps?.length) return '';
-  const items = data.steps.map(s => `<li>${escapeHtml(s)}</li>`).join('');
+function buildNextStepsHTML(type) {
+  const steps = {
+    critical: [
+      'Stay calm and follow your care plan',
+      'If symptoms worsen, contact your doctor or emergency services',
+      'Your care team has been notified automatically',
+    ],
+    warning: [
+      'Review the AI insight carefully',
+      'Note any new symptoms to share with your doctor',
+      'Schedule a follow-up if recommended',
+    ],
+    info: [
+      'Confirm the date and time',
+      'Prepare any questions for your doctor',
+      'Add the appointment to your calendar',
+    ],
+    success: [
+      'Take the medication exactly as prescribed',
+      'Set up a daily reminder if needed',
+      'Refill before you run out',
+    ],
+    system: [
+      'Review the change in your profile / records',
+      'Contact support if something looks wrong',
+    ],
+  }[type] || [
+    'Follow up with your care team if needed',
+    'Monitor your symptoms',
+    'Contact support if you have questions',
+  ];
+
   return `
-    <div class="instructions" style="margin-top:16px;">
-      <h4 style="margin-bottom:8px;color:#374151;">${escapeHtml(data.heading || 'Recommended Actions')}</h4>
-      <ul style="padding-left:20px;color:#6b7280;line-height:1.8;">${items}</ul>
+    <div class="instructions">
+      <h4>Recommended next steps</h4>
+      <ul>${steps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
     </div>`;
 }
 
-function handleNotificationAction(n) {
-  const type = n.notification_type || 'info';
+function handleNotificationAction() {
+  const modal = document.getElementById('notificationDetailModal');
+  const type  = modal?.dataset.currentType || 'info';
+  const id    = modal?.dataset.currentId;
+
   switch (type) {
     case 'critical':
-      showToast('Your care team has been notified. Stay calm.', 'warning');
+      showToast('Your care team has been notified.', 'warning');
       break;
     case 'info':
-      // Navigate to appointments
-      window.location.href = '../appointments/appiontment.html';
-      break;
+      window.location.href = '../appointments/appointment.html';
+      return;
     case 'success':
-      markMedicationTaken(n);
-      break;
+      window.location.href = '../medications/medications.html';
+      return;
+    case 'warning':
+      window.location.href = '../profile/profile.html';
+      return;
+    case 'system':
     default:
-      showToast('Action noted. Your care team has been informed.', 'success');
+      showToast('Action noted.', 'success');
   }
+
+  if (id) markAsRead(id);
+  modal?.classList.remove('active');
 }
 
-// ─── Mark as Read ──────────────────────────────────────────────────────────────
+// ─── Mark as read ─────────────────────────────────────────────────────────────
 async function markAsRead(notifId) {
-  // Optimistic local update
   const readIds = JSON.parse(localStorage.getItem(`read_notifs_${userId}`) || '[]');
   if (!readIds.includes(notifId)) {
     readIds.push(notifId);
     localStorage.setItem(`read_notifs_${userId}`, JSON.stringify(readIds));
   }
 
-  // Sync with server
+  // Also flip the DB record
   try {
     await fetch(`${API}/notifications/${notifId}/read`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ patient_id: parseInt(userId) })
+      body: JSON.stringify({ patient_id: parseInt(userId, 10) }),
     });
-  } catch {
-    // Silent fail — local state is already updated
-  }
+  } catch { /* local state already updated */ }
 
   renderNotifications();
   updateBadge();
-  showToast('Notification marked as read.', 'success');
+  // Let other tabs / shared listeners know the unread count changed.
+  window.dispatchEvent(new CustomEvent('notifications:updated'));
 }
 
-// ─── Mark All Read ─────────────────────────────────────────────────────────────
 async function markAllRead() {
   const ids = allNotifications.map(n => n.id);
   const readIds = [...new Set([
     ...JSON.parse(localStorage.getItem(`read_notifs_${userId}`) || '[]'),
-    ...ids
+    ...ids,
   ])];
   localStorage.setItem(`read_notifs_${userId}`, JSON.stringify(readIds));
 
@@ -284,36 +348,21 @@ async function markAllRead() {
     await fetch(`${API}/notifications/read-all`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ patient_id: parseInt(userId) })
+      body: JSON.stringify({ patient_id: parseInt(userId, 10) }),
     });
   } catch { /* silent */ }
 
   renderNotifications();
   updateBadge();
+  window.dispatchEvent(new CustomEvent('notifications:updated'));
   showToast('All notifications marked as read.', 'success');
-}
-
-// ─── Mark Medication Taken ─────────────────────────────────────────────────────
-async function markMedicationTaken(n) {
-  if (!n.related_id) { showToast('Medication logged as taken.', 'success'); return; }
-  try {
-    await fetch(`${API}/medications/${n.related_id}/taken`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ patient_id: parseInt(userId), taken_at: new Date().toISOString() })
-    });
-    showToast('Medication marked as taken!', 'success');
-    markAsRead(n.id);
-  } catch {
-    showToast('Could not log medication. Please try again.', 'error');
-  }
 }
 
 // ─── Badge ────────────────────────────────────────────────────────────────────
 function updateBadge() {
   const readIds = JSON.parse(localStorage.getItem(`read_notifs_${userId}`) || '[]');
   const unread  = allNotifications.filter(n => !readIds.includes(n.id) && !n.is_read).length;
-  const badge   = document.querySelector('.notification-badge');
+  const badge   = document.getElementById('notifBadge');
   if (!badge) return;
   if (unread > 0) {
     badge.textContent = unread > 9 ? '9+' : unread;
@@ -323,104 +372,57 @@ function updateBadge() {
   }
 }
 
-// ─── Filter Tabs ──────────────────────────────────────────────────────────────
+// ─── Init ─────────────────────────────────────────────────────────────────────
 function initFilterTabs() {
-  const filterTabs = document.querySelectorAll('.filter-tab');
-  filterTabs.forEach(tab => {
-    tab.addEventListener('click', function () {
-      filterTabs.forEach(t => t.classList.remove('active'));
-      this.classList.add('active');
-      activeFilter = this.dataset.filter || 'all';
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeFilter = tab.dataset.filter || 'all';
       renderNotifications();
     });
   });
 }
 
-// ─── Mark All button ──────────────────────────────────────────────────────────
-function initMarkAllBtn() {
-  const btn = document.querySelector('.mark-all-btn');
-  if (btn) btn.addEventListener('click', markAllRead);
-}
-
-// ─── Close detail modal ───────────────────────────────────────────────────────
 function initDetailModal() {
   const modal = document.getElementById('notificationDetailModal');
   if (!modal) return;
 
-  // Close button (in HTML it uses onclick="closeNotificationDetail()")
-  window.closeNotificationDetail = () => modal.classList.remove('active');
-
-  // Click outside
+  document.getElementById('closeDetailBtn')?.addEventListener('click', () => modal.classList.remove('active'));
+  document.getElementById('detailMarkReadBtn')?.addEventListener('click', () => {
+    const id = modal.dataset.currentId;
+    if (id) markAsRead(id);
+    modal.classList.remove('active');
+  });
+  document.getElementById('detailTakeActionBtn')?.addEventListener('click', handleNotificationAction);
   modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
 }
 
-// ─── Search ───────────────────────────────────────────────────────────────────
-function initSearch() {
-  const searchInput = document.querySelector('.search-box input');
-  if (!searchInput) return;
-
-  searchInput.addEventListener('input', () => {
-    const term  = searchInput.value.toLowerCase();
-    const cards = document.querySelectorAll('.notification-card');
-    cards.forEach(card => {
-      const title = card.querySelector('.notification-title')?.textContent.toLowerCase() || '';
-      const desc  = card.querySelector('.notification-desc')?.textContent.toLowerCase() || '';
-      card.style.display = (!term || title.includes(term) || desc.includes(term)) ? '' : 'none';
-    });
-  });
+function initMarkAllBtn() {
+  document.getElementById('markAllReadBtn')?.addEventListener('click', markAllRead);
 }
 
-// ─── Mobile Sidebar ───────────────────────────────────────────────────────────
-function initMobileSidebar() {
-  const sidebar      = document.querySelector('.sidebar');
-  const headerLeft   = document.querySelector('.header-left');
-  if (!sidebar || !headerLeft) return;
-
-  // Remove duplicate toggle inserted by old script if present
-  headerLeft.querySelectorAll('.mobile-menu-toggle').forEach(el => el.remove());
-
-  const toggle   = document.createElement('button');
-  toggle.className = 'mobile-menu-toggle';
-  toggle.innerHTML = '<i class="fas fa-bars"></i>';
-  Object.assign(toggle.style, { background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', color: '#374151' });
-  headerLeft.insertBefore(toggle, headerLeft.firstChild);
-
-  const overlay = document.createElement('div');
-  overlay.className = 'sidebar-overlay';
-  Object.assign(overlay.style, {
-    display: 'none', position: 'fixed', inset: '0',
-    background: 'rgba(0,0,0,0.4)', zIndex: '199'
-  });
-  document.body.appendChild(overlay);
-
-  toggle.addEventListener('click', () => {
-    sidebar.classList.toggle('active');
-    overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
-  });
-  overlay.addEventListener('click', () => {
-    sidebar.classList.remove('active');
-    overlay.style.display = 'none';
-  });
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) {
-      sidebar.classList.remove('active');
-      overlay.style.display = 'none';
+function initLogout() {
+  document.getElementById('logoutBtn')?.addEventListener('click', e => {
+    e.preventDefault();
+    if (typeof AuthManager !== 'undefined' && AuthManager.handleLogout) {
+      AuthManager.handleLogout();
+    } else {
+      sessionStorage.clear();
+      localStorage.removeItem('isLoggedIn');
+      window.location.href = '../../auth/login.html';
     }
   });
 }
 
-// ─── Logout ───────────────────────────────────────────────────────────────────
-function initLogout() {
-  const logoutBtn = document.querySelector('.logout-btn');
-  if (!logoutBtn) return;
-  logoutBtn.addEventListener('click', e => {
+function initHeaderShortcuts() {
+  document.getElementById('notificationsBtn')?.addEventListener('click', e => {
     e.preventDefault();
-    sessionStorage.clear();
-    window.location.href = '../../auth/login.html';
+    // We're already on the notifications page — just refresh
+    loadNotifications();
   });
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 function relativeTime(iso) {
   if (!iso) return '';
   const diff  = Date.now() - new Date(iso).getTime();
@@ -434,19 +436,11 @@ function relativeTime(iso) {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ─── Init ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  renderAvatar();
-  initMobileSidebar();
   initFilterTabs();
-  initMarkAllBtn();
   initDetailModal();
-  initSearch();
+  initMarkAllBtn();
   initLogout();
+  initHeaderShortcuts();
   loadNotifications();
 });

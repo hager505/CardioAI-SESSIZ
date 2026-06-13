@@ -1,0 +1,227 @@
+/* =============================================================================
+   Patient — Requests Page
+   Form to create new requests (medication refill, lab review, custom)
+   routed to the doctor(s) the patient has had appointments with.
+   =============================================================================
+   Layout (sidebar/header/footer/responsive) in ../shared/shared.css.
+============================================================================= */
+
+.requests-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+.requests-page-header h1 { margin: 0; }
+.requests-page-header p  { margin: 4px 0 0; color: var(--text-muted); }
+
+.requests-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--spacing-xl);
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .requests-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Form card ── */
+.request-form-card .card-body > form > .form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.request-form-card .form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.request-form-card .form-label .required { color: var(--danger); margin-left: 2px; }
+
+.request-form-card .form-control,
+.request-form-card .form-select {
+  height: 44px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  font-size: var(--font-size-sm);
+  padding: 0 var(--spacing-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.request-form-card textarea.form-control {
+  height: auto;
+  min-height: 110px;
+  padding: var(--spacing-md);
+  line-height: var(--line-height-relaxed);
+  resize: vertical;
+}
+.request-form-card .form-control:focus,
+.request-form-card .form-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 55, 133, 0.12);
+}
+.request-form-card .form-hint {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* Segmented "request type" toggle */
+.request-type-toggle {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+.request-type-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: var(--spacing-md);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.request-type-btn i { font-size: 20px; }
+.request-type-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+.request-type-btn.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  box-shadow: 0 0 0 3px rgba(0, 55, 133, 0.08);
+}
+
+/* Doctor picker */
+.request-form-card .form-control:disabled,
+.request-form-card .form-control[disabled] {
+  background: var(--gray-50);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* Form actions */
+.request-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+}
+.request-form-actions .btn { min-width: 120px; }
+
+/* ── Past requests list ── */
+.past-requests-card { display: flex; flex-direction: column; }
+
+.past-requests-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-md);
+}
+.past-requests-toolbar select {
+  height: 38px;
+  padding: 0 var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  background: var(--white);
+}
+
+.patient-request-card {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+  transition: all var(--transition-fast);
+}
+.patient-request-card:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--primary);
+}
+.patient-request-card.urgent {
+  border-left: 4px solid var(--danger);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.patient-request-card .pr-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.patient-request-card .pr-body { flex: 1; min-width: 0; }
+.patient-request-card .pr-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.patient-request-card .pr-title {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  margin: 0;
+}
+.patient-request-card .pr-message {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-sm);
+  line-height: 1.5;
+}
+.patient-request-card .pr-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.patient-request-card .pr-meta .badge { font-size: 10px; }
+
+.patient-requests-empty {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-muted);
+}
+.patient-requests-empty i {
+  font-size: 36px;
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  opacity: 0.4;
+}
+
+@media (max-width: 640px) {
+  .request-type-toggle { grid-template-columns: 1fr; }
+  .request-form-actions { flex-direction: column-reverse; }
+  .request-form-actions .btn { width: 100%; }
+}

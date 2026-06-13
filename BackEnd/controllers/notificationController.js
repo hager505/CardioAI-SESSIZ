@@ -15,6 +15,34 @@ export async function getPatientNotifications(req, res) {
   }
 }
 
+// Create a single notification. Used by the patient frontend after
+// booking appointments, adding vitals / records / medications, or
+// requesting a refill — and by the doctor side to push alerts.
+export async function createNotification(req, res) {
+  try {
+    const { patient_id, title, message } = req.body || {};
+    if (!patient_id || !title || !message) {
+      return res.status(400).json({ message: 'patient_id, title and message are required' });
+    }
+
+    const [result] = await db.query(
+      `INSERT INTO notifications (patient_id, title, message, is_read, created_at)
+       VALUES (?, ?, ?, 0, NOW())`,
+      [patient_id, String(title).slice(0, 255), String(message).slice(0, 1000)]
+    );
+
+    const [rows] = await db.query(
+      `SELECT * FROM notifications WHERE id = ?`,
+      [result.insertId]
+    );
+
+    res.status(201).json({ message: 'Notification created', data: rows[0] });
+  } catch (err) {
+    console.error('createNotification error:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+}
+
 
 export async function markNotificationRead(req, res) {
   try {

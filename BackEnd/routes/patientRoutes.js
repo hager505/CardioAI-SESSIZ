@@ -7,13 +7,16 @@ import {
   deletePatient,
   loginPatient,
   getPatientVitals,
+  savePatientVitals,
   getPatientAppointments,
   getPatientRecords,
   updatePatient,
   updatePatientInfo,
   changePatientPassword,
+  uploadPatientAvatar,
+  deletePatientAvatar,
 } from "../controllers/patientController.js";
-import { patientUpload } from "../middleware/upload.js";
+import { patientUpload, patientAvatarUpload } from "../middleware/upload.js";
 import { getPatientMedications }    from '../controllers/medicationController.js';
 import { getPatientNotifications }  from '../controllers/notificationController.js';
 
@@ -34,10 +37,13 @@ router.delete("/:id",            deletePatient);
 
 // ── Patient sub-resources ─────────────────────────────────
 router.get("/:id/vitals",        getPatientVitals);
+router.post("/:id/vitals",       savePatientVitals);
 router.get("/:id/appointments",  getPatientAppointments);
 router.get("/:id/medications",   getPatientMedications);
 router.get("/:id/records",       getPatientRecords);
 router.put("/:id/info",          updatePatientInfo);       
 router.put("/:id/password",      changePatientPassword);   
+router.post("/:id/avatar",       patientAvatarUpload, uploadPatientAvatar);
+router.delete("/:id/avatar",     deletePatientAvatar);
 router.get('/:id/notifications',  getPatientNotifications);  
 export default router;

@@ -1,23 +1,19 @@
+// Doctor Registration Script "doctor/script.js"
 document.addEventListener("DOMContentLoaded", function () {
 
   // ─── App State ─────────────────────────────────────────
   const state = {
     currentStep: 1,
     totalSteps: 3,
-    // كل البيانات بتتخزن هنا وبتتبعت مرة واحدة في الآخر
     data: {
-      // Step 1
       full_name: "", email: "", address: "", password: "",
       confirm_password: "", phone: "", age: "", gender: "", role: "",
-      // Step 2
       medical_id: "", hospital_affiliation: "",
       has_private_clinic: false, years_experience: "",
       patients_per_week: "", university: "", medical_degree: "",
       has_masters_phd: false,
-      // Step 3
       acknowledged_terms: false,
     },
-    // الملفات بتتبعت كـ FormData — مش JSON
     files: {
       medical_license: null,
       medical_documents: [],
@@ -28,6 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const progressFill = document.getElementById("progressFill");
   const steps        = document.querySelectorAll(".step");
   const stepContents = document.querySelectorAll(".step-content");
+  const header       = document.getElementById("header");
+
+  // ─── Header scroll shadow ────────────────────────────────
+  window.addEventListener("scroll", () => {
+    header?.classList.toggle("scrolled", window.scrollY > 10);
+  });
 
   // ─── Progress ──────────────────────────────────────────
   function updateProgress() {
@@ -63,24 +65,24 @@ document.addEventListener("DOMContentLoaded", function () {
   // ─── Collect step data ─────────────────────────────────
   function collectStepData(step) {
     if (step === 1) {
-      state.data.full_name       = val("fullName");
-      state.data.email           = val("email");
-      state.data.address         = val("address");
-      state.data.password        = val("password");
-      state.data.confirm_password= val("confirmPassword");
-      state.data.phone           = val("phoneNumber");
-      state.data.age             = val("age");
-      state.data.gender          = val("gender");
-      state.data.role            = val("role");
+      state.data.full_name        = val("fullName");
+      state.data.email            = val("email");
+      state.data.address          = val("address");
+      state.data.password         = val("password");
+      state.data.confirm_password = val("confirmPassword");
+      state.data.phone            = val("phoneNumber");
+      state.data.age              = val("age");
+      state.data.gender           = val("gender");
+      state.data.role             = val("role");
     }
     if (step === 2) {
-      state.data.medical_id          = val("medicalId");
-      state.data.hospital_affiliation= val("hospitalAffiliation");
-      state.data.has_private_clinic  = document.getElementById("hasPrivateClinic")?.checked || false;
-      state.data.years_experience    = val("yearsExperience");
-      state.data.patients_per_week   = val("patientsPerWeek");
-      state.data.university          = val("university");
-      state.data.medical_degree      = val("medicalDegree");
+      state.data.medical_id           = val("medicalId");
+      state.data.hospital_affiliation = val("hospitalAffiliation");
+      state.data.has_private_clinic   = document.getElementById("hasPrivateClinic")?.checked || false;
+      state.data.years_experience     = val("yearsExperience");
+      state.data.patients_per_week    = val("patientsPerWeek");
+      state.data.university           = val("university");
+      state.data.medical_degree       = val("medicalDegree");
       const phd = document.querySelector('input[name="hasMastersPhD"]:checked');
       state.data.has_masters_phd = phd?.value === "yes";
     }
@@ -96,28 +98,28 @@ document.addEventListener("DOMContentLoaded", function () {
     let valid = true;
 
     if (step === 1) {
-      if (!val("fullName"))      { showErr("fullNameError",      "Full name is required");    valid = false; }
-      if (!isEmail(val("email"))){ showErr("emailError",         "Valid email is required");  valid = false; }
-      if (!val("address"))       { showErr("addressError",       "Address is required");      valid = false; }
-      if (val("password").length < 8) { showErr("passwordError","Min 8 characters");         valid = false; }
+      if (!val("fullName"))      { showErr("fullNameError", "Full name is required"); valid = false; }
+      if (!isEmail(val("email"))){ showErr("emailError", "Valid email is required");  valid = false; }
+      if (!val("address"))       { showErr("addressError", "Address is required");      valid = false; }
+      if (val("password").length < 8) { showErr("passwordError","Min 8 characters");     valid = false; }
       if (val("password") !== val("confirmPassword"))
-        { showErr("confirmPasswordError", "Passwords do not match");                         valid = false; }
-      if (!val("phoneNumber"))   { showErr("phoneNumberError",   "Phone is required");        valid = false; }
+        { showErr("confirmPasswordError", "Passwords don't match");                      valid = false; }
+      if (!val("phoneNumber"))   { showErr("phoneNumberError", "Phone is required");     valid = false; }
       if (!val("age") || +val("age") < 18 || +val("age") > 100)
-        { showErr("ageError", "Age must be 18–100");                                         valid = false; }
-      if (!val("gender"))        { showErr("genderError",        "Gender is required");       valid = false; }
-      if (!val("role"))          { showErr("roleError",          "Role is required");         valid = false; }
+        { showErr("ageError", "Age must be 18-100");                                    valid = false; }
+      if (!val("gender"))        { showErr("genderError", "Gender is required");         valid = false; }
+      if (!val("role"))          { showErr("roleError", "Role is required");            valid = false; }
     }
 
     if (step === 2) {
-      if (!val("medicalId"))         { showErr("medicalIdError",         "Medical ID is required");       valid = false; }
-      if (!val("hospitalAffiliation")){ showErr("hospitalAffiliationError","Hospital is required");       valid = false; }
-      if (!val("yearsExperience"))   { showErr("yearsExperienceError",   "Years of experience required"); valid = false; }
-      if (!val("patientsPerWeek"))   { showErr("patientsPerWeekError",   "Patients/week required");       valid = false; }
-      if (!val("university"))        { showErr("universityError",        "University is required");       valid = false; }
-      if (!val("medicalDegree"))     { showErr("medicalDegreeError",     "Medical degree is required");   valid = false; }
+      if (!val("medicalId"))          { showErr("medicalIdError", "Medical ID is required");            valid = false; }
+      if (!val("hospitalAffiliation")){ showErr("hospitalAffiliationError", "Hospital affiliation required"); valid = false; }
+      if (!val("yearsExperience"))    { showErr("yearsExperienceError", "Years of experience required"); valid = false; }
+      if (!val("patientsPerWeek"))    { showErr("patientsPerWeekError", "Patients/week required");      valid = false; }
+      if (!val("university"))         { showErr("universityError", "University is required");           valid = false; }
+      if (!val("medicalDegree"))      { showErr("medicalDegreeError", "Medical degree is required");    valid = false; }
       if (!state.files.medical_license) {
-        showErr("licenseError", "Medical license is required");                                            valid = false;
+        showErr("licenseError", "Medical license is required");                                      valid = false;
       }
     }
 
@@ -129,6 +131,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function showErr(id, msg) {
     const el = document.getElementById(id);
     if (el) { el.textContent = msg; el.classList.add("show"); }
+    // Also mark the input
+    const inputEl = el?.closest(".form-group")?.querySelector("input, select");
+    if (inputEl) inputEl.classList.add("has-error");
   }
 
   function clearErrors() {
@@ -136,11 +141,11 @@ document.addEventListener("DOMContentLoaded", function () {
       el.textContent = "";
       el.classList.remove("show");
     });
+    document.querySelectorAll(".has-error").forEach(el => el.classList.remove("has-error"));
   }
 
   // ─── File Upload ───────────────────────────────────────
   function initFileUpload() {
-    // License (single)
     const licenseInput = document.getElementById("medicalLicense");
     const licenseList  = document.getElementById("licenseFileList");
 
@@ -150,12 +155,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!isValidFile(file)) return;
       state.files.medical_license = file;
       renderFileList([file], licenseList, "license");
-      clearErrors();
+      document.getElementById("licenseError")?.classList.remove("show");
     });
 
+    licenseInput?.addEventListener("click", (e) => e.stopPropagation());
     initDropZone("licenseDropZone", licenseInput);
 
-    // Documents (multiple)
     const docsInput = document.getElementById("medicalDocuments");
     const docsList  = document.getElementById("medicalDocsList");
 
@@ -165,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
       renderFileList(state.files.medical_documents, docsList, "document");
     });
 
+    docsInput?.addEventListener("click", (e) => e.stopPropagation());
     initDropZone("medicalDocsDropZone", docsInput);
   }
 
@@ -172,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const zone = document.getElementById(zoneId);
     if (!zone || !input) return;
 
+    zone.addEventListener("click", () => input.click());
     zone.addEventListener("dragover",  (e) => { e.preventDefault(); zone.classList.add("dragover"); });
     zone.addEventListener("dragleave", ()  => zone.classList.remove("dragover"));
     zone.addEventListener("drop", (e) => {
@@ -187,11 +194,11 @@ document.addEventListener("DOMContentLoaded", function () {
                      "application/msword",
                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
     if (!allowed.includes(file.type)) {
-      alert(`Invalid file type: ${file.name}`);
+      showToast(`Invalid file type: ${file.name}`, "error");
       return false;
     }
     if (file.size > 5 * 1024 * 1024) {
-      alert(`File too large (max 5MB): ${file.name}`);
+      showToast(`File too large (max 5MB): ${file.name}`, "error");
       return false;
     }
     return true;
@@ -208,12 +215,15 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="file-name">${f.name}</div>
           <div class="file-size">${(f.size / 1024).toFixed(1)} KB</div>
         </div>
-        <button class="remove-file" data-type="${type}" data-index="${i}">×</button>
+        <button class="remove-file" data-type="${type}" data-index="${i}" title="Remove file">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
     `).join("");
 
     container.querySelectorAll(".remove-file").forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
         const i = +btn.dataset.index;
         if (btn.dataset.type === "license") {
           state.files.medical_license = null;
@@ -226,13 +236,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // ─── Toast helper ────────────────────────────────────────
+  function showToast(message, type = "error") {
+    const container = document.getElementById("toastContainer");
+    if (!container) return;
+    const toast = document.createElement("div");
+    toast.className = `toast toast--${type}`;
+    const icon = type === "success" ? "fa-check-circle" : type === "error" ? "fa-exclamation-circle" : "fa-info-circle";
+    toast.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = "0";
+      toast.style.transform = "translateY(-20px)";
+      setTimeout(() => toast.remove(), 300);
+    }, 3500);
+  }
+
   // ─── Review (Step 3) ───────────────────────────────────
   function populateReview() {
-    collectStepData(2); // اجمع آخر بيانات
+    collectStepData(2);
 
-    const basicReview = document.getElementById("basicInfoReview");
+    const basicReview  = document.getElementById("basicInfoReview");
     const doctorReview = document.getElementById("doctorDetailsReview");
-    const docsReview = document.getElementById("documentsReview");
+    const docsReview   = document.getElementById("documentsReview");
 
     if (basicReview) {
       basicReview.innerHTML = reviewGrid([
@@ -265,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
       state.files.medical_documents.forEach(f => allFiles.push({ name: f.name, type: "Document" }));
       docsReview.innerHTML = allFiles.length
         ? allFiles.map(f => `<div class="document-item"><span class="badge">${f.type}</span> ${f.name}</div>`).join("")
-        : `<p style="color:var(--color-text-secondary)">No documents uploaded</p>`;
+        : `<p style="color:var(--text-muted);font-size:14px;"><i class="fas fa-info-circle" style="margin-right:6px;"></i>No documents uploaded</p>`;
     }
   }
 
@@ -278,7 +304,7 @@ document.addEventListener("DOMContentLoaded", function () {
     `).join("");
   }
 
-  // ─── Custom Selects (Gender + Role) ───────────────────
+  // ─── Custom Selects ─────────────────────────────────────
   function initCustomSelects() {
     document.querySelectorAll(".custom-select").forEach(container => {
       const trigger     = container.querySelector(".select-trigger");
@@ -314,14 +340,25 @@ document.addEventListener("DOMContentLoaded", function () {
   // ─── Password visibility toggle ────────────────────────
   function initPasswordToggles() {
     document.querySelectorAll(".toggle-password").forEach(btn => {
+      // Make sure the eye icon is rendered with the correct initial state (password hidden => fa-eye)
+      if (!btn.querySelector("i")) {
+        const i = document.createElement("i");
+        i.className = "fas fa-eye";
+        btn.appendChild(i);
+      } else {
+        const i = btn.querySelector("i");
+        i.classList.remove("fa-eye-slash");
+        i.classList.add("fa-eye");
+      }
+
       btn.addEventListener("click", () => {
         const input = document.getElementById(btn.dataset.target);
         const icon  = btn.querySelector("i");
         if (!input) return;
-        const isPass = input.type === "password";
-        input.type = isPass ? "text" : "password";
-        icon?.classList.toggle("fa-eye",       !isPass);
-        icon?.classList.toggle("fa-eye-slash",  isPass);
+        input.type = input.type === "password" ? "text" : "password";
+        const isHidden = input.type === "password";
+        icon.classList.toggle("fa-eye",       isHidden);
+        icon.classList.toggle("fa-eye-slash",  !isHidden);
       });
     });
   }
@@ -337,15 +374,11 @@ document.addEventListener("DOMContentLoaded", function () {
     state.data.acknowledged_terms = true;
     collectStepData(2);
 
-    // بناء الـ FormData — كل البيانات + الملفات مع بعض
     const formData = new FormData();
-
-    // Text fields
     Object.entries(state.data).forEach(([key, value]) => {
       formData.append(key, value);
     });
 
-    // Files
     if (state.files.medical_license) {
       formData.append("medical_license", state.files.medical_license);
     }
@@ -353,11 +386,10 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.append("medical_documents", f);
     });
 
-    // Loading state
-    const submitBtn = document.querySelector(".btn-submit");
+    const submitBtn = document.querySelector(".btn--success[onclick='submitForm()']");
     const original  = submitBtn?.innerHTML;
     if (submitBtn) {
-      submitBtn.innerHTML  = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+      submitBtn.innerHTML  = '<span class="spinner"></span> Submitting...';
       submitBtn.disabled   = true;
     }
 
@@ -365,25 +397,24 @@ document.addEventListener("DOMContentLoaded", function () {
       const res  = await fetch("http://localhost:5000/api/doctors/register", {
         method: "POST",
         body:   formData,
-        // لا تضيف Content-Type — المتصفح يحددها تلقائياً مع الـ boundary
       });
       const data = await res.json();
 
       if (!res.ok) {
-        alert("❌ " + data.message);
+        showToast(data.message || "Submission failed", "error");
+        if (submitBtn) {
+          submitBtn.innerHTML = original;
+          submitBtn.disabled  = false;
+        }
         return;
       }
 
-      // Show success modal
       document.getElementById("successModal")?.classList.add("show");
-
-      // مسح الـ state
-      sessionStorage.setItem("doctor_id",   data.doctor_id);
+      sessionStorage.setItem("doctor_id", data.doctor_id);
       sessionStorage.setItem("doctor_serial", data.serial);
 
     } catch {
-      alert("Connection error. Is the server running on port 5000?");
-    } finally {
+      showToast("Connection error. Is the server running on port 5000?", "error");
       if (submitBtn) {
         submitBtn.innerHTML = original;
         submitBtn.disabled  = false;

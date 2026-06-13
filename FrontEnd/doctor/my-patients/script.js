@@ -1,4 +1,4 @@
-// my-patients/script.js — CardioAI
+// doctor/my-patients/script.js — CardioAI
 // No type="module". Plain script tag.
 
 const API = "http://localhost:5000/api";
@@ -45,6 +45,13 @@ function avatarUrl(name, bg = "003785") {
   return `https://ui-avatars.com/api/?name=${f}+${l}&background=${bg}&color=fff&size=128&bold=true`;
 }
 
+function resolvePatientUrl(url) {
+  if (!url) return url;
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) return url;
+  if (url.startsWith('/')) return 'http://localhost:5000' + url;
+  return 'http://localhost:5000/' + url;
+}
+
 // ─── API fetch ────────────────────────────────────────────────────────────────
 async function apiFetch(endpoint) {
   try {
@@ -84,11 +91,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const namePill = document.getElementById("doctorNamePill");
   if (namePill) namePill.textContent = user.full_name ?? "Doctor";
 
-  const avatarPill = document.getElementById("doctorAvatarPill");
-  if (avatarPill) {
-    const saved = localStorage.getItem(`avatar_${userId}`);
-    avatarPill.src = user.avatar_url || saved || avatarUrl(user.full_name);
-    avatarPill.onerror = () => { avatarPill.src = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"; };
+  const avatarEl = document.getElementById("doctorAvatar");
+  if (avatarEl && typeof AuthManager !== "undefined") {
+    AuthManager.initDoctorAvatar(avatarEl, userId, user.full_name);
+  } else if (avatarEl) {
+    avatarEl.textContent = initials(user.full_name);
   }
 
   // ── Step 1: get this doctor's appointments ────────────────────────────────
@@ -149,6 +156,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Age: calculate from DOB if available, else fall back to appointment field
     const age = calcAge(p.date_of_birth) ?? latest.patient_age ?? p.age ?? null;
 
+    const rawAvatar = p.avatar_url || (p.files && p.files.length ? p.files[0].file_path : null);
+
     return {
       id: pid,
       name: p.full_name ?? latest.patient_name ?? "Unknown",
@@ -159,6 +168,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       email: p.email ?? latest.patient_email ?? "—",
       blood_type: p.blood_type ?? latest.blood_type ?? "—",
       condition: p.condition_text ?? latest.condition_text ?? "—",
+      avatar_url: rawAvatar,
       status: deriveStatus(patAppts),
       lastVisit: formatDate(latest.appointment_date),
       appointmentType: latest.appointment_type ?? "—",
@@ -207,7 +217,7 @@ function renderPatients(patients) {
     card.querySelector(".btn-records")?.addEventListener("click", e => {
       e.stopPropagation();
       sessionStorage.setItem("view_patient_id", pid);
-      window.location.href = "../patient-search/view-patient-hisoty/index.html";
+      window.location.href = "../patient-search/view-patient-history/index.html";
     });
   });
 }
@@ -215,11 +225,13 @@ function renderPatients(patients) {
 function createCard(p) {
   const sc = p.status === "Critical" ? "critical" : p.status === "Active" ? "active" : "inactive";
   const bdr = p.status === "Critical" ? 'style="border-top:4px solid var(--danger-red);"' : "";
-  const saved = localStorage.getItem(`avatar_${p.id}`);
-  const avatarHtml = saved
-    ? `<img src="${saved}" class="patient-avatar">`
+  const avatarSrc = p.avatar_url || localStorage.getItem(`avatar_patient_${p.id}`);
+  const avatarHtml = avatarSrc
+    ? `<img src="${resolvePatientUrl(avatarSrc)}" class="patient-avatar">`
     : `<div class="patient-avatar" style="display:flex;align-items:center;justify-content:center;
         background:#003785;color:#fff;font-weight:700;font-size:20px;">${initials(p.name)}</div>`;
+
+  console.log("[MyPatients] Rendering patient:", p);
 
   return `
     <div class="patient-card" data-patient-id="${p.id}" ${bdr} style="cursor:pointer;">
@@ -268,13 +280,13 @@ function setApptStat(count) {
 
 // ─── Search ───────────────────────────────────────────────────────────────────
 function initSearch() {
-  let input = document.querySelector(".header-actions input[type='text']");
+  let input = document.querySelector(".dashboard-header__actions input[type='text']");
   if (!input) {
     input = document.createElement("input");
     input.type = "text";
     input.placeholder = "Search by name or ID...";
     input.style.cssText = "padding:9px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;outline:none;min-width:200px;";
-    const ha = document.querySelector(".header-actions");
+    const ha = document.querySelector(".dashboard-header__actions");
     if (ha) ha.insertBefore(input, ha.firstChild);
   }
   input.addEventListener("input", () => {
@@ -316,11 +328,9 @@ async function openModal(patientId) {
         background:none;border:none;font-size:20px;cursor:pointer;color:#6b7280;line-height:1;">✕</button>
 
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
-        <div style="width:56px;height:56px;background:#003785;border-radius:50%;
-          display:flex;align-items:center;justify-content:center;
-          color:#fff;font-weight:700;font-size:18px;flex-shrink:0;">
-          ${initials(p.name)}
-        </div>
+        ${p.avatar_url
+          ? `<div style="width:56px;height:56px;border-radius:50%;background-size:cover;background-position:center;background-image:url('${resolvePatientUrl(p.avatar_url)}');flex-shrink:0;"></div>`
+          : `<div style="width:56px;height:56px;border-radius:50%;background:#003785;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;flex-shrink:0;">${initials(p.name)}</div>`}
         <div>
           <h2 style="font-size:18px;color:#1f2937;margin-bottom:4px;">${escHtml(p.name)}</h2>
           <span style="padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;
@@ -364,7 +374,7 @@ async function openModal(patientId) {
       </div>
 
       <div style="display:flex;gap:10px;">
-        <button onclick="sessionStorage.setItem('view_patient_id','${patientId}');window.location.href='../patient-search/view-patient-hisoty/index.html';"
+        <button onclick="sessionStorage.setItem('view_patient_id','${patientId}');window.location.href='../patient-search/view-patient-history/index.html';"
           style="flex:1;padding:10px;background:#003785;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500;">
           Open Records
         </button>

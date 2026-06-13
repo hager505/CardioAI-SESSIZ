@@ -1,0 +1,322 @@
+/* auth/css/login.css */
+/* CardioAI Login — Theme-aligned design */
+
+:root {
+  --login-primary: #003785;
+  --login-primary-dark: #002a66;
+  --login-primary-light: rgba(0, 55, 133, 0.06);
+  --login-accent: #779f00;
+  --login-accent-hover: #8eb036;
+  --login-accent-light: rgba(119, 159, 0, 0.08);
+  --login-btn-bg: #a2c53b;
+  --login-btn-hover: #8eb036;
+  --login-text: #171a1f;
+  --login-text-muted: #565e6c;
+  --login-text-placeholder: #8c95a3;
+  --login-border: #dee1e6;
+  --login-card-bg: #ffffff;
+  --login-body-bg: #f5f7fa;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--login-body-bg);
+  padding-top: 64px;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(0, 55, 133, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(119, 159, 0, 0.03) 0%, transparent 60%);
+  background-attachment: fixed;
+  color: var(--login-text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Navbar Override ─────────────────────────────── */
+.navbar {
+  background: var(--login-card-bg);
+  border-bottom: 1px solid var(--login-border);
+}
+
+/* ─── Login Main ──────────────────────────────────── */
+.login-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px);
+  padding: 40px 20px;
+}
+
+/* ─── Login Card ──────────────────────────────────── */
+.login-card {
+  background: var(--login-card-bg);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(23, 26, 31, 0.1);
+  width: 100%;
+  max-width: 440px;
+  padding: 44px 40px;
+  border: 1px solid #e8eaed;
+  animation: loginFadeIn 0.5s ease-out;
+}
+
+@keyframes loginFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.login-card__header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.login-card__title {
+  color: var(--login-primary);
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.login-card__subtitle {
+  color: var(--login-text-muted);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+/* ─── Login Form ──────────────────────────────────── */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.login-form__label {
+  color: var(--login-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.login-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--login-text-placeholder);
+  font-size: 15px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.login-form__input {
+  width: 100%;
+  height: 50px;
+  padding: 0 14px 0 42px;
+  border: 2px solid var(--login-border);
+  border-radius: 10px;
+  background: var(--login-card-bg);
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--login-text);
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.login-form__input:focus {
+  border-color: var(--login-accent);
+  box-shadow: 0 0 0 3px rgba(119, 159, 0, 0.1);
+}
+
+.login-form__input::placeholder {
+  color: var(--login-text-placeholder);
+  font-size: 14px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--login-text-placeholder);
+  cursor: pointer;
+  padding: 6px;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+.toggle-password:hover { color: var(--login-text); }
+
+/* ─── Form Options ────────────────────────────────── */
+.login-form__options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0;
+}
+
+.login-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+.login-checkbox input { display: none; }
+
+.login-checkbox__custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--login-text-muted);
+  border-radius: 4px;
+  background: var(--login-card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.login-checkbox input:checked + .login-checkbox__custom {
+  background: var(--login-accent);
+  border-color: var(--login-accent);
+}
+
+.login-checkbox input:checked + .login-checkbox__custom::after {
+  content: '\2713';
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.login-checkbox__text {
+  color: var(--login-accent);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-forgot {
+  color: var(--login-accent);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.25s ease;
+}
+.login-forgot:hover {
+  background: var(--login-accent-light);
+  text-decoration: underline;
+}
+
+/* ─── Submit Button ───────────────────────────────── */
+.login-submit {
+  width: 100%;
+  height: 50px;
+  background: var(--login-btn-bg);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+.login-submit:hover {
+  background: var(--login-btn-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(162, 197, 59, 0.3);
+}
+.login-submit:active {
+  transform: translateY(0);
+}
+
+/* ─── Divider ─────────────────────────────────────── */
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--login-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  margin: 4px 0;
+}
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--login-border);
+}
+
+/* ─── Sign Up Buttons ─────────────────────────────── */
+.login-signup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-signup__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 48px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.login-signup__btn--doctor {
+  background: transparent;
+  color: var(--login-accent);
+  border: 2px solid var(--login-accent);
+}
+.login-signup__btn--doctor:hover {
+  background: var(--login-accent);
+  color: #ffffff;
+}
+
+.login-signup__btn--patient {
+  background: transparent;
+  color: var(--login-primary);
+  border: 2px solid var(--login-primary);
+}
+.login-signup__btn--patient:hover {
+  background: var(--login-primary);
+  color: #ffffff;
+}
+
+/* ─── Responsive ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .login-main { padding: 24px 16px; }
+  .login-card { padding: 36px 28px; }
+  .login-card__title { font-size: 26px; }
+  .login-form__options { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+
+@media (max-width: 480px) {
+  .login-card { padding: 28px 20px; border-radius: 12px; }
+  .login-card__title { font-size: 24px; }
+  .login-form__input { height: 46px; font-size: 14px; }
+  .login-submit { height: 46px; font-size: 15px; }
+}

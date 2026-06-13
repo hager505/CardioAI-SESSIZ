@@ -1,3 +1,4 @@
+// doctor/config/api-global.js --- Shared API Configuration for Doctor Frontend (Global Script)
 /**
  * Cardio AI - Shared API Configuration (Global Script)
  * Use this for pages with regular <script src="...">

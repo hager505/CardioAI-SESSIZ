@@ -1,71 +1,78 @@
+<!-- Logout Confirmation "logout.html" -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="patient/style.css" />
-    <title>Logout Confirmation</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="patient/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Logout — CardioAI</title>
 </head>
 <body>
-    
-        <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-part1">Cardio</span>
-                <span class="logo-part2">AI</span>
-            </div>
-            <div class="nav-menu">
-                <div class="nav-item"><a href="/startpage/home.html">Home</a></div>
-                <div class="nav-item"><a href="/startpage/home.html">Features</a></div>
-                <div class="nav-item"><a href="/startpage/home.html">About</a></div>
-                <div class="nav-item"><a href="/startpage/home.html">Contact</a></div>
-            </div>
-            <div class="signup-btn">
-                <a href="#cta-section">Sign up</a>
-            </div>
-        </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-content">
+      <a href="../index.html" class="logo">
+        <span class="logo-part1">Cardio</span>
+        <span class="logo-part2">AI</span>
+      </a>
+      <nav class="nav-menu">
+        <div class="nav-item"><a href="../index.html"><i class="fas fa-home" style="margin-right:6px;font-size:12px;"></i>Home</a></div>
+        <div class="nav-item"><a href="../index.html#about">About</a></div>
+        <div class="nav-item"><a href="../index.html#features">Features</a></div>
+        <div class="nav-item"><a href="../index.html#cta-section">Contact</a></div>
+      </nav>
     </div>
-    
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Logout Confirmation Card -->
-        <div class="logout-card">
-            <div class="logout-card__header">
-                <div class="logout-card__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                </div>
-                <h2 class="logout-card__title">Are you sure you want to log out?</h2>
-                <p class="logout-card__subtitle">
-                    You will be signed out from your account. Any unsaved changes may be lost.
-                </p>
-            </div>
-            
-            <!-- Action Buttons -->
-            <div class="logout-card__actions">
-                <button class="logout-btn logout-btn--primary" id="logoutBtn">
-                    <span class="btn-text">Log Out</span>
-                </button>
-                
-                <button class="logout-btn logout-btn--secondary" id="cancelBtn">
-                    <span class="btn-text">Cancel</span>
-                </button>
-            </div>
-            
-            <!-- Additional Info -->
-            <div class="logout-card__info">
-                <p class="info-text">
-                    You can log back in anytime using your email and password.
-                </p>
-            </div>
-        </div>
-    </main>
-    
-    <script src="logout.js"></script>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="card card--center">
+      <div class="logout-card__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </div>
+
+      <h2 class="logout-card__title">Log Out?</h2>
+      <p class="logout-card__subtitle">
+        You will be signed out from your account.<br>Any unsaved changes may be lost.
+      </p>
+
+      <!-- Actions -->
+      <div class="logout-card__actions">
+        <button class="btn btn--danger btn--full btn--lg" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="btn-text">Log Out</span>
+        </button>
+
+        <button class="btn btn--secondary btn--full" id="cancelBtn">
+          <i class="fas fa-times"></i>
+          <span class="btn-text">Cancel</span>
+        </button>
+      </div>
+
+      <!-- Info -->
+      <div class="logout-card__info">
+        <p class="info-text">
+          <i class="fas fa-info-circle" style="margin-right:4px;"></i>
+          You can log back in anytime using your email and password.
+        </p>
+      </div>
+
+      <!-- Success message placeholder -->
+      <div id="successContainer"></div>
+    </div>
+  </main>
+
+  <script src="logout.js"></script>
 </body>
 </html>

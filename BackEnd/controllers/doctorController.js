@@ -2,6 +2,12 @@
 import bcrypt from "bcrypt";
 import db from "../config/db.js";
 
+// ─── Normalise filesystem path → URL path ──────────────────────────────────────
+function toUrlPath(p) {
+  if (!p) return null;
+  return '/' + p.replace(/\\/g, '/');
+}
+
 // ─── Serial generator ─────────────────────────────────────────────────────────
 function generateSerial() {
   const now = new Date();
@@ -177,7 +183,7 @@ export async function loginDoctor(req, res) {
       [doctor.id]
     );
     if (files.length > 0) {
-      safeDoctor.avatar_url = files[0].file_path;
+      safeDoctor.avatar_url = toUrlPath(files[0].file_path);
     }
 
     // Normalise any date fields
@@ -242,10 +248,115 @@ export async function getDoctor(req, res) {
     );
 
     const { password_hash, ...doctor } = rows[0];
+    // Normalise file paths to URL paths
+    if (files) {
+      files.forEach(f => { if (f.file_path) f.file_path = toUrlPath(f.file_path); });
+      const avatarFile = files.find(f => f.file_type === 'avatar');
+      if (avatarFile) doctor.avatar_url = avatarFile.file_path;
+    }
     res.json({ ...doctor, files });
 
   } catch (err) {
     console.error("getDoctor error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+// ─── UPDATE doctor ────────────────────────────────────────────────────────────
+export async function updateDoctor(req, res) {
+  try {
+    const { full_name, email, phone, address } = req.body;
+    const { id } = req.params;
+
+    if (!full_name || !email)
+      return res.status(400).json({ message: "Full name and email are required" });
+
+    const [result] = await db.query(
+      "UPDATE doctors SET full_name = ?, email = ?, phone = ?, address = ? WHERE id = ?",
+      [full_name, email, phone || null, address || null, id]
+    );
+
+    if (result.affectedRows === 0)
+      return res.status(404).json({ message: "Doctor not found" });
+
+    res.json({ message: "Profile updated successfully" });
+  } catch (err) {
+    console.error("updateDoctor error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+// ─── CHANGE PASSWORD ──────────────────────────────────────────────────────────
+export async function changePassword(req, res) {
+  try {
+    const { current_password, new_password } = req.body;
+    const { id } = req.params;
+
+    if (!current_password || !new_password)
+      return res.status(400).json({ message: "Current and new password required" });
+
+    if (new_password.length < 6)
+      return res.status(400).json({ message: "Password must be at least 6 characters" });
+
+    const [rows] = await db.query(
+      "SELECT password_hash FROM doctors WHERE id = ?", [id]
+    );
+    if (!rows.length)
+      return res.status(404).json({ message: "Doctor not found" });
+
+    const valid = await bcrypt.compare(current_password, rows[0].password_hash);
+    if (!valid)
+      return res.status(401).json({ message: "Current password is incorrect" });
+
+    const password_hash = await bcrypt.hash(new_password, 10);
+    await db.query("UPDATE doctors SET password_hash = ? WHERE id = ?", [password_hash, id]);
+
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error("changePassword error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+// ─── UPLOAD AVATAR ────────────────────────────────────────────────────────────
+export async function uploadAvatar(req, res) {
+  try {
+    const { id } = req.params;
+
+    if (!req.file)
+      return res.status(400).json({ message: "No file uploaded" });
+
+    const file = req.file;
+
+    // Remove old avatar files
+    await db.query(
+      "DELETE FROM doctor_files WHERE doctor_id = ? AND file_type = 'avatar'", [id]
+    );
+
+    await db.query(
+      `INSERT INTO doctor_files (doctor_id, file_type, file_name, file_path)
+       VALUES (?, 'avatar', ?, ?)`,
+      [id, file.originalname, file.path]
+    );
+
+    const urlPath = toUrlPath(file.path);
+    res.json({ message: "Avatar uploaded", file_path: urlPath });
+  } catch (err) {
+    console.error("uploadAvatar error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+// ─── DELETE DOCTOR AVATAR ────────────────────────────────────────────────────
+export async function deleteDoctorAvatar(req, res) {
+  try {
+    const { id } = req.params;
+    await db.query(
+      "DELETE FROM doctor_files WHERE doctor_id = ? AND file_type = 'avatar'", [id]
+    );
+    res.json({ message: "Avatar removed", avatar_url: null });
+  } catch (err) {
+    console.error("deleteDoctorAvatar error:", err);
     res.status(500).json({ message: "Server error" });
   }
 }

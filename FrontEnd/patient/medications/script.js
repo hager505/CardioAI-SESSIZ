@@ -1,3 +1,4 @@
+// patient/medications/script.js
 // ─── Auth Guard ───────────────────────────────────────────────────────────────
 const userData = JSON.parse(sessionStorage.getItem('user_data') || 'null');
 const userRole = sessionStorage.getItem('user_role');
@@ -45,7 +46,7 @@ function renderAvatar() {
   const container = document.querySelector('.profile-avatar-container');
   if (!container) return;
 
-  const saved = localStorage.getItem(`avatar_${userId}`);
+  const saved = localStorage.getItem(`avatar_patient_${userId}`);
   if (saved) {
     container.innerHTML = `<img src="${saved}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" alt="avatar">`;
     return;
@@ -111,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res  = await fetch(`${API}/patients/${userId}/medications`);
       const json = await res.json();
-      allMedications = json.data || [];
+      allMedications = json.data || json.medications || [];
     } catch {
       // Offline: try sessionStorage cache
       const cached = sessionStorage.getItem('medications_cache');
@@ -122,6 +123,27 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.setItem('medications_cache', JSON.stringify(allMedications));
     renderAllSections();
     updateCounts();
+  }
+
+  // Effective status combines the DB enum (active/past) with the
+  // refill_due date so the UI can show a "Refill Due" tab even though
+  // the DB doesn't have a refill-due status value.
+  function effectiveStatus(m) {
+    if (!m) return 'active';
+    if (m.status === 'past') return 'past';
+    if (m.refill_due) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const due = new Date(m.refill_due);
+      due.setHours(0, 0, 0, 0);
+      if (due <= today) return 'refill-due';
+    }
+    return m.status || 'active';
+  }
+
+  function isRefillRequested(m) {
+    // Persisted on the client only; survives reloads via localStorage
+    return localStorage.getItem(`refill_req_${m.id}`) === '1';
   }
 
   // ─── Render All Sections ───────────────────────────────────────────────────
@@ -137,7 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusF = filterStatus?.value || 'all';
 
     let list = allMedications.filter(m => {
-      const matchStatus = statusF === 'all' || normalizeStatus(m.status) === statusF;
+      const eff = effectiveStatus(m);
+      const matchStatus = statusF === 'all' || eff === statusF;
       const matchSearch = !search || [m.medication_name, m.dosage, m.prescribed_by]
         .some(f => f && f.toLowerCase().includes(search));
       return matchStatus && matchSearch;
@@ -145,13 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     switch (section) {
       case 'active':
-        renderCards(list.filter(m => normalizeStatus(m.status) === 'active'), activeMedicationsGrid);
+        renderCards(list.filter(m => effectiveStatus(m) === 'active'), activeMedicationsGrid);
         break;
       case 'past':
-        renderTable(list.filter(m => normalizeStatus(m.status) === 'past'), pastMedicationsBody);
+        renderTable(list.filter(m => effectiveStatus(m) === 'past'), pastMedicationsBody);
         break;
       case 'refill-due':
-        renderCards(list.filter(m => normalizeStatus(m.status) === 'refill-due'), refillDueGrid);
+        renderCards(list.filter(m => effectiveStatus(m) === 'refill-due'), refillDueGrid);
         break;
       case 'all':
         renderCards(list, allMedicationsGrid);
@@ -176,36 +199,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function buildCard(m) {
     const card = document.createElement('div');
-    card.className   = 'medication-card';
+    card.className   = `medication-card med-status-${effectiveStatus(m).replace('-', '')}`;
     card.dataset.id  = m.id;
 
-    const status      = normalizeStatus(m.status);
+    const status      = effectiveStatus(m);
     const statusLabel = statusDisplayName(status);
     const imgSrc      = localStorage.getItem(`med_img_${m.id}`) || '';
+    const refillRequested = isRefillRequested(m);
+
+    let refillTag = '';
+    if (m.refill_due) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const due = new Date(m.refill_due);
+      due.setHours(0, 0, 0, 0);
+      const diffDays = Math.round((due - today) / 86400000);
+      let tone = 'ok';
+      let label = `Refill in ${diffDays}d`;
+      if (diffDays < 0)      { tone = 'overdue'; label = `Refill overdue (${Math.abs(diffDays)}d)`; }
+      else if (diffDays === 0) { tone = 'due';     label = 'Refill due today'; }
+      else if (diffDays <= 7) { tone = 'soon';    label = `Refill in ${diffDays}d`; }
+      refillTag = `<span class="refill-pill refill-${tone}">${label}</span>`;
+    }
 
     card.innerHTML = `
       <div class="medication-header">
-        <h3 class="medication-name">${m.medication_name}</h3>
-        <div class="status-badge ${status}"><span>${statusLabel}</span></div>
+        <div class="medication-header-main">
+          <div class="medication-icon"><i class="fas fa-pills"></i></div>
+          <div>
+            <h3 class="medication-name">${escapeHtml(m.medication_name)}</h3>
+            <div class="medication-sub">
+              <span class="status-badge ${status}"><span>${statusLabel}</span></span>
+              ${refillTag}
+              ${refillRequested ? '<span class="refill-pill refill-pending"><i class="fas fa-paper-plane"></i> Refill requested</span>' : ''}
+            </div>
+          </div>
+        </div>
       </div>
       <div class="medication-info">
-        <div class="info-item"><i class="fas fa-capsules"></i><span>Dosage: ${m.dosage || '—'}</span></div>
-        <div class="info-item"><i class="fas fa-clock"></i><span>${m.frequency || '—'}</span></div>
-        ${m.start_date ? `<div class="info-item"><i class="fas fa-calendar-alt"></i><span>Start: ${formatDate(m.start_date)}</span></div>` : ''}
-        ${m.refill_due ? `<div class="info-item"><i class="fas fa-sync-alt"></i><span>Refill due: ${formatDate(m.refill_due)}</span></div>` : ''}
-        ${m.prescribed_by ? `<div class="info-item"><i class="fas fa-user-md"></i><span>${m.prescribed_by}</span></div>` : ''}
+        ${m.dosage       ? `<div class="info-item"><i class="fas fa-capsules"></i><span>${escapeHtml(m.dosage)}</span></div>` : ''}
+        ${m.frequency    ? `<div class="info-item"><i class="fas fa-clock"></i><span>${escapeHtml(m.frequency)}</span></div>` : ''}
+        ${m.time_of_day  ? `<div class="info-item"><i class="fas fa-sun"></i><span>${escapeHtml(m.time_of_day)}</span></div>` : ''}
+        ${m.start_date   ? `<div class="info-item"><i class="fas fa-calendar-plus"></i><span>Started ${formatDate(m.start_date)}</span></div>` : ''}
+        ${m.prescribed_by? `<div class="info-item"><i class="fas fa-user-md"></i><span>${escapeHtml(m.prescribed_by)}</span></div>` : ''}
+        ${m.instructions ? `<div class="info-item info-instructions"><i class="fas fa-info-circle"></i><span>${escapeHtml(m.instructions)}</span></div>` : ''}
       </div>
       <div class="medication-image">
         ${imgSrc
-          ? `<img src="${imgSrc}" alt="${m.medication_name}">`
-          : `<div class="default-image"><i class="fas fa-pills"></i><p>No image uploaded</p></div>`}
+          ? `<img src="${imgSrc}" alt="${escapeHtml(m.medication_name)}">`
+          : `<div class="default-image"><i class="fas fa-pills"></i></div>`}
       </div>
       <div class="medication-actions">
         <button class="action-btn view"   data-action="view"   data-id="${m.id}"><i class="fas fa-eye"></i> View</button>
         <button class="action-btn edit"   data-action="edit"   data-id="${m.id}"><i class="fas fa-edit"></i> Edit</button>
-        <button class="action-btn delete" data-action="delete" data-id="${m.id}"><i class="fas fa-trash"></i> Delete</button>
         ${status === 'active' ? `<button class="action-btn set-reminder" data-action="reminder" data-id="${m.id}"><i class="fas fa-bell"></i> Reminder</button>` : ''}
-        ${!imgSrc ? `<button class="action-btn upload" data-action="upload" data-id="${m.id}"><i class="fas fa-upload"></i> Upload Image</button>` : ''}
+        ${!imgSrc ? `<button class="action-btn upload" data-action="upload" data-id="${m.id}"><i class="fas fa-upload"></i> Add Image</button>` : ''}
+        <button class="action-btn delete" data-action="delete" data-id="${m.id}"><i class="fas fa-trash"></i> Delete</button>
       </div>`;
 
     card.querySelectorAll('.action-btn').forEach(btn => {
@@ -216,6 +265,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     return card;
+  }
+
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   // ─── Table (Past) ──────────────────────────────────────────────────────────
@@ -276,17 +335,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const statusBadge = document.getElementById('detailsStatus');
     if (statusBadge) {
-      const s = normalizeStatus(m.status);
+      const s = effectiveStatus(m);
       statusBadge.className = `status-badge ${s}`;
       statusBadge.innerHTML = `<span>${statusDisplayName(s)}</span>`;
     }
 
     const imgSrc = localStorage.getItem(`med_img_${m.id}`) || '';
     const imgEl  = document.getElementById('detailsImage');
+    const iconEl = document.getElementById('detailsImagePlaceholder');
     if (imgEl) {
-      imgEl.innerHTML = imgSrc
-        ? `<img src="${imgSrc}" alt="${m.medication_name}">`
-        : `<div class="default-image"><i class="fas fa-pills"></i><p>No image</p></div>`;
+      if (imgSrc) {
+        // Image is uploaded: drop the pill placeholder, show the image.
+        if (iconEl) iconEl.style.display = 'none';
+        // Replace only any previous <img>, keep the (now hidden) icon
+        // node around so the next medication without an image still has
+        // something to fall back to without re-creating DOM.
+        let existing = imgEl.querySelector('img.medication-image-large__img');
+        if (!existing) {
+          existing = document.createElement('img');
+          existing.className = 'medication-image-large__img';
+          existing.alt = m.medication_name;
+          imgEl.appendChild(existing);
+        }
+        existing.src = imgSrc;
+      } else {
+        // No image: hide any previously injected <img> and show the
+        // static pill icon (`.medication-icon`) that lives in the HTML.
+        const existing = imgEl.querySelector('img.medication-image-large__img');
+        if (existing) existing.remove();
+        if (iconEl) iconEl.style.display = '';
+      }
     }
 
     document.getElementById('setReminderBtn').onclick  = () => openReminderModal(m);
@@ -322,7 +400,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('endDate').value           = m.end_date        ? m.end_date.split('T')[0]   : '';
     document.getElementById('instructions').value      = m.instructions    || '';
     document.getElementById('prescribingDoctor').value = m.prescribed_by   || '';
-    document.getElementById('status').value            = normalizeStatus(m.status);
+    // Form only supports the two valid DB enum values; if the record was
+    // previously "refill-due" the user can reset it to active.
+    document.getElementById('status').value            = m.status === 'past' ? 'past' : 'active';
     medicationIdInput.value = m.id;
 
     const imgSrc = localStorage.getItem(`med_img_${m.id}`) || '';
@@ -345,6 +425,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const id        = medicationIdInput.value;
     const isEditing = !!id;
 
+    // The DB only accepts 'active' or 'past' for status; the form may still
+    // have an old 'refill-due' value cached — coerce to the closest valid one.
+    let formStatus = document.getElementById('status').value;
+    if (formStatus !== 'active' && formStatus !== 'past') formStatus = 'active';
+
     const payload = {
       patient_id:     parseInt(userId),
       medication_name: document.getElementById('medicationName').value.trim(),
@@ -355,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
       end_date:        document.getElementById('endDate').value   || null,
       instructions:    document.getElementById('instructions').value.trim() || null,
       prescribed_by:   document.getElementById('prescribingDoctor').value.trim() || null,
-      status:          document.getElementById('status').value,
+      status:          formStatus,
       refill_due:      document.getElementById('endDate').value   || null,
     };
 
@@ -381,9 +466,24 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast('Medication added successfully!', 'success');
 
         // Store image in localStorage keyed by new ID
-        if (selectedImageBase64 && json.data?.id) {
-          localStorage.setItem(`med_img_${json.data.id}`, selectedImageBase64);
+        if (selectedImageBase64 && (json.data?.id || json.id)) {
+          localStorage.setItem(`med_img_${json.data?.id || json.id}`, selectedImageBase64);
         }
+
+        // Auto-create a notification record so the patient sees a
+        // "Medication added" entry in their notification center.
+        try {
+          await fetch(`${API}/notifications`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              patient_id: parseInt(userId, 10),
+              title: 'New Medication Added',
+              message: `${payload.medication_name} (${payload.dosage || ''}) has been added to your medication list.`,
+            }),
+          });
+          window.NotificationCount?.refresh();
+        } catch (_) { /* non-blocking */ }
       }
 
       // Store image update for existing record
@@ -414,15 +514,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── Refill Request ────────────────────────────────────────────────────────
   async function requestRefill(m) {
-    if (!confirm(`Request refill for ${m.medication_name}?`)) return;
+    if (!confirm(`Request a refill for ${m.medication_name}? Your care team will be notified.`)) return;
     try {
-      const res = await fetch(`${API}/medications/${m.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'refill-due' })
-      });
-      if (!res.ok) throw new Error();
-      showToast('Refill request sent!', 'success');
+      // Persist on the client so the card can show a "Refill requested" badge
+      localStorage.setItem(`refill_req_${m.id}`, '1');
+
+      // Push a notification record so it shows up in the notifications page
+      // and the doctor side can pick it up.
+      try {
+        await fetch(`${API}/notifications`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            patient_id: parseInt(userId, 10),
+            title: 'Medication Refill Requested',
+            message: `${userData?.full_name || 'Patient'} has requested a refill for ${m.medication_name} (${m.dosage || ''}).`,
+          }),
+        });
+        window.NotificationCount?.refresh();
+      } catch (_) { /* non-blocking — the client-side flag is the source of truth for the patient UI */ }
+
+      showToast('Refill request sent to your care team.', 'success');
       detailsModal.classList.remove('active');
       await loadMedications();
     } catch {
@@ -500,9 +612,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── Update Counts ─────────────────────────────────────────────────────────
   function updateCounts() {
-    activeCountEl.textContent  = allMedications.filter(m => normalizeStatus(m.status) === 'active').length;
-    pastCountEl.textContent    = allMedications.filter(m => normalizeStatus(m.status) === 'past').length;
-    refillCountEl.textContent  = allMedications.filter(m => normalizeStatus(m.status) === 'refill-due').length;
+    activeCountEl.textContent  = allMedications.filter(m => effectiveStatus(m) === 'active').length;
+    pastCountEl.textContent    = allMedications.filter(m => effectiveStatus(m) === 'past').length;
+    refillCountEl.textContent  = allMedications.filter(m => effectiveStatus(m) === 'refill-due').length;
     allCountEl.textContent     = allMedications.length;
   }
 
@@ -537,8 +649,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (logoutBtn) {
     logoutBtn.addEventListener('click', e => {
       e.preventDefault();
-      sessionStorage.clear();
-      window.location.href = '../../auth/login.html';
+      if (typeof AuthManager !== 'undefined' && AuthManager.handleLogout) {
+        AuthManager.handleLogout();
+      } else {
+        sessionStorage.clear();
+        localStorage.removeItem('isLoggedIn');
+        window.location.href = '../../auth/login.html';
+      }
     });
   }
 
@@ -560,11 +677,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── Init ──────────────────────────────────────────────────────────────────
   loadMedications();
-});
 
   document.getElementById("notificationsBtn")
     ?.addEventListener("click", () => window.location.href = "../notifications/notification.html");
 
   document.getElementById("settingsBtn")
     ?.addEventListener("click", () => window.location.href = "../profile/profile.html");
-    
+});

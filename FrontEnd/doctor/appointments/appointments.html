@@ -1,0 +1,327 @@
+<!-- doctor/appointments/appointments.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments — CardioAI</title>
+  <link rel="stylesheet" href="../../css/unified-design.css">
+  <link rel="stylesheet" href="../shared/shared.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ══ SIDEBAR ═════════════════════════════════════════════ -->
+  <nav class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="dashboard-sidebar__header">
+      <div class="dashboard-sidebar__logo">
+        <a href="../dashboard/dashboard.html" class="navbar-brand">
+          <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+        </a>
+      </div>
+      <button class="dashboard-sidebar__close" id="sidebarCloseBtn" aria-label="Close sidebar" title="Close sidebar">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+    <div class="dashboard-sidebar__nav">
+      <a href="../dashboard/dashboard.html" class="dashboard-sidebar__item">
+        <i class="fas fa-home"></i><span>Dashboard</span>
+      </a>
+      <a href="../patient-search/patient-search/patient-search.html" class="dashboard-sidebar__item">
+        <i class="fas fa-search"></i><span>Patient Search</span>
+      </a>
+      <a href="../my-patients/my-patients.html" class="dashboard-sidebar__item">
+        <i class="fas fa-users"></i><span>My Patients</span>
+      </a>
+      <a href="../my-requests/my-requests.html" class="dashboard-sidebar__item">
+        <i class="fas fa-file-medical"></i><span>Requests</span>
+      </a>
+      <a href="appointments.html" class="dashboard-sidebar__item active">
+        <i class="fas fa-calendar-alt"></i><span>Appointments</span>
+      </a>
+      <a href="../schedule/schedule.html" class="dashboard-sidebar__item">
+        <i class="fas fa-clock"></i><span>Schedule</span>
+      </a>
+      <a href="../profile/profile.html" class="dashboard-sidebar__item">
+        <i class="fas fa-user-cog"></i><span>Profile</span>
+      </a>
+    </div>
+    <div class="dashboard-sidebar__footer" id="sidebarFooterPanel">
+      <div class="sidebar-footer-trigger" id="footerPanelTrigger">
+        <div class="sidebar-footer-avatar" id="footerAvatar">DR</div>
+        <div class="sidebar-footer-info">
+          <span class="sidebar-footer-name" id="footerDoctorName">Doctor</span>
+          <span class="sidebar-footer-role">Cardiologist</span>
+        </div>
+        <i class="fas fa-chevron-up sidebar-footer-chevron"></i>
+      </div>
+      <div class="sidebar-footer-menu" id="footerPanelMenu">
+        <a href="../profile/profile.html" class="sidebar-footer-item">
+          <i class="fas fa-user-cog"></i> Profile Settings
+        </a>
+        <button class="sidebar-footer-item danger" id="sidebarLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE OVERLAY ══════════════════════════════════════ -->
+  <div class="mobile-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══ MAIN ════════════════════════════════════════════════ -->
+  <main class="dashboard-main">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div class="dashboard-header__left">
+        <button class="hamburger" id="sidebarToggle" aria-label="Open menu" title="Open menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="dashboard-header__greeting">
+          <h1>Appointments</h1>
+          <p>Manage all your patient appointments</p>
+        </div>
+      </div>
+      <div class="dashboard-header__actions">
+        <div class="user-menu" id="userMenu">
+          <div class="user-avatar" id="doctorAvatar" onclick="window.location.href='../profile/profile.html'" style="cursor:pointer;">DR</div>
+          <div class="dropdown-menu" id="userDropdown">
+            <div class="dropdown-header">
+              <div class="user-name" id="doctorNamePill">Doctor</div>
+              <div class="user-email" id="doctorSpecialty">—</div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="../dashboard/dashboard.html" class="dropdown-item">
+              <i class="fas fa-home"></i> Dashboard
+            </a>
+            <button class="dropdown-item danger" onclick="confirmLogout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="dashboard-content">
+
+      <!-- Stats -->
+      <section class="stats-grid" id="apptStats">
+        <div class="stat-card animate-fade-in-up">
+          <div class="stat-icon primary"><i class="fas fa-calendar-day"></i></div>
+          <div class="stat-content">
+            <div class="stat-value" id="statToday">—</div>
+            <div class="stat-label">Today</div>
+          </div>
+        </div>
+        <div class="stat-card animate-fade-in-up delay-100">
+          <div class="stat-icon secondary"><i class="fas fa-clock"></i></div>
+          <div class="stat-content">
+            <div class="stat-value" id="statUpcoming">—</div>
+            <div class="stat-label">Upcoming</div>
+          </div>
+        </div>
+        <div class="stat-card animate-fade-in-up delay-200">
+          <div class="stat-icon success"><i class="fas fa-check-circle"></i></div>
+          <div class="stat-content">
+            <div class="stat-value" id="statCompleted">—</div>
+            <div class="stat-label">Completed</div>
+          </div>
+        </div>
+        <div class="stat-card animate-fade-in-up delay-300">
+          <div class="stat-icon danger"><i class="fas fa-times-circle"></i></div>
+          <div class="stat-content">
+            <div class="stat-value" id="statCancelled">—</div>
+            <div class="stat-label">Cancelled</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tabs -->
+      <div class="appt-tabs">
+        <button class="appt-tab active" data-tab="calendar" onclick="switchTab('calendar')">
+          <i class="fas fa-calendar-alt"></i> Calendar View
+        </button>
+        <button class="appt-tab" data-tab="list" onclick="switchTab('list')">
+          <i class="fas fa-list"></i> List View
+        </button>
+      </div>
+
+      <!-- Appointments Split View (calendar + list side by side on large screens) -->
+      <div class="appointments-split">
+
+        <!-- Calendar View -->
+        <div id="calendarView" class="active appt-split-left">
+          <div class="card">
+            <div class="card-header">
+              <div class="calendar-header">
+                <button class="calendar-nav-btn" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
+                <h3 id="calendarTitle">January 2026</h3>
+                <button class="calendar-nav-btn" onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Appointments for selected date -->
+        <div class="appt-split-right">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-header-title">Appointments</h3>
+              <span class="card-header-subtitle" id="selectedDateLabel">Today</span>
+            </div>
+            <div class="card-body" id="selectedDateAppts">
+              <div class="empty-state"><i class="fas fa-calendar"></i><p>Select a date to view appointments</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- List View -->
+      <div id="listView">
+        <div class="card">
+          <div class="card-header">
+            <div class="appt-list-header">
+              <h3 class="card-header-title">All Appointments</h3>
+              <div class="appt-list-controls">
+                <input type="text" class="form-control" id="listSearch" placeholder="Search patient...">
+                <select class="form-control" id="listStatusFilter">
+                  <option value="">All Statuses</option>
+                  <option value="scheduled">Scheduled</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+                <input type="date" class="form-control" id="listDateFilter">
+              </div>
+            </div>
+          </div>
+          <div class="card-body" id="apptListBody">
+            <div class="empty-state"><i class="fas fa-calendar"></i><p>Loading...</p></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="dashboard-footer">
+      <div class="footer-brand">
+        <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+      </div>
+      <div class="footer-links">
+        <a href="../../index.html">Home</a>
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#features">Features</a>
+        <a href="../../index.html#cta-section">Contact</a>
+      </div>
+      <span class="footer-copyright">&copy; 2025 CardioAI. All rights reserved.</span>
+    </footer>
+
+  </main>
+
+  <!-- FAB -->
+  <button class="fab" id="fabAddAppt" title="New Appointment">
+    <i class="fas fa-plus"></i>
+  </button>
+
+  <!-- Create Appointment Modal (hidden) -->
+  <div class="modal-overlay" id="createModal" style="display:none;">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeCreateModal()">&times;</button>
+      <h2 class="modal-title"><i class="fas fa-calendar-plus"></i> New Appointment</h2>
+      <form id="createApptForm">
+        <div class="form-group">
+          <label class="form-label">Patient</label>
+          <select class="form-control" id="modalPatientId">
+            <option value="">Select a patient...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Patient Name (if not listed)</label>
+          <input type="text" class="form-control" id="modalPatientName" placeholder="Enter patient name">
+        </div>
+        <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);">
+          <div class="form-group">
+            <label class="form-label">Date *</label>
+            <input type="date" class="form-control" id="modalDate" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Time *</label>
+            <input type="time" class="form-control" id="modalTime" required>
+          </div>
+        </div>
+        <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);">
+          <div class="form-group">
+            <label class="form-label">Type *</label>
+            <select class="form-control" id="modalType" required>
+              <option value="">Select type</option>
+              <option value="Check-up">Check-up</option>
+              <option value="Follow-up">Follow-up</option>
+              <option value="Emergency">Emergency</option>
+              <option value="Consultation">Consultation</option>
+              <option value="New Patient">New Patient</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Duration</label>
+            <select class="form-control" id="modalDuration">
+              <option value="15 minutes">15 min</option>
+              <option value="30 minutes" selected>30 min</option>
+              <option value="45 minutes">45 min</option>
+              <option value="60 minutes">60 min</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notes</label>
+          <textarea class="form-control" id="modalNotes" rows="3" placeholder="Optional notes..."></textarea>
+        </div>
+        <div style="display:flex;gap:var(--spacing-sm);margin-top:var(--spacing-lg);">
+          <button type="submit" class="btn btn-primary" style="flex:1;" id="modalSubmitBtn">
+            <i class="fas fa-calendar-plus"></i> Create Appointment
+          </button>
+          <button type="button" class="btn btn-ghost" onclick="closeCreateModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Chat Bot -->
+  <a href="../../chatbot/mainpage.html" class="floating-chat" aria-label="Open Chatbot">
+    <img src="../dashboard/chatbot.png" alt="Chat Bot" onerror="this.parentElement.innerHTML='<i class=\'fas fa-robot\' style=\'color:white;font-size:22px;\'></i>'">
+  </a>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    function toggleUserMenu() {
+      document.getElementById('userDropdown')?.classList.toggle('show');
+    }
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('userMenu');
+      const dd = document.getElementById('userDropdown');
+      if (menu && dd && !menu.contains(e.target)) dd.classList.remove('show');
+    });
+    function confirmLogout() {
+      if (typeof AuthManager !== 'undefined' && AuthManager.handleLogout) {
+        AuthManager.handleLogout();
+      } else {
+        sessionStorage.clear();
+        window.location.href = '../../auth/login.html';
+      }
+    }
+  </script>
+  <script src="../../js/auth-manager.js"></script>
+  <script>AuthManager.initSidebarFooterPanel();</script>
+  <script src="script.js"></script>
+</body>
+</html>

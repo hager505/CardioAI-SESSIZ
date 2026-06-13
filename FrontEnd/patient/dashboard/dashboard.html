@@ -1,218 +1,211 @@
+<!-- Patient Dashboard "patient/dashboard/dashboard.html" -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Unified Design System -->
+  <link rel="stylesheet" href="../../css/unified-design.css">
+  <link rel="stylesheet" href="../shared/shared.css">
+  <!-- Dashboard Specific Styles -->
+  <link rel="stylesheet" href="style.css">
   <title>Patient Dashboard — CardioAI</title>
 </head>
-<style>
-  
-/* Sidebar */
-.sidebar {
-    background: rgba(170, 213, 42, 0.56);
-    border-right: 1px solid var(--medium-gray);
-    padding: 20px 0;
-}
-
-
-.sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 24px;
-    color: var(--text-dark);
-    text-decoration: none;
-    transition: all 0.3s;
-    border-left: 3px solid transparent;
-}
-
-.sidebar-item:hover {
-    background: rgba(0, 59, 133, 0.1);
-    color: var(--primary-blue);
-}
-
-.sidebar-item.active {
-    background: rgba(45, 104, 175, 0.1);
-    color: var(--primary-blue);
-    border-left-color: var(--primary-blue);
-}
-
-.sidebar-item i {
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.sidebar-item span {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-</style>
 <body>
 
-  <!-- ══ HEADER ══════════════════════════════════════════════ -->
-  <header class="patient-dashboard__header">
-    <div class="header-content">
-      <div class="header-title">
-        <span class="cardio">Cardio</span><span class="ai">AI</span>
+  <!-- ══ SIDEBAR ═════════════════════════════════════════════ -->
+  <nav class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="dashboard-sidebar__header">
+      <div class="dashboard-sidebar__logo">
+        <a href="dashboard.html" class="navbar-brand">
+          <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+        </a>
       </div>
-      <div class="search-container">
-        <input type="text" placeholder="Search medical records, appointments..." class="search-input" />
-        <i class="fas fa-search search-icon"></i>
+      <button class="dashboard-sidebar__close" id="sidebarCloseBtn" aria-label="Close sidebar" title="Close sidebar">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+    <div class="dashboard-sidebar__nav">
+      <a href="dashboard.html" class="dashboard-sidebar__item active">
+        <i class="fas fa-home"></i><span>Dashboard</span>
+      </a>
+      <a href="../profile/profile.html" class="dashboard-sidebar__item">
+        <i class="fas fa-user"></i><span>Profile</span>
+      </a>
+      <a href="../MedicalRecords/medicalrecords1.html" class="dashboard-sidebar__item">
+        <i class="fas fa-file-medical"></i><span>Medical Records</span>
+      </a>
+      <a href="../appointments/appointment.html" class="dashboard-sidebar__item">
+        <i class="fas fa-calendar-check"></i><span>Appointments</span>
+      </a>
+      <a href="../medications/medications.html" class="dashboard-sidebar__item">
+        <i class="fas fa-pills"></i><span>Medications</span>
+      </a>
+      <a href="../requests/requests.html" class="dashboard-sidebar__item">
+        <i class="fas fa-paper-plane"></i><span>Requests</span>
+      </a>
+      <a href="../notifications/notification.html" class="dashboard-sidebar__item">
+        <i class="fas fa-bell"></i><span>Notifications</span>
+      </a>
+    </div>
+    <div class="dashboard-sidebar__footer" id="sidebarFooterPanel">
+      <div class="sidebar-footer-trigger" id="footerPanelTrigger">
+        <div class="sidebar-footer-avatar" id="footerAvatar">P</div>
+        <div class="sidebar-footer-info">
+          <span class="sidebar-footer-name" id="footerPatientName">Patient</span>
+          <span class="sidebar-footer-role">Patient</span>
+        </div>
+        <i class="fas fa-chevron-up sidebar-footer-chevron"></i>
       </div>
-      <div class="header-actions">
-        <button class="icon-btn" id="notificationsBtn">
-          <i class="fas fa-bell"></i>
+      <div class="sidebar-footer-menu" id="footerPanelMenu">
+        <a href="../profile/profile.html" class="sidebar-footer-item">
+          <i class="fas fa-user-cog"></i> Profile Settings
+        </a>
+        <button class="sidebar-footer-item danger" id="sidebarLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Logout
         </button>
-        <button class="icon-btn" id="settingsBtn">
-          <i class="fas fa-cog"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE OVERLAY ══════════════════════════════════════ -->
+  <div class="mobile-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══ MAIN ════════════════════════════════════════════════ -->
+  <main class="dashboard-main">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div class="dashboard-header__left">
+        <button class="hamburger" id="sidebarToggle" aria-label="Open menu" title="Open menu">
+          <i class="fas fa-bars"></i>
         </button>
-        <div class="user-avatar" id="profileAvatar" style="cursor:pointer; width:40px; height:40px;">
-          <img src="https://ui-avatars.com/api/?name=T+P&amp;background=003785&amp;color=fff&amp;size=200&amp;bold=true" style="width:100%;height:100%;border-radius:50%;object-fit:cover;cursor:pointer;">
-          <input type="file" id="avatarUpload" accept="image/*" style="display:none;">
+        <div class="dashboard-header__greeting">
+          <h1 id="headerGreeting">Good morning, Patient</h1>
+          <p id="headerSubtitle">Welcome to your health dashboard</p>
         </div>
       </div>
-    </div>
-  </header>
-
-  <!-- ══ LAYOUT ══════════════════════════════════════════════ -->
-  <div class="dashboard-layout">
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-menu">
-        <a href="../dashboard/dashboard.html" class="sidebar-item active">
-          <i class="fas fa-home"></i><span>Dashboard</span>
-        </a>
-        <a href="../profile/profile.html" class="sidebar-item">
-          <i class="fas fa-user"></i><span>Profile</span>
-        </a>
-        <a href="../MedicalRecords/medicalrecords1.html" class="sidebar-item">
-          <i class="fas fa-file-medical"></i><span>Medical Records</span>
-        </a>
-        <a href="../appointments/appiontment.html" class="sidebar-item">
-          <i class="fas fa-calendar-check"></i><span>Appointments</span>
-        </a>
-        <a href="../medications/medications.html" class="sidebar-item">
-          <i class="fas fa-pills"></i><span>Medications</span>
-        </a>
-        <a href="../notifications/notification.html" class="sidebar-item">
-          <i class="fas fa-bell"></i><span>Notifications</span>
-        </a>
+      <div class="dashboard-header__actions">
+        <div class="input-with-icon dashboard-header__search">
+          <i class="fas fa-search input-icon"></i>
+          <input type="text" class="form-control form-control-sm" id="mainSearch" placeholder="Search records...">
+        </div>
+        <!-- Notifications -->
+        <button class="btn btn-icon btn-ghost" id="notificationsBtn" title="Notifications">
+          <i class="fas fa-bell"></i>
+          <span class="notification-badge" id="notifBadge" style="display:none;"></span>
+        </button>
+        <!-- User Menu -->
+        <div class="user-menu" id="userMenu">
+          <div class="user-avatar" id="profileAvatar" onclick="window.location.href='../profile/profile.html'" style="cursor:pointer;">
+            <span class="avatar-initials" id="avatarInitials">P</span>
+          </div>
+        </div>
       </div>
-    </div>
+    </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
+    <!-- SCROLLABLE CONTENT -->
+    <div class="dashboard-content">
 
       <!-- Welcome Card -->
-      <section class="welcome-section">
-        <div class="welcome-card">
+      <section class="welcome-section animate-fade-in-up">
+        <div class="welcome-card card">
           <div class="user-info">
             <div class="avatar-large" id="largeAvatarContainer"
-              style="width:64px;height:64px;border-radius:50%;overflow:hidden;cursor:pointer;">
-              <img src="https://ui-avatars.com/api/?name=T+P&amp;background=003785&amp;color=fff&amp;size=200&amp;bold=true" style="width:100%;height:100%;border-radius:50%;object-fit:cover;cursor:pointer;">
+              style="width:64px;height:64px;border-radius:50%;overflow:hidden;cursor:pointer;"
+              onclick="window.location.href='../profile/profile.html'">
+              <span class="avatar-initials" id="largeAvatarInitials">P</span>
             </div>
             <div class="user-details">
-              <h2><b id="patientName">Loading...</b></h2>
-              <p class="user-age" id="patientAge"></p>
-              <small id="patientSerial" style="color:#779f00;font-weight:600;font-size:12px;"></small>
+              <h2 class="mb-0"><b id="patientName">Loading...</b></h2>
+              <p class="user-age mb-0" id="patientAge"></p>
+              <small id="patientSerial" style="color:var(--secondary);font-weight:600;font-size:12px;"></small>
             </div>
           </div>
-          <button class="notifications-btn" id="quickNotifications">
-            <i class="fas fa-bell"></i>
-            <span>Loading...</span>
-          </button>
+          <div class="welcome-card__actions">
+            <button class="btn btn-outline btn-sm" id="quickNotifications">
+              <i class="fas fa-bell"></i>
+              <span>Loading...</span>
+            </button>
+            <a href="../requests/requests.html" class="btn btn-primary btn-sm" id="newRequestShortcut">
+              <i class="fas fa-paper-plane"></i>
+              <span>New Request</span>
+            </a>
+          </div>
         </div>
       </section>
 
-      <!-- ══ QUICK STATS ══════════════════════════════════════ -->
-      <section class="quick-stats-section">
-        <h2>Quick Stats</h2>
+      <!-- ══ QUICK STATS ════════════════════════════════════════════════ -->
+      <section class="quick-stats-section animate-fade-in-up delay-100">
+        <h2 class="mb-lg">Quick Stats</h2>
         <div class="stats-grid">
 
-          <div class="stat-card" id="bloodPressureCard">
-            <div class="stat-header">
-              <h3>Blood Pressure</h3>
-              <i class="fas fa-tachometer-alt"></i>
-            </div>
-            <div class="stat-value">
-              <span class="value" id="bpValue">—</span>
-              <span class="unit">mmHg</span>
-            </div>
-            <div class="stat-trend">
-              <span class="status" id="bpStatus">Loading...</span>
-            </div>
-            <div class="stat-progress">
-              <div class="progress-bar">
+          <div class="stat-card card card-interactive" id="bloodPressureCard">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-md">
+                <h3 class="mb-0 text-sm font-semibold">Blood Pressure</h3>
+                <i class="fas fa-tachometer-alt text-brand-primary"></i>
+              </div>
+              <div class="d-flex align-items-baseline gap-xs mb-sm">
+                <span class="font-bold text-2xl" id="bpValue">—</span>
+                <span class="text-sm text-muted">mmHg</span>
+              </div>
+              <span class="badge badge-primary" id="bpStatus">Loading...</span>
+              <div class="progress-bar mt-md">
                 <div class="progress-fill" id="bpProgress" style="width:0%"></div>
               </div>
             </div>
           </div>
 
-          <div class="stat-card" id="heartRateCard">
-            <div class="stat-header">
-              <h3>Heart Rate</h3>
-              <i class="fas fa-heart"></i>
-            </div>
-            <div class="stat-value">
-              <span class="value" id="hrValue">—</span>
-              <span class="unit">bpm</span>
-            </div>
-            <div class="stat-trend">
-              <span class="status" id="hrStatus">Loading...</span>
-            </div>
-            <div class="stat-progress">
-              <div class="progress-bar">
-                <div class="progress-fill" id="hrProgress" style="width:0%"></div>
+          <div class="stat-card card card-interactive" id="heartRateCard">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-md">
+                <h3 class="mb-0 text-sm font-semibold">Heart Rate</h3>
+                <i class="fas fa-heart text-danger"></i>
+              </div>
+              <div class="d-flex align-items-baseline gap-xs mb-sm">
+                <span class="font-bold text-2xl" id="hrValue">—</span>
+                <span class="text-sm text-muted">bpm</span>
+              </div>
+              <span class="badge badge-success" id="hrStatus">Loading...</span>
+              <div class="progress-bar mt-md">
+                <div class="progress-fill progress-fill-success" id="hrProgress" style="width:0%"></div>
               </div>
             </div>
           </div>
 
-          <div class="stat-card" id="bloodSugarCard">
-            <div class="stat-header">
-              <h3>Oxygen Saturation SpO2</h3>
-              <i class="fas fa-lungs"></i>
-            </div>
-            <div class="stat-value">
-              <span class="value" id="spo2Value">—</span>
-              <span class="unit">%</span>
-            </div>
-            <div class="stat-trend">
-              <span class="status" id="spo2Status">Loading...</span>
-            </div>
-            <div class="stat-progress">
-              <div class="progress-bar">
-                <div class="progress-fill" id="spo2Progress" style="width:0%"></div>
+          <div class="stat-card card card-interactive" id="spo2Card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-md">
+                <h3 class="mb-0 text-sm font-semibold">Oxygen Saturation SpO2</h3>
+                <i class="fas fa-lungs text-info"></i>
+              </div>
+              <div class="d-flex align-items-baseline gap-xs mb-sm">
+                <span class="font-bold text-2xl" id="spo2Value">—</span>
+                <span class="text-sm text-muted">%</span>
+              </div>
+              <span class="badge badge-info" id="spo2Status">Loading...</span>
+              <div class="progress-bar mt-md">
+                <div class="progress-fill progress-fill-info" id="spo2Progress" style="width:0%"></div>
               </div>
             </div>
           </div>
 
-          <div class="stat-card" id="weightCard">
-            <div class="stat-header">
-              <h3>Body Temperature</h3>
-              <i class="fas fa-temperature-high"></i>
-            </div>
-            <div class="stat-value">
-              <span class="value" id="tempValue">—</span>
-              <span class="unit">°C</span>
-            </div>
-            <div class="stat-trend">
-              <span class="status" id="tempStatus">Loading...</span>
-            </div>
-            <div class="stat-progress">
-              <div class="progress-bar">
-                <div class="progress-fill" id="tempProgress" style="width:0%"></div>
+          <div class="stat-card card card-interactive" id="tempCard">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-md">
+                <h3 class="mb-0 text-sm font-semibold">Body Temperature</h3>
+                <i class="fas fa-temperature-high text-warning"></i>
+              </div>
+              <div class="d-flex align-items-baseline gap-xs mb-sm">
+                <span class="font-bold text-2xl" id="tempValue">—</span>
+                <span class="text-sm text-muted">°C</span>
+              </div>
+              <span class="badge badge-warning" id="tempStatus">Loading...</span>
+              <div class="progress-bar mt-md">
+                <div class="progress-fill progress-fill-warning" id="tempProgress" style="width:0%"></div>
               </div>
             </div>
           </div>
@@ -220,36 +213,93 @@
         </div>
       </section>
 
-    </main>
-  </div>
+      <!-- ══ BOTTOM ROW: Appointments | Medications | Records ══════════ -->
+      <div class="dashboard-bottom-grid animate-fade-in-up delay-200">
 
-  <!-- Chat Bot -->
-  <div class="chat-bot-icon" id="chatBotBtn" onclick="window.location.href='../../chatbot/mainpage.html'">
-        <!-- يمكنك استبدال chatbot.png بالصورة الخاصة بك -->
-        <img src="chatbot.png" alt="Chat Bot" id="chatBotImage">
-    </div>
-
-  <!-- ══ FOOTER ═══════════════════════════════════════════════ -->
-  <footer class="quick-links-footer">
-    <div class="footer-content">
-      <div class="footer-logo">
-        <i class="fas fa-heartbeat"></i>
-        <div class="footer-title">
-          <span class="cardio">Cardio</span><span class="ai">AI</span>
+        <!-- Upcoming Appointments -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-header-title">
+              <i class="fas fa-calendar-check text-brand-primary mr-sm"></i>
+              Upcoming Appointments
+              <span class="badge badge-primary ml-sm" id="upcomingCount">0</span>
+            </h3>
+            <a href="../appointments/appointment.html" class="text-sm text-brand-primary font-semibold">View all →</a>
+          </div>
+          <div class="card-body" id="upcomingAppointments">
+            <p class="text-muted text-center p-xl">
+              <i class="fas fa-calendar d-block mb-sm" style="font-size:24px;"></i>
+              Loading appointments...
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="links">
-        <a href='../../index.html' class="footer-link">Home</a>
-        <a href='../../index.html' class="footer-link">Features</a>
-        <a href='../../index.html' class="footer-link">About</a>
-        <a href='../../chatbot/mainpage.html' class="footer-link">Chatbot</a>
-      </div>
-      <button class="logout-btn" id="footerLogoutBtn">
-        <i class="fas fa-sign-out-alt"></i> Log out
-      </button>
-    </div>
-  </footer>
 
+        <!-- Active Medications -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-header-title">
+              <i class="fas fa-pills text-brand-secondary mr-sm"></i>
+              Active Medications
+              <span class="badge badge-secondary ml-sm" id="medsCount">0</span>
+            </h3>
+            <a href="../medications/medications.html" class="text-sm text-brand-secondary font-semibold">View all →</a>
+          </div>
+          <div class="card-body" id="activeMedications">
+            <p class="text-muted text-center p-xl">
+              <i class="fas fa-pills d-block mb-sm" style="font-size:24px;"></i>
+              Loading medications...
+            </p>
+          </div>
+        </div>
+
+        <!-- Recent Medical Records -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-header-title">
+              <i class="fas fa-file-medical text-brand-primary mr-sm"></i>
+              Recent Records
+            </h3>
+            <a href="../MedicalRecords/medicalrecords1.html" class="text-sm text-brand-primary font-semibold">View all →</a>
+          </div>
+          <div class="card-body" id="recentRecords">
+            <p class="text-muted text-center p-xl">
+              <i class="fas fa-file-medical d-block mb-sm" style="font-size:24px;"></i>
+              Loading records...
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- END CONTENT -->
+
+    <!-- FOOTER -->
+    <footer class="dashboard-footer">
+      <div class="footer-brand">
+        <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+      </div>
+      <div class="footer-links">
+        <a href="../../index.html">Home</a>
+        <a href="../../index.html#about">About</a>
+        <a href="../../index.html#features">Features</a>
+        <a href="../../chatbot/mainpage.html">Chatbot</a>
+      </div>
+      <span class="footer-copyright">© 2025 CardioAI. All rights reserved.</span>
+    </footer>
+
+  </main>
+
+  <!-- Chat Bot Floating Button -->
+  <a href="../../chatbot/mainpage.html" class="floating-chat" title="AI Chatbot">
+    <img src="../../images/chatbot.png" alt="Chat Bot" onerror="this.parentElement.innerHTML='<i class=\'fas fa-robot\' style=\'color:white;font-size:22px;\'></i>'">
+  </a>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="../../js/auth-manager.js"></script>
+  <script>AuthManager.initSidebarFooterPanel();</script>
+  <script src="../shared/notification-count.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

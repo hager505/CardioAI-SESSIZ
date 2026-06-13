@@ -1,590 +1,193 @@
-<!-- patient-search.html -->
+<!-- doctor/patient-search/patient-search/patient-search.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Search - CardioAI</title>
-        <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="../../../css/unified-design.css">
+    <link rel="stylesheet" href="../../shared/shared.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Manrope:wght@400;500;600&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* ==================== CSS VARIABLES (From Dashboard) ==================== */
-        :root {
-            --primary-blue: #003785;
-            --primary-green: #87af12;
-            --light-green: #779f00;
-            --danger-red: #de3b40;
-            --teal: #1c8a8e;
-            --white: #ffffff;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-500: #6b7280;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --bg-light: #e8f0f8;
-            --bg-sidebar: rgba(178, 215, 66, 0.56);
-            --bg-ai-section: #f2f6fd;
-            --shadow-sm: 0px 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0px 4px 6px rgba(0, 0, 0, 0.05);
-            --radius-md: 8px;
-            --radius-lg: 12px;
-        }
-
-        /* ==================== RESET & LAYOUT ==================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--white);
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-        }
-
-        /* ==================== SIDEBAR ==================== */
-        .sidebar {
-            width: 270px;
-            background: var(--bg-sidebar);
-            height: 100%;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            padding: 24px 16px;
-            overflow-y: auto;
-            border-right: 1px solid rgba(0,0,0,0.05);
-            z-index: 20;
-        }
-
-        .sidebar-logo {
-            margin-bottom: 40px;
-            padding-left: 10px;
-            cursor: pointer;
-        }
-        
-        .nav-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex-grow: 1;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            color: var(--gray-700);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-item:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: translateX(4px);
-        }
-
-        .nav-item.active {
-            background: rgba(0, 55, 133, 0.1);
-            color: var(--primary-blue);
-        }
-
-        .nav-icon {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-        }
-
-        .ai-promo {
-            margin-top: auto;
-            background: var(--white);
-            border-radius: 20px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px dashed #ccc;
-            cursor: pointer;
-        }
-
-        /* ==================== MAIN CONTENT ==================== */
-        .main-content {
-            flex-grow: 1;
-            height: 100vh;
-            background-color: var(--bg-light);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* Header */
-        header {
-            flex-shrink: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 32px;
-            background-color: var(--bg-light);
-            z-index: 10;
-        }
-
-        .header-text h1 {
-            color: var(--primary-blue);
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .header-text p {
-            color: var(--gray-500);
-            font-size: 16px;
-        }
-
-        /* Scrollable Area */
-        .scrollable-content {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 0 32px 24px 32px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        /* ==================== SEARCH SECTION STYLES ==================== */
+        /* ══ SEARCH-SPECIFIC STYLES ═══════════════════════════════════════ */
         .section-card {
-            background: var(--white);
+            background: var(--bg-surface);
             border-radius: var(--radius-lg);
             padding: 24px;
             box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
         }
-
-        /* Search Filters Grid */
         .search-filters-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto;
-            gap: 16px;
-            align-items: end;
+            display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 16px; align-items: end;
         }
+        @media (max-width: 1024px) { .search-filters-container { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 600px) { .search-filters-container { grid-template-columns: 1fr; } }
 
-        @media (max-width: 1024px) {
-            .search-filters-container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        @media (max-width: 600px) {
-            .search-filters-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--gray-700);
-        }
-
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-label { font-size: 14px; font-weight: 500; color: var(--text-primary); }
         .form-input, .form-select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--gray-300);
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--white);
-            outline: none;
-            transition: border-color 0.2s;
+            width: 100%; padding: 12px 16px; border: 1px solid var(--gray-300);
+            border-radius: var(--radius); font-size: 14px; font-family: 'Inter', sans-serif;
+            background: var(--white); outline: none; transition: border-color 0.2s;
         }
+        .form-input:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,55,133,.1); }
 
-        .form-input:focus, .form-select:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 55, 133, 0.1);
+        .btn-search {
+            background: var(--primary); color: white; padding: 12px 24px;
+            border-radius: var(--radius); border: none; cursor: pointer; font-weight: 500;
+            display: flex; align-items: center; gap: 8px; transition: background .3s; height: 45px;
         }
+        .btn-search:hover { background: var(--primary-dark); }
 
-        .btn-primary {
-            background: var(--primary-blue);
-            color: white;
-            padding: 12px 24px;
-            border-radius: var(--radius-md);
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: background 0.3s;
-            height: 45px; /* Match input height */
-        }
-
-        .btn-primary:hover {
-            background: #002a66;
-        }
-
-        /* Search Tips Box */
         .search-tips {
-            margin-top: 16px;
-            background: var(--bg-ai-section);
-            border: 1px dashed var(--primary-blue);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            display: flex;
-            gap: 16px;
-            align-items: start;
+            margin-top: 16px; background: var(--primary-light); border: 1px dashed var(--primary);
+            border-radius: var(--radius); padding: 16px; display: flex; gap: 16px; align-items: start;
         }
-        .tips-content h4 { color: var(--primary-blue); margin-bottom: 4px; font-size: 14px; }
-        .tips-content p { color: var(--gray-500); font-size: 13px; line-height: 1.5; }
+        .search-tips h4 { color: var(--primary); margin-bottom: 4px; font-size: 14px; }
+        .search-tips p { color: var(--text-muted); font-size: 13px; line-height: 1.5; }
 
-        /* ==================== RESULTS TABLE STYLES ==================== */
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .results-header h2 { font-size: 18px; color: var(--primary); }
+        .results-header span { font-size: 13px; color: var(--text-muted); }
+        .table-container { width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
         th {
-            text-align: left;
-            padding: 16px;
-            background-color: var(--gray-50);
-            color: var(--gray-500);
-            font-weight: 600;
-            border-bottom: 1px solid var(--gray-200);
+            text-align: left; padding: 16px; background: var(--gray-50);
+            color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--gray-200);
         }
-
-        td {
-            padding: 16px;
-            border-bottom: 1px solid var(--gray-200);
-            color: var(--gray-800);
-            vertical-align: middle;
-        }
-
-        tr:hover {
-            background-color: var(--gray-50);
-            cursor: pointer;
-        }
-
-        .user-cell {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: #eee;
-            object-fit: cover;
-        }
-
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            display: inline-block;
-        }
+        td { padding: 16px; border-bottom: 1px solid var(--gray-200); color: var(--text-primary); vertical-align: middle; }
+        tr:hover { background: var(--gray-50); cursor: pointer; }
+        .user-cell { display: flex; align-items: center; gap: 12px; }
+        .patient-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; display: inline-block; }
         .status-badge.active { background: #dcfce7; color: #166534; }
         .status-badge.inactive { background: #f3f4f6; color: #374151; }
         .status-badge.critical { background: #fee2e2; color: #991b1b; }
-
         .action-btn {
-            padding: 6px 12px;
-            border: 1px solid var(--gray-300);
-            border-radius: 6px;
-            background: white;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
+            padding: 6px 12px; border: 1px solid var(--gray-300); border-radius: 6px;
+            background: white; cursor: pointer; font-size: 12px; transition: all .2s;
         }
-        .action-btn:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+        .action-btn:hover { border-color: var(--primary); color: var(--primary); }
 
-        /* Footer */
-        footer {
-            flex-shrink: 0;
-            padding: 16px 32px;
-            background-color: var(--bg-light);
-            border-top: 1px solid rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Floating Button */
-        .floating-chat {
-            position: fixed;
-            bottom: 80px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: #0a66f0;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(10, 102, 240, 0.4);
-            cursor: pointer;
-            z-index: 1000;
-            transition: transform 0.3s;
-            border: none;
-        }
-        .floating-chat:hover { transform: scale(1.1); }
-
-        /* Modal Styles */
         .cardio-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 2000;
+            background: rgba(0,0,0,.5); z-index: 2000;
             display: flex; justify-content: center; align-items: center;
         }
         .cardio-modal-content {
             background: white; padding: 30px; border-radius: 12px;
-            max-width: 500px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            max-width: 500px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,.2);
         }
-
-                             /* Edits */
-        /* Chat Bot Icon */
-.chat-bot-icon {
-    position: fixed;
-    bottom: 80px;
-    right: 32px;
-    width: 60px;
-    height: 60px;
-    background: #003785;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0px 4px 12px rgba(0, 55, 133, 0.3);
-    transition: all 0.3s;
-    z-index: 999;
-    overflow: hidden;
-    padding: 8px;
-}
-
-.chat-bot-icon:hover {
-    background: #6b9137;
-    transform: scale(1.1);
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
-}
-
-#chatBotImage {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 50%;
-}
-
-
-/* Edit sidebar */
-.dashboard-layout {
-    display: flex;
-    /* margin-top: 64px; */
-    min-height: calc(100vh - 64px - 60px);
-}
-/* Sidebar */
-.sidebar {
-    background: rgba(170, 213, 42, 0.56);
-    border-right: 1px solid var(--medium-gray);
-    padding: 20px 0;
-}
-
-.sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 24px;
-    color: var(--text-dark);
-    text-decoration: none;
-    transition: all 0.3s;
-    border-left: 3px solid transparent;
-}
-
-.sidebar-item:hover {
-    background: rgba(0, 59, 133, 0.1);
-    color: var(--primary-blue);
-}
-
-.sidebar-item.active {
-    background: rgba(45, 104, 175, 0.1);
-    color: var(--primary-blue);
-    border-left-color: var(--primary-blue);
-}
-
-.sidebar-item i {
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.sidebar-item span {
-    font-size: 14px;
-    font-weight: 500;
-}
-@media (max-width: 768px) {
-    .dashboard-layout {
-        flex-direction: column;
-    }
-    
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: static;
-        margin-top: 0;
-    }
-}
-
-
     </style>
 </head>
 <body>
 
-    <!-- <nav class="sidebar">
-        <div class="sidebar-logo" onclick="window.location.href='../../dashboard/dashboard.html'">
-            <h2 style="color:var(--primary-blue); font-weight:800; font-family:'Poppins', sans-serif;">Cardio<span style="color:var(--primary-green)">AI</span></h2>
+    <!-- ══ SIDEBAR ══════════════════════════════════════════ -->
+    <nav class="dashboard-sidebar" id="dashboardSidebar">
+        <div class="dashboard-sidebar__header">
+            <div class="dashboard-sidebar__logo">
+                <a href="../../dashboard/dashboard.html" class="navbar-brand">
+                    <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+                </a>
+            </div>
+            <button class="dashboard-sidebar__close" id="sidebarCloseBtn" aria-label="Close sidebar" title="Close sidebar">
+                <i class="fas fa-arrow-left"></i>
+            </button>
         </div>
-
-        <div class="nav-list">
-            <div class="nav-item" onclick="window.location.href='../../dashboard/dashboard.html'">
-                <img src="Home 3.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1946/1946488.png'">
-                <span>Dashboard</span>
+        <div class="dashboard-sidebar__nav">
+            <a href="../../dashboard/dashboard.html" class="dashboard-sidebar__item">
+                <i class="fas fa-home"></i><span>Dashboard</span>
+            </a>
+            <a href="../../patient-search/patient-search/patient-search.html" class="dashboard-sidebar__item active">
+                <i class="fas fa-search"></i><span>Patient Search</span>
+            </a>
+            <a href="../../my-patients/my-patients.html" class="dashboard-sidebar__item">
+                <i class="fas fa-users"></i><span>My Patients</span>
+            </a>
+            <a href="../../my-requests/my-requests.html" class="dashboard-sidebar__item">
+                <i class="fas fa-file-medical"></i><span>Requests</span>
+            </a>
+            <a href="../../appointments/appointments.html" class="dashboard-sidebar__item">
+                <i class="fas fa-calendar-alt"></i><span>Appointments</span>
+            </a>
+            <a href="../../schedule/schedule.html" class="dashboard-sidebar__item">
+                <i class="fas fa-clock"></i><span>Schedule</span>
+            </a>
+            <a href="../../profile/profile.html" class="dashboard-sidebar__item">
+                <i class="fas fa-user-cog"></i><span>Profile</span>
+            </a>
+        </div>
+        <div class="dashboard-sidebar__footer" id="sidebarFooterPanel">
+            <div class="sidebar-footer-trigger" id="footerPanelTrigger">
+                <div class="sidebar-footer-avatar" id="footerAvatar">DR</div>
+                <div class="sidebar-footer-info">
+                    <span class="sidebar-footer-name" id="footerDoctorName">Doctor</span>
+                    <span class="sidebar-footer-role">Cardiologist</span>
+                </div>
+                <i class="fas fa-chevron-up sidebar-footer-chevron"></i>
             </div>
-            
-            <div class="nav-item active" onclick="window.location.href='patient-search.html'">
-                <img src="Search.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149852.png'">
-                <span>Patient Search</span>
-            </div>
-            
-            <div class="nav-item" onclick="window.location.href='../../my-patients/my-patients.html'">
-                <img src="Users.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/681/681494.png'">
-                <span>My Patients</span>
-            </div>
-            
-            <div class="nav-item" onclick="window.location.href='../../my-requests/my-requests.html'">
-                <img src="File text.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1150/1150612.png'">
-                <span>Requests</span>
-            </div>
-            
-            <div class="nav-item" onclick="window.location.href='../../schedule/schedule.html'">
-                <img src="Schedule.png" class="nav-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2693/2693507.png'">
-                <span>Schedule</span>
-            </div>
-        </div> -->
-
-        <!-- <div class="ai-promo" onclick="openChatbot()">
-            <img src="cardiochat.png" style="width:40px; height:40px; border-radius:50%;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
-            <div>
-                <span style="color:var(--primary-blue); font-weight:bold; display:block;">AI</span>
-                <span style="color:var(--primary-green); font-weight:bold;">Chatbot</span>
-            </div>
-        </div> -->
-    <!-- </nav> -->
-
-<div class="dashboard-layout">
-        
-              <!-- Sidebar -->
-        <div class="sidebar">
-            
-            <div class="sidebar-menu">
-                <!-- <div class="ai-promo" style="background-color: transparent;" onclick="openChatbot()">
-            <img src="cardiochat.png" style="width:40px; height:40px; border-radius:50%;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
-            <div>
-                <span style="color:var(--primary-blue); font-weight:bold; display:block;">AI</span>
-                <span style="color:var(--primary-green); font-weight:bold;">Chatbot</span>
-            </div>
-            </div> -->
-            <div class="sidebar-logo" onclick="window.location.href='dashboard.html'">
-                <h2 style="color:var(--primary-blue); font-weight:800; font-family:'Poppins', sans-serif;">Cardio<span style="color:var(--primary-green)">AI</span></h2>
-            </div>
-                <a href="../../dashboard/dashboard.html" class="sidebar-item ">
-                    <i class="fas fa-home"></i>
-                    <span>dashboard</span>
+            <div class="sidebar-footer-menu" id="footerPanelMenu">
+                <a href="../../profile/profile.html" class="sidebar-footer-item">
+                    <i class="fas fa-user-cog"></i> Profile Settings
                 </a>
-                
-                <a href="../../patient-search/patient-search/patient-search.html" class="sidebar-item active">
-                    <i class="fas fa-search"></i>
-                    <span>Patient Search</span>
-                </a>
-                
-                <a href="../../my-patients/my-patients.html" class="sidebar-item">
-                    <i class="fas fa-users"></i>
-
-                    <span>My Patients</span>
-                </a>
-                
-                <a href="../../my-requests/my-requests.html" class="sidebar-item">
-                    <i class="fas fa-file-medical"></i>
-
-                    <span>Requests</span>
-                </a>
-                
-                <a href="../../schedule/add-schedule.html" class="sidebar-item">
-                    <i class="fas fa-calendar-check"></i>
-
-                    <span>Schedule</span>
-                </a>
-               
+                <button class="sidebar-footer-item danger" id="sidebarLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
         </div>
-    <!-- ==================== MAIN CONTENT WRAPPER ==================== -->
-    <main class="main-content" style="width: calc(100vw - 270px);">
-        
-        <header>
-            <div class="header-text">
-                <h1>Patient Search</h1>
-                <p>Find and access patient records</p>
+    </nav>
+
+    <!-- ══ MOBILE OVERLAY ══════════════════════════════════ -->
+    <div class="mobile-overlay" id="sidebarOverlay"></div>
+
+    <!-- ══ MAIN ════════════════════════════════════════════ -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+            <div class="dashboard-header__left">
+                <button class="hamburger" id="sidebarToggle" aria-label="Open menu" title="Open menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="dashboard-header__greeting">
+                    <h1>Patient Search</h1>
+                    <p>Find and access patient records</p>
+                </div>
             </div>
-            <div style="display:flex; align-items:center; gap:10px;">
-                <span id="doctorNamePill" style="font-weight:600; color:var(--primary-blue);">Doctor</span>
-                <img id="doctorAvatarPill" src="" style="width:40px; height:40px; border-radius:50%; object-fit:cover;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+            <div class="dashboard-header__actions">
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="doctorAvatar" onclick="window.location.href='../../profile/profile.html'" style="cursor:pointer;">DR</div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="user-name" id="dropdownDoctorName">Doctor</div>
+                            <div class="user-email" id="dropdownDoctorSpecialty">—</div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="../../dashboard/dashboard.html" class="dropdown-item">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                        <a href="../../my-patients/my-patients.html" class="dropdown-item">
+                            <i class="fas fa-users"></i> My Patients
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item danger" onclick="confirmLogout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
 
-        <div class="scrollable-content">
-            
+        <div class="dashboard-content">
+
+            <!-- Search Section -->
             <section class="section-card">
                 <div class="search-filters-container">
-                    
                     <div class="form-group">
                         <label class="form-label">Search Keyword</label>
                         <input type="text" id="searchInput" class="form-input" placeholder="Name, Email, Phone, or ID...">
                     </div>
-
                     <div class="form-group">
                         <label class="form-label">Status</label>
                         <select id="statusSelect" class="form-select">
@@ -594,7 +197,6 @@
                             <option value="inactive">Inactive</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label class="form-label">Gender</label>
                         <select id="genderSelect" class="form-select">
@@ -603,29 +205,25 @@
                             <option value="female">Female</option>
                         </select>
                     </div>
-
-                    <button class="btn-primary" onclick="performSearch()">
-                        <img src="Search.png" style="width:16px; filter: brightness(0) invert(1);" onerror="this.style.display='none'">
-                        Search
+                    <button class="btn-search" id="searchBtn" type="button">
+                        <i class="fas fa-search"></i> Search
                     </button>
                 </div>
-
                 <div class="search-tips">
-                    <img src="Search for Patients.png" width="40" style="opacity:0.7" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1150/1150612.png'">
-                    <div class="tips-content">
+                    <i class="fas fa-info-circle" style="font-size:32px;color:var(--primary-blue);opacity:0.7;"></i>
+                    <div>
                         <h4>Search Tips</h4>
-                        <p>• Use partial names or phone numbers to broaden results.</p>
-                        <p>• You can search by medical condition keywords (e.g., "Diabetes").</p>
+                        <p>Use partial names or phone numbers to broaden results. You can search by medical condition keywords (e.g., "Diabetes").</p>
                     </div>
                 </div>
             </section>
 
+            <!-- Results Section -->
             <section class="section-card" id="resultsSection" style="display:none;">
                 <div class="results-header">
-                    <h2 style="font-size:18px; color:var(--primary-blue);">Search Results</h2>
-                    <span style="font-size:13px; color:var(--gray-500);" id="resultCount">0 patients found</span>
+                    <h2>Search Results</h2>
+                    <span id="resultCount">0 patients found</span>
                 </div>
-
                 <div class="table-container">
                     <table>
                         <thead>
@@ -638,117 +236,141 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="resultsBody">
-                            </tbody>
+                        <tbody id="resultsBody"></tbody>
                     </table>
                 </div>
             </section>
 
-        </div> <footer>
-            <div>
-                <h3 style="color:var(--primary-blue); margin-bottom:5px;">Cardio<span style="color:var(--primary-green)">AI</span></h3>
-                <span style="font-size:12px; color:var(--gray-500);">© 2025 CardioAI System</span>
+        </div>
+
+        <footer class="dashboard-footer">
+            <div class="footer-brand">
+                <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
             </div>
-            <button style="background:transparent; color:var(--danger-red); border:1px solid var(--danger-red); padding:8px 16px; border-radius:6px; cursor:pointer;" onclick="confirmLogout()">Log out</button>
+            <div class="footer-links">
+                <a href="../../../index.html">Home</a>
+                <a href="../../../index.html#about">About</a>
+                <a href="../../../index.html#features">Features</a>
+                <a href="../../../index.html#cta-section">Contact</a>
+            </div>
+            <span class="footer-copyright">&copy; 2025 CardioAI. All rights reserved.</span>
         </footer>
 
     </main>
 
-                <!-- Chat Bot Icon - صورة بدل الأيقونة -->
-            <div class="chat-bot-icon" id="chatBotBtn" onclick="window.location.href='../../../cahtbot/mainpage.html'">
-                <!-- يمكنك استبدال chatbot.png بالصورة الخاصة بك -->
-                <img src="chatbot.png" alt="Chat Bot" id="chatBotImage">
-            </div>
+    <!-- Chat Bot -->
+    <a href="../../../chatbot/mainpage.html" class="floating-chat" aria-label="Open Chatbot">
+        <img src="chatbot.png" alt="Chat Bot" onerror="this.parentElement.innerHTML='<i class=\'fas fa-robot\' style=\'color:white;font-size:22px;\'></i>'">
+    </a>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // Data populated from real API via script.js
         window.patients = [];
 
-        // 1. Logic for Search
-        function performSearch() {
+        function initials(name) {
+            if (!name) return "??";
+            const p = name.trim().split(/\s+/);
+            return ((p[0]?.[0] ?? "") + (p[1]?.[0] ?? p[0]?.[1] ?? "")).toUpperCase();
+        }
+
+        function getPatientAvatarHtml(p) {
+            const avatarSrc = p.avatar_url || localStorage.getItem(`avatar_patient_${p.backendId}`);
+            return avatarSrc
+                ? `<img src="${resolvePatientUrl(avatarSrc)}" class="patient-avatar" style="object-fit:cover;">`
+                : `<div class="patient-avatar" style="display:flex;align-items:center;justify-content:center;
+                    background:#003785;color:#fff;font-weight:700;font-size:14px;">${initials(p.name)}</div>`;
+        }
+
+        window.performSearch = function () {
             const keyword = document.getElementById('searchInput').value.toLowerCase();
-            const status = document.getElementById('statusSelect').value;
-            const gender = document.getElementById('genderSelect').value;
+            const status  = document.getElementById('statusSelect').value;
+            const gender  = document.getElementById('genderSelect').value;
             const resultsSection = document.getElementById('resultsSection');
             const tbody = document.getElementById('resultsBody');
-
-            // Show section
             resultsSection.style.display = 'block';
             tbody.innerHTML = '';
 
-            // Filter logic
-            const filtered = window.patients.filter(p => {
-                const matchesKeyword = p.name.toLowerCase().includes(keyword) || p.id.toLowerCase().includes(keyword);
-                const matchesStatus = status === 'all' || p.status.toLowerCase() === status;
-                const matchesGender = gender === 'all' || p.gender === gender;
+            const filtered = (window.patients || []).filter(p => {
+                const hay = [p.name, p.id, p.email, p.phone].map(v => (v ?? "").toString().toLowerCase()).join(" ");
+                const matchesKeyword = !keyword || hay.includes(keyword);
+                const matchesStatus  = status === 'all' || (p.status || '').toLowerCase() === status;
+                const matchesGender  = gender === 'all' || (p.gender || '').toLowerCase() === gender;
                 return matchesKeyword && matchesStatus && matchesGender;
             });
 
             document.getElementById('resultCount').innerText = `${filtered.length} patients found`;
 
-            // Render Rows
-            if(filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">No patients found matching your criteria.</td></tr>';
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;">No patients found matching your criteria.</td></tr>';
             } else {
                 filtered.forEach(p => {
                     let badgeClass = 'inactive';
-                    if(p.status === 'Active') badgeClass = 'active';
-                    if(p.status === 'Critical') badgeClass = 'critical';
-
-                    const row = `
-                        <tr onclick="openModal('<h3>${p.name}</h3><p>Patient ID: ${p.id}</p>')">
-                            <td>
-                                <div class="user-cell">
-                                    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&background=003785&color=fff" class="user-avatar" onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'">
-                                    <span>${p.name}</span>
-                                </div>
-                            </td>
-                            <td>${p.id}</td>
-                            <td>${p.phone}</td>
-                            <td><span class="status-badge ${badgeClass}">${p.status}</span></td>
-                            <td>${p.lastVisit}</td>
-                            <td><button class="action-btn">View Profile</button></td>
-                        </tr>
+                    if (p.status === 'Active')   badgeClass = 'active';
+                    if (p.status === 'Critical') badgeClass = 'critical';
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <div class="user-cell">
+                                ${getPatientAvatarHtml(p)}
+                                <span>${p.name}</span>
+                            </div>
+                        </td>
+                        <td>${p.id}</td>
+                        <td>${p.phone}</td>
+                        <td><span class="status-badge ${badgeClass}">${p.status}</span></td>
+                        <td>${p.lastVisit}</td>
+                        <td><button class="action-btn" type="button">View Profile</button></td>
                     `;
-                    tbody.innerHTML += row;
+                    row.querySelector('.action-btn').addEventListener('click', () => openPatientProfile(p.backendId));
+                    tbody.appendChild(row);
                 });
             }
-        }
+        };
 
-        // 2. Open Modal Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('searchBtn');
+            if (btn) btn.addEventListener('click', window.performSearch);
+        });
+
         function openModal(contentHtml) {
             const overlay = document.createElement('div');
             overlay.className = 'cardio-modal-overlay';
             overlay.innerHTML = `
                 <div class="cardio-modal-content">
                     ${contentHtml}
-                    <div style="margin-top:20px; display:flex; justify-content:flex-end;">
-                        <button style="padding:8px 20px; border:none; background:#eee; border-radius:4px; cursor:pointer;" onclick="this.closest('.cardio-modal-overlay').remove()">Close</button>
+                    <div style="margin-top:20px;display:flex;justify-content:flex-end;">
+                        <button style="padding:8px 20px;border:none;background:#eee;border-radius:4px;cursor:pointer;" onclick="this.closest('.cardio-modal-overlay').remove()">Close</button>
                     </div>
-                </div>
-            `;
+                </div>`;
             document.body.appendChild(overlay);
         }
 
-        // 3. Chatbot Logic
-        function openChatbot() {
-            openModal(`
-                <h3>AI Assistant</h3>
-                <div style="height:200px; background:#f9f9f9; padding:10px; margin:10px 0; border-radius:8px; overflow-y:auto;">
-                    <p style="color:#003785;"><strong>AI:</strong> How can I help you search for patients today?</p>
-                </div>
-                <input type="text" placeholder="Type a message..." style="width:100%; padding:10px; border:1px solid #ddd; border-radius:4px;">
-            `);
-        }
-
-        // 4. Logout Logic
         function confirmLogout() {
-            if(confirm("Are you sure you want to log out?")) {
+            if (typeof AuthManager !== 'undefined' && AuthManager.handleLogout) {
+                AuthManager.handleLogout();
+            } else {
                 sessionStorage.clear();
                 window.location.href = '../../../auth/login.html';
             }
         }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById("userDropdown");
+            if (dropdown) dropdown.classList.toggle("show");
+        }
+
+        document.addEventListener("click", (e) => {
+            const menu = document.getElementById("userMenu");
+            const dropdown = document.getElementById("userDropdown");
+            if (menu && dropdown && !menu.contains(e.target)) {
+                dropdown.classList.remove("show");
+            }
+        });
     </script>
+    <script src="../../../js/auth-manager.js"></script>
+    <script>AuthManager.initSidebarFooterPanel();</script>
     <script src="script.js"></script>
 </body>
 </html>

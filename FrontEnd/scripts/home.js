@@ -1,169 +1,136 @@
-// Simple script for smooth scroll and button effects
+// scripts/home.js
+// CardioAI Landing Page Scripts
+// Uses AuthManager from js/auth-manager.js for auth state
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Add ripple effect to all buttons
-    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .cta-btn');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            // Remove existing ripples
-            const existingRipples = this.querySelectorAll('.ripple');
-            existingRipples.forEach(ripple => ripple.remove());
-            
-            // Create new ripple
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-            
-            // Calculate position and size
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            // Style the ripple
-            ripple.style.cssText = `
-                position: absolute;
-                width: ${size}px;
-                height: ${size}px;
-                top: ${y}px;
-                left: ${x}px;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.6);
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                pointer-events: none;
-            `;
-            
-            this.appendChild(ripple);
-            
-            // Remove ripple after animation
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-    
-    // Mobile menu toggle (optional for future)
-    const mobileMenuBtn = document.createElement('button');
-    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-    mobileMenuBtn.className = 'mobile-menu-btn';
-    document.querySelector('.header-content').appendChild(mobileMenuBtn);
-    
-    mobileMenuBtn.addEventListener('click', function() {
-        document.querySelector('.nav-menu').classList.toggle('show');
-    });
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.header-content')) {
-            document.querySelector('.nav-menu').classList.remove('show');
+    // ==========================================
+    // 1. Mobile Menu Functionality
+    // ==========================================
+    // The hamburger / overlay / nav-link close handlers are wired by
+    // AuthManager.initHeader() (initMobileMenu), which runs in the
+    // auth-manager.js auto-init on DOMContentLoaded. Wiring them again
+    // here causes two click handlers to fire on the same click, with
+    // the toggles cancelling each other out and the menu never opening
+    // on narrow viewports.
+
+    // ==========================================
+    // 2. Navbar Scroll Effect
+    // ==========================================
+
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
         }
-    });
-    
-    // Add animation to CTA section when it comes into view
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
-            }
-        });
-    }, { threshold: 0.3 });
-    
-    const ctaSection = document.querySelector('.cta-section');
-    if (ctaSection) observer.observe(ctaSection);
-    
-    // Smooth scroll for navigation links
+    }, { passive: true });
+
+    // ==========================================
+    // 3. Smooth Scrolling for Navigation Links
+    // ==========================================
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
-            
-            // Skip if it's not an ID
+
             if (href === '#') return;
-            
+
             const target = document.querySelector(href);
             if (target) {
                 e.preventDefault();
-                
-                const headerHeight = document.querySelector('.header').offsetHeight;
-                const targetPosition = target.offsetTop - headerHeight - 20;
-                
+
+                const headerHeight = navbar ? navbar.offsetHeight : 64;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
                 });
-                
-                // Close mobile menu if open
-                document.querySelector('.nav-menu').classList.remove('show');
+
+                updateActiveNavLink(href);
             }
         });
     });
+
+    function updateActiveNavLink(sectionId) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === sectionId) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // ==========================================
+    // 4. Active Nav Link on Scroll
+    // ==========================================
+
+    const sections = document.querySelectorAll('section[id]');
+
+    window.addEventListener('scroll', function() {
+        let current = '';
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.offsetHeight;
+
+            if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                current = '#' + section.getAttribute('id');
+            }
+        });
+
+        if (current) {
+            updateActiveNavLink(current);
+        }
+    }, { passive: true });
+
+    // ==========================================
+    // 5. Intersection Observer for Animations
+    // ==========================================
+
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+
+    document.querySelectorAll('.feature-card').forEach((card, index) => {
+        card.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(card);
+    });
+
+    document.querySelectorAll('.portal-card').forEach((card, index) => {
+        card.style.transitionDelay = `${index * 0.15}s`;
+        observer.observe(card);
+    });
+
+    // ==========================================
+    // 6. Auth Manager Integration
+    // ==========================================
+    // AuthManager.initAuth() is called automatically on DOMContentLoaded
+    // from js/auth-manager.js. It renders login/signup or dashboard button
+    // into #navbarActions based on auth state.
+
+    // Listen for authManager:ready event if we need to do additional setup
+    document.addEventListener('authManager:ready', function(e) {
+        console.log('[Landing Page] AuthManager ready:', e.detail.isLoggedIn ? 'Logged in' : 'Not logged in');
+    });
+
+    console.log('CardioAI Landing Page initialized');
 });
-
-// Add CSS for mobile menu
-const mobileMenuCSS = `
-    .mobile-menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        color: #004b92;
-        font-size: 24px;
-        cursor: pointer;
-        padding: 10px;
-    }
-    
-    @media (max-width: 768px) {
-        .mobile-menu-btn {
-            display: block;
-            position: absolute;
-            right: 20px;
-            top: 20px;
-        }
-        
-        .nav-menu {
-            display: none;
-            width: 100%;
-            flex-direction: column;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            padding: 20px;
-            z-index: 1000;
-        }
-        
-        .nav-menu.show {
-            display: flex;
-        }
-        
-        .nav-item {
-            width: 100%;
-            text-align: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .nav-item:last-child {
-            border-bottom: none;
-        }
-    }
-    
-    .cta-section.animated {
-        animation: fadeInUp 1s ease;
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-`;
-
-// Inject mobile menu CSS
-const style = document.createElement('style');
-style.textContent = mobileMenuCSS;
-document.head.appendChild(style);

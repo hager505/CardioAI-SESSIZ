@@ -1,3 +1,4 @@
+// doctor/patient-search/patient-search/Navigation.js
 // ========================================
 // PATIENT SEARCH - JAVASCRIPT
 // ========================================
@@ -278,7 +279,7 @@ function displayResults(results) {
     // Add click handlers for View Records and Open Chart buttons
     resultsContainer.querySelectorAll('.view-records-btn, .open-chart-btn').forEach(btn => {
         btn.addEventListener('click', function() {
-            window.location.href = '../view-patient-hisoty/index.html';
+            window.location.href = '../view-patient-history/index.html';
         });
     });
 }

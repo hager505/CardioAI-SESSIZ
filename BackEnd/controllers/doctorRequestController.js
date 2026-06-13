@@ -1,10 +1,10 @@
 // controllers/doctorRequestController.js
 import db from "../config/db.js";
 
-// GET /api/doctor/requests?doctor_id=1&status=pending
+// GET /api/doctor/requests?doctor_id=1&status=pending&patient_id=2
 export async function getDoctorRequests(req, res) {
   try {
-    const { status, doctor_id } = req.query;
+    const { status, doctor_id, patient_id } = req.query;
 
     let sql = `
       SELECT r.*,
@@ -15,8 +15,9 @@ export async function getDoctorRequests(req, res) {
       WHERE 1=1`;
     const params = [];
 
-    if (doctor_id) { sql += " AND r.doctor_id = ?"; params.push(doctor_id); }
-    if (status)    { sql += " AND r.status = ?";    params.push(status); }
+    if (doctor_id)  { sql += " AND r.doctor_id = ?";  params.push(doctor_id); }
+    if (patient_id) { sql += " AND r.patient_id = ?"; params.push(patient_id); }
+    if (status)     { sql += " AND r.status = ?";     params.push(status); }
     sql += " ORDER BY r.created_at DESC";
 
     const [rows] = await db.query(sql, params);

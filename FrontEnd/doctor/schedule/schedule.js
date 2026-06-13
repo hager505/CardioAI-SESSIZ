@@ -1,207 +1,176 @@
-/**
- * Schedule Page JavaScript
- * Handles tab switching and other interactions
- */
+// doctor/schedule/schedule.js
+const API = "http://localhost:5000/api";
+let allAppointments = [];
 
-// Import API config
-// import { apiUrl } from "../config/api.js";
-const apiUrl = "http://localhost:5000";
-// ==================== APPOINTMENTS API ====================
+document.addEventListener("DOMContentLoaded", async () => {
+  const raw = sessionStorage.getItem("user_data");
+  const userId = sessionStorage.getItem("user_id");
+  const role = sessionStorage.getItem("user_role");
 
-async function loadAppointments() {
-    try {
-        // Get today's appointments
-        const apiUrl = "http://localhost:5000";
-        const today = new Date().toISOString().split('T')[0];
-        const url = `${apiUrl}/api/doctor/appointments?date=' + today`;
+  if (!raw || role !== "doctor" || !userId) {
+    window.location.href = "../../auth/login.html";
+    return;
+  }
 
-        const res = await fetch(url);
-        if (!res.ok) {
-            console.error('Failed to load appointments:', res.status);
-            return;
-        }
+  const user = JSON.parse(raw);
+  const namePill = document.getElementById("doctorNamePill");
+  if (namePill) namePill.textContent = user.full_name ?? "Doctor";
 
-        const result = await res.json();
-        if (!result.ok) {
-            console.error('API error:', result.error);
-            return;
-        }
+  if (typeof AuthManager !== "undefined") {
+    AuthManager.initDoctorAvatar(document.getElementById("doctorAvatar"), userId, user.full_name);
+  }
 
-        const appointments = result.data || [];
-        console.log('Loaded appointments:', appointments.length);
+  document.getElementById("currentDateDisplay").textContent =
+    new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 
-        // Update stats
-        updateStats(appointments);
-
-        // Render appointments in calendar
-        renderAppointments(appointments);
-
-    } catch (err) {
-        console.error('Failed to load appointments:', err);
-    }
-}
-
-function updateStats(appointments) {
-    // Today's appointments
-    const statCards = document.querySelectorAll('.stat-card');
-    statCards.forEach(card => {
-        const header = card.querySelector('.stat-header span');
-        const valueEl = card.querySelector('.stat-value');
-        if (header && header.textContent.includes("Today's") && valueEl) {
-            valueEl.textContent = appointments.length;
-        }
-    });
-}
-
-function renderAppointments(appointments) {
-    // Add appointments from API to calendar
-    appointments.forEach(apt => {
-        // Convert time to hour format for matching
-        const timeHour = apt.time ? apt.time.split(':')[0] : '09';
-
-        // Find matching time row
-        const timeCells = document.querySelectorAll('.time-cell');
-        timeCells.forEach(cell => {
-            const cellTime = cell.textContent.trim().split(':')[0];
-            if (cellTime === timeHour) {
-                const td = cell.parentElement;
-                if (td && td.children.length <= 1) { // Only time-cell, no appointments yet
-                    const block = document.createElement('div');
-                    block.className = 'appointment-block';
-                    block.onclick = function () {
-                        alert('Patient: ' + apt.patientName + '\nType: ' + apt.type + '\nTime: ' + apt.time);
-                    };
-
-                    const timeSpan = document.createElement('span');
-                    timeSpan.className = 'app-time';
-                    timeSpan.textContent = apt.time;
-
-                    const nameSpan = document.createElement('span');
-                    nameSpan.className = 'app-name';
-                    nameSpan.textContent = apt.patientName;
-
-                    block.appendChild(timeSpan);
-                    block.appendChild(nameSpan);
-                    td.appendChild(block);
-                }
-            }
-        });
-    });
-}
-
-function avatarUrl(name, bg = "003785") {
-    const parts = (name ?? "X").trim().split(/\s+/);
-    const f = encodeURIComponent((parts[0]?.[0] ?? "X").toUpperCase());
-    const l = encodeURIComponent((parts[1]?.[0] ?? parts[0]?.[1] ?? "X").toUpperCase());
-    return `https://ui-avatars.com/api/?name=${f}+${l}&background=${bg}&color=fff&size=128&bold=true`;
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    const raw = sessionStorage.getItem("user_data");
-    const role = sessionStorage.getItem("user_role");
-
-    if (!raw || role !== "doctor") {
-        window.location.href = "../../auth/login.html";
-        return;
-    }
-    const user = JSON.parse(raw);
-
-    const namePill = document.getElementById("doctorNamePill");
-    if (namePill) namePill.textContent = user.full_name || "Doctor";
-
-    const avatarPill = document.getElementById("doctorAvatarPill");
-    if (avatarPill) {
-        const photo = user.avatar_url || localStorage.getItem(`avatar_${user.id}`) || avatarUrl(user.full_name);
-        avatarPill.src = photo;
-    }
-
-    // Load appointments from API
-    loadAppointments();
-    // Tab Switching
-    const tabButtons = document.querySelectorAll('.tabs__btn');
-    const viewSections = document.querySelectorAll('.view-section');
-
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const tabName = this.dataset.tab;
-
-            // Remove active class from all buttons
-            tabButtons.forEach(btn => btn.classList.remove('tabs__btn--active'));
-
-            // Add active class to clicked button
-            this.classList.add('tabs__btn--active');
-
-            // Hide all view sections
-            viewSections.forEach(section => section.classList.remove('view-section--active'));
-
-            // Show selected view section
-            const targetSection = document.getElementById(tabName + '-view');
-            if (targetSection) {
-                targetSection.classList.add('view-section--active');
-            }
-        });
-    });
-
-    // Date Picker (placeholder for future implementation)
-    const datePicker = document.querySelector('.date-picker');
-    if (datePicker) {
-        datePicker.addEventListener('click', function () {
-            // TODO: Implement date picker modal
-            console.log('Date picker clicked');
-        });
-    }
-
-    // New Appointment Button
-    const newAppointmentBtns = document.querySelectorAll('.btn--primary');
-    newAppointmentBtns.forEach(btn => {
-        btn.addEventListener('click', function () {
-            // Navigate to add schedule page
-            window.location.href = './add-schedule.html';
-        });
-    });
-
-    // Calendar Slot Click
-    const slotCells = document.querySelectorAll('.slot-cell');
-    slotCells.forEach(cell => {
-        cell.addEventListener('click', function () {
-            // TODO: Implement slot selection
-            this.classList.toggle('slot-cell--selected');
-            console.log('Slot clicked');
-        });
-    });
-
-    // Load appointments when page loads
-    loadAppointments();
-
-    // Sidebar Navigation
-    const navItems = document.querySelectorAll('.sidebar__nav-item');
-    navItems.forEach(item => {
-        item.style.cursor = 'pointer';
-        item.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            // Get the text content to determine which page to navigate to
-            const navText = this.querySelector('span')?.textContent.trim() || '';
-
-            // Remove active from all
-            navItems.forEach(nav => nav.classList.remove('sidebar__nav-item--active'));
-            // Add active to clicked
-            this.classList.add('sidebar__nav-item--active');
-
-            // Navigate based on text
-            if (navText === 'Dashboard') {
-                window.location.href = '../dashboard/dashboard.html';
-            } else if (navText === 'Patient Search') {
-                window.location.href = '../patient-search/patient-search/patient-search.html';
-            } else if (navText === 'My Patients') {
-                window.location.href = '../my-patients/my-patients.html';
-            } else if (navText === 'Requests') {
-                window.location.href = '../my-requests/my-requests.html';
-            } else if (navText === 'Schedule') {
-                // Already on schedule page
-                return;
-            }
-        });
-    });
+  await fetchAppointments(userId);
 });
+
+async function fetchAppointments(userId) {
+  try {
+    const res = await fetch(`${API}/appointments?doctor_id=${userId}`);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    allAppointments = data.appointments ?? [];
+    updateStats();
+    renderWeeklyTable();
+  } catch (e) {
+    console.error("fetchAppointments error:", e);
+  }
+}
+
+function updateStats() {
+  const today = new Date().toISOString().split("T")[0];
+  const weekFromNow = new Date(Date.now() + 7 * 86400000).toISOString().split("T")[0];
+
+  let todayCount = 0, upcomingCount = 0, completedCount = 0;
+
+  allAppointments.forEach(a => {
+    const d = (a.appointment_date || "").split("T")[0];
+    if (d === today) todayCount++;
+    if (d >= today && d <= weekFromNow && a.status !== "completed" && a.status !== "cancelled") upcomingCount++;
+    if (a.status === "completed") completedCount++;
+  });
+
+  const statValues = document.querySelectorAll(".stat-card .stat-value");
+  if (statValues[0]) statValues[0].textContent = todayCount;
+  if (statValues[1]) statValues[1].textContent = upcomingCount;
+  if (statValues[2]) statValues[2].textContent = completedCount;
+  if (statValues[3]) statValues[3].textContent = Math.max(0, 20 - todayCount);
+}
+
+function renderWeeklyTable() {
+  const tbody = document.querySelector(".schedule-table tbody");
+  if (!tbody) return;
+
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const weekStart = new Date(today);
+  weekStart.setDate(today.getDate() + mondayOffset);
+
+  // Update weekday headers
+  const headers = document.querySelectorAll(".schedule-table thead th");
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  for (let i = 1; i <= 7; i++) {
+    const d = new Date(weekStart);
+    d.setDate(weekStart.getDate() + i - 1);
+    if (headers[i]) headers[i].textContent = `${dayNames[d.getDay()]} ${d.getDate()}`;
+  }
+
+  // Build appointment lookup: dayIndex -> array of appointments
+  const weekAppts = {};
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(weekStart);
+    d.setDate(weekStart.getDate() + i);
+    weekAppts[i] = allAppointments.filter(a => {
+      const ad = (a.appointment_date || "").split("T")[0];
+      return ad === d.toISOString().split("T")[0];
+    });
+  }
+
+  // Time slots: 08:00 to 17:00
+  const slots = [];
+  for (let h = 8; h <= 17; h++) {
+    slots.push(`${String(h).padStart(2, "0")}:00`);
+  }
+  const totalSlots = 20;
+
+  let completedInWeek = 0;
+  let scheduledInWeek = 0;
+
+  let html = "";
+  slots.forEach((time, idx) => {
+    const hour = parseInt(time.split(":")[0]);
+
+    html += `<tr>`;
+    html += `<td class="time-cell">${time}</td>`;
+
+    for (let dayIdx = 0; dayIdx < 7; dayIdx++) {
+      const dayAppts = weekAppts[dayIdx].filter(a => {
+        const ah = parseInt((a.appointment_time || "00:00").split(":")[0]);
+        return ah === hour;
+      });
+
+      if (dayAppts.length > 0) {
+        const appt = dayAppts[0];
+        const isUrgent = (appt.appointment_type || "").toLowerCase() === "emergency";
+        const isCompleted = appt.status === "completed";
+        let cls = "appointment-block";
+        if (isUrgent) cls += " appointment-block--urgent";
+        if (isCompleted) cls += " appointment-block--completed";
+
+        if (isCompleted) completedInWeek++;
+        else scheduledInWeek++;
+
+        html += `<td>
+          <div class="${cls}" title="${escHtml(appt.notes || "")}">
+            <span class="app-time">${formatTime(appt.appointment_time)} - ${formatTime(addHours(appt.appointment_time, appt.duration))}</span>
+            <span class="app-name">${escHtml(appt.patient_name || "Unknown")}</span>
+          </div>
+        </td>`;
+      } else {
+        html += `<td></td>`;
+      }
+    }
+
+    html += `</tr>`;
+  });
+
+  tbody.innerHTML = html;
+
+  // Update available slots stat
+  const availableSlots = totalSlots - scheduledInWeek - completedInWeek;
+  const statValues = document.querySelectorAll(".stat-card .stat-value");
+  if (statValues[3]) statValues[3].textContent = Math.max(0, availableSlots);
+}
+
+function formatTime(t) {
+  if (!t) return "—";
+  const parts = t.split(":");
+  if (parts.length < 2) return t;
+  const h = parseInt(parts[0]);
+  const m = parts[1].substring(0, 2);
+  const ampm = h >= 12 ? "PM" : "AM";
+  const h12 = h % 12 || 12;
+  return `${h12}:${m}${ampm}`;
+}
+
+function addHours(time, duration) {
+  if (!time) return "00:00";
+  const parts = time.split(":");
+  let h = parseInt(parts[0]);
+  let m = parseInt(parts[1] || "0");
+  const dur = duration ? parseInt(duration) : 30;
+  m += dur;
+  h += Math.floor(m / 60);
+  m = m % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
+function escHtml(s) {
+  if (s == null) return "";
+  const d = document.createElement("div");
+  d.textContent = String(s);
+  return d.innerHTML;
+}

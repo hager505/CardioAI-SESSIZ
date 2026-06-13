@@ -1,3 +1,4 @@
+// doctor/config/api.js --- API configuration for Doctor Frontend
 /**
  * Cardio AI - Shared API Configuration (ES Module)
  * Use this for pages with <script type="module">

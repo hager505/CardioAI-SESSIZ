@@ -46,10 +46,41 @@ export const doctorUpload = multer({
   { name: "medical_documents", maxCount: 10 },
 ]);
 
+// للـ avatar — ملف واحد (للأطباء)
+export const avatarUpload = multer({
+  storage: makeStorage("doctors/avatars"),
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files are allowed"), false);
+  },
+  limits: { fileSize: 2 * 1024 * 1024 },
+}).single("avatar");
+
+// للـ avatar — ملف واحد (للمرضى)
+export const patientAvatarUpload = multer({
+  storage: makeStorage("patients/avatars"),
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files are allowed"), false);
+  },
+  limits: { fileSize: 5 * 1024 * 1024 },
+}).single("avatar");
+
+// ── Medical-records upload (patient + doctor) ────────────────────────────
+// Uses a randomised filename to avoid collisions and special-character bugs
+// in the original file name (spaces, parentheses, etc.). The destination
+// directory is created on demand because multer does NOT auto-create it.
+const recordsDir = path.join("uploads", "records");
+fs.mkdirSync(recordsDir, { recursive: true });
+
 export const recordUpload = multer({
   storage: multer.diskStorage({
-    destination: (req, file, cb) => cb(null, "uploads/records/"),
-    filename:    (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
+    destination: (req, file, cb) => cb(null, recordsDir),
+    filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      const name = `${Date.now()}_${Math.random().toString(36).slice(2)}${ext}`;
+      cb(null, name);
+    },
   }),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
   fileFilter: (req, file, cb) => {

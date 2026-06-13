@@ -1,141 +1,121 @@
+<!-- Medical Records Page "patient/MedicalRecords/medicalrecords1.html" -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        a, button, input, select {
-            text-decoration: none;
-            background: none;
-            border: none;
-            font-family: inherit;
-        }
-
-        menu, ol, ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-  
-/* Sidebar */
-.sidebar {
-    background: rgba(170, 213, 42, 0.56);
-    border-right: 1px solid var(--medium-gray);
-    padding: 20px 0;
-}
-
-
-.sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 24px;
-    color: var(--text-dark);
-    text-decoration: none;
-    transition: all 0.3s;
-    border-left: 3px solid transparent;
-}
-
-.sidebar-item:hover {
-    background: rgba(0, 59, 133, 0.1);
-    color: var(--primary-blue);
-}
-
-.sidebar-item.active {
-    background: rgba(45, 104, 175, 0.1);
-    color: var(--primary-blue);
-    border-left-color: var(--primary-blue);
-}
-
-.sidebar-item i {
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.sidebar-item span {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-    </style>
-    <title>Medical Records - Cardio AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Unified Design System -->
+    <link rel="stylesheet" href="../../css/unified-design.css">
+    <link rel="stylesheet" href="../shared/shared.css">
+    <!-- Page Specific Styles -->
+    <link rel="stylesheet" href="style1.css">
+    <title>Medical Records - CardioAI</title>
 </head>
 <body>
-    <div class="medical-records-page">
-        <!-- Top Header -->
-        <div class="top-header">
-            <div class="logo-container">
-                <div class="logo">
-                    <span class="logo-blue"><b>Cardio</b></span>
-                    <span class="logo-green">AI</span>
-                </div>
+
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════════════════ -->
+    <nav class="dashboard-sidebar" id="dashboardSidebar">
+        <div class="dashboard-sidebar__header">
+            <div class="dashboard-sidebar__logo">
+                <a href="../dashboard/dashboard.html" class="navbar-brand">
+                    <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+                </a>
             </div>
-            
-            <div class="search-container">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search medical records, appointments...">
+            <button class="dashboard-sidebar__close" id="sidebarCloseBtn" aria-label="Close sidebar" title="Close sidebar">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+        <div class="dashboard-sidebar__nav">
+            <a href="../dashboard/dashboard.html" class="dashboard-sidebar__item">
+                <i class="fas fa-home"></i><span>Dashboard</span>
+            </a>
+            <a href="../profile/profile.html" class="dashboard-sidebar__item">
+                <i class="fas fa-user"></i><span>Profile</span>
+            </a>
+            <a href="medicalrecords1.html" class="dashboard-sidebar__item active">
+                <i class="fas fa-file-medical"></i><span>Medical Records</span>
+            </a>
+            <a href="../appointments/appointment.html" class="dashboard-sidebar__item">
+                <i class="fas fa-calendar-check"></i><span>Appointments</span>
+            </a>
+      <a href="../medications/medications.html" class="dashboard-sidebar__item">
+        <i class="fas fa-pills"></i><span>Medications</span>
+      </a>
+      <a href="../requests/requests.html" class="dashboard-sidebar__item">
+        <i class="fas fa-paper-plane"></i><span>Requests</span>
+      </a>
+      <a href="../notifications/notification.html" class="dashboard-sidebar__item">
+        <i class="fas fa-bell"></i><span>Notifications</span>
+      </a>
+        </div>
+        <div class="dashboard-sidebar__footer" id="sidebarFooterPanel">
+            <div class="sidebar-footer-trigger" id="footerPanelTrigger">
+                <div class="sidebar-footer-avatar" id="footerAvatar">P</div>
+                <div class="sidebar-footer-info">
+                    <span class="sidebar-footer-name" id="footerPatientName">Patient</span>
+                    <span class="sidebar-footer-role">Patient</span>
                 </div>
+                <i class="fas fa-chevron-up sidebar-footer-chevron"></i>
             </div>
-            
-            <div class="header-actions">
-                <button class="icon-btn" id="notificationsBtn">
-                    <i class="fas fa-bell"></i>
+            <div class="sidebar-footer-menu" id="footerPanelMenu">
+                <a href="../profile/profile.html" class="sidebar-footer-item">
+                    <i class="fas fa-user-cog"></i> Profile Settings
+                </a>
+                <button class="sidebar-footer-item danger" id="sidebarLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
-                <button class="icon-btn" id="settingsBtn">
-                    <i class="fas fa-cog"></i>
-                </button>
-                
             </div>
         </div>
+    </nav>
 
-        <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-menu">
-        <a href="../dashboard/dashboard.html" class="sidebar-item ">
-          <i class="fas fa-home"></i><span>Dashboard</span>
-        </a>
-        <a href="../profile/profile.html" class="sidebar-item">
-          <i class="fas fa-user"></i><span>Profile</span>
-        </a>
-        <a href="../MedicalRecords/medicalrecords1.html" class="sidebar-item active">
-          <i class="fas fa-file-medical"></i><span>Medical Records</span>
-        </a>
-        <a href="../appointments/appiontment.html" class="sidebar-item">
-          <i class="fas fa-calendar-check"></i><span>Appointments</span>
-        </a>
-        <a href="../medications/medications.html" class="sidebar-item">
-          <i class="fas fa-pills"></i><span>Medications</span>
-        </a>
-        <a href="../notifications/notification.html" class="sidebar-item">
-          <i class="fas fa-bell"></i><span>Notifications</span>
-        </a>
-      </div>
-    </div>
+    <!-- ══ MOBILE OVERLAY ══════════════════════════════════════════════════ -->
+    <div class="mobile-overlay" id="sidebarOverlay"></div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="content-header">
-                <h1>Medical Records</h1>
-                <button class="upload-btn" id="uploadReportBtn">
-                    <i class="fas fa-upload"></i>
+    <!-- ══ MAIN ════════════════════════════════════════════════════════════ -->
+    <main class="dashboard-main">
+
+        <!-- HEADER -->
+        <header class="dashboard-header">
+            <div class="dashboard-header__left">
+                <button class="hamburger" id="sidebarToggle" aria-label="Open menu" title="Open menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="dashboard-header__actions">
+                <button class="btn btn-icon btn-ghost" id="notificationsBtn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notifBadge" style="display:none;"></span>
+                </button>
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="profileAvatar" tabindex="0" role="button" onclick="window.location.href='../profile/profile.html'">
+                        <span class="avatar-initials" id="avatarInitials">P</span>
+                    </div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="user-name" id="dropdownUserName">Loading...</div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="../profile/profile.html" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="../dashboard/dashboard.html" class="dropdown-item"><i class="fas fa-home"></i> Dashboard</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item danger" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <div class="dashboard-content">
+            <div class="content-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h1>Medical Records</h1>
+                    <p class="text-muted">View and manage your medical documents</p>
+                </div>
+                <button class="btn btn-primary" id="uploadReportBtn">
+                    <i class="fas fa-upload mr-sm"></i>
                     Upload New Report
                 </button>
             </div>
@@ -143,38 +123,36 @@
             <!-- Categories Tabs -->
             <div class="categories-tabs">
                 <button class="tab active" data-category="lab-tests">
-                    Lab Tests
+                    <i class="fas fa-flask mr-sm"></i>Lab Tests
                 </button>
                 <button class="tab" data-category="radiology">
-                    Radiology/Imaging
+                    <i class="fas fa-x-ray mr-sm"></i>Radiology/Imaging
                 </button>
                 <button class="tab" data-category="prescriptions">
-                    Prescriptions
+                    <i class="fas fa-prescription-bottle mr-sm"></i>Prescriptions
                 </button>
                 <button class="tab" data-category="surgeries">
-                    Surgeries
+                    <i class="fas fa-syringe mr-sm"></i>Surgeries
                 </button>
             </div>
 
             <!-- Search and Filter -->
             <div class="search-filter">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search records...">
+                <div class="input-with-icon">
+                    <i class="fas fa-search input-icon"></i>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search records...">
                 </div>
-                <div class="filter-dropdown">
-                    <select id="typeFilter">
-                        <option value="all">All types</option>
-                        <option value="lab-test">Lab Test</option>
-                        <option value="xray">X-Ray</option>
-                        <option value="mri">MRI</option>
-                        <option value="prescription">Prescription</option>
-                        <option value="surgery">Surgery Report</option>
-                    </select>
-                </div>
+                <select id="typeFilter" class="form-control" style="width: auto;">
+                    <option value="all">All types</option>
+                    <option value="lab-test">Lab Test</option>
+                    <option value="xray">X-Ray</option>
+                    <option value="mri">MRI</option>
+                    <option value="prescription">Prescription</option>
+                    <option value="surgery">Surgery Report</option>
+                </select>
             </div>
 
-            <!-- Reports List -->
+            <!-- Reports Container -->
             <div class="reports-container">
                 <div class="reports-list" id="reportsList">
                     <!-- Reports will be loaded here dynamically -->
@@ -213,114 +191,110 @@
                         </div>
                     </div>
                     
-                    <button class="download-btn" id="downloadBtn" disabled>
-                        <i class="fas fa-download"></i>
+                    <button class="btn btn-primary btn-full" id="downloadBtn" disabled>
+                        <i class="fas fa-download mr-sm"></i>
                         Download PDF
                     </button>
                 </div>
             </div>
+        </div><!-- END CONTENT -->
 
-            <!-- Upload Modal -->
-            <div class="modal" id="uploadModal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>Upload New Report</h2>
-                        <button class="close-btn" id="closeModalBtn">&times;</button>
+        <!-- FOOTER -->
+        <footer class="dashboard-footer">
+            <div class="footer-brand">
+                <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+            </div>
+            <div class="footer-links">
+                <a href="../../index.html">Home</a>
+                <a href="../../index.html#about">About</a>
+                <a href="../../index.html#features">Features</a>
+                <a href="../../chatbot/mainpage.html">Chatbot</a>
+            </div>
+            <span class="footer-copyright">© 2025 CardioAI. All rights reserved.</span>
+        </footer>
+
+    </main>
+
+    <!-- Chat Bot Floating Button -->
+    <a href="../../chatbot/mainpage.html" class="floating-chat" title="AI Chatbot">
+        <img src="../../images/chatbot.png" alt="Chat Bot" class="chat-bot-img">
+    </a>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Upload Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="modal" id="uploadModal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 class="modal-title">Upload New Report</h3>
+                <button class="modal-close" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm">
+                    <div class="form-group">
+                        <label for="reportTitle" class="form-label">Report Title</label>
+                        <input type="text" id="reportTitle" class="form-control" required placeholder="e.g., Complete Blood Count (CBC)">
                     </div>
                     
-                    <form id="uploadForm">
+                    <div class="form-row">
                         <div class="form-group">
-                            <label for="reportTitle">Report Title</label>
-                            <input type="text" id="reportTitle" required placeholder="e.g., Complete Blood Count (CBC)">
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="reportType">Report Type</label>
-                                <select id="reportType" required>
-                                    <option value="">Select type</option>
-                                    <option value="lab-test">Lab Test</option>
-                                    <option value="radiology">Radiology/Imaging</option>
-                                    <option value="prescription">Prescription</option>
-                                    <option value="surgery">Surgery Report</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="reportDate">Date</label>
-                                <input type="date" id="reportDate" required>
-                            </div>
+                            <label for="reportType" class="form-label">Report Type</label>
+                            <select id="reportType" class="form-control" required>
+                                <option value="">Select type</option>
+                                <option value="lab-test">Lab Test</option>
+                                <option value="radiology">Radiology/Imaging</option>
+                                <option value="prescription">Prescription</option>
+                                <option value="surgery">Surgery Report</option>
+                                <option value="other">Other</option>
+                            </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="reportDoctor">Doctor/Hospital</label>
-                            <input type="text" id="reportDoctor" required placeholder="e.g., Dr. Emily White">
+                            <label for="reportDate" class="form-label">Date</label>
+                            <input type="date" id="reportDate" class="form-control" required>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="reportDescription">Description</label>
-                            <textarea id="reportDescription" rows="3" placeholder="Brief description of the report"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="fileUpload">Upload File</label>
-                            <div class="file-upload-area" id="fileUploadArea">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Drag & drop files here or click to browse</p>
-                                <p class="file-types">Supported: PDF, JPG, PNG, DOC (Max: 10MB)</p>
-                                <input type="file" id="fileUpload" hidden accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-                                <button type="button" class="browse-btn" id="browseBtn">Browse Files</button>
-                            </div>
-                            <div class="file-preview" id="filePreview"></div>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="button" class="cancel-btn" id="cancelUploadBtn">Cancel</button>
-                            <button type="submit" class="submit-btn">
-                                <i class="fas fa-upload"></i>
-                                Upload Report
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="logo-blue">Cardio</span>
-                    <span class="logo-green">AI</span>
-                </div>
-                
-                <div class="footer-links">
-                   
-                    <div class="links-menu">
-                        <a href="/startpage/home.html">Home</a>
-                        <a href="/startpage/home.html">Features</a>
-                        <a href="../../home.html">About</a>
-                        <a href='../../chatbot/mainpage.html'>Chatbot</a>
                     </div>
-                </div>
-                
-                <a href="/registeration/doctor/patient/logout.html" class="logout-btn" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Log out
-                </a>
+                    
+                    <div class="form-group">
+                        <label for="reportDoctor" class="form-label">Doctor/Hospital</label>
+                        <input type="text" id="reportDoctor" class="form-control" required placeholder="e.g., Dr. Emily White">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reportDescription" class="form-label">Description</label>
+                        <textarea id="reportDescription" rows="3" class="form-control" placeholder="Brief description of the report"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Upload File</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop files here or click to browse</p>
+                            <p class="file-types text-muted text-sm">Supported: PDF, JPG, PNG, DOC (Max: 10MB)</p>
+                            <input type="file" id="fileUpload" hidden accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                            <button type="button" class="btn btn-secondary btn-sm" id="browseBtn">Browse Files</button>
+                        </div>
+                        <div class="file-preview" id="filePreview"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelUploadBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload mr-sm"></i>
+                            Upload Report
+                        </button>
+                    </div>
+                </form>
             </div>
-        </div>
-
-        
-       <!-- Floating Chatbot Icon -->
-        <div class="floating-chatbot">
-            <a href="/chatbot/mainpage.html" class="chatbot-link">
-            <img src="chatbot.png" alt="AI Chatbot" class="chatbot-logo">
-            </a>
         </div>
     </div>
 
+    <script src="../../js/auth-manager.js"></script>
+    <script>AuthManager.initSidebarFooterPanel();</script>
+    <script src="../shared/notification-count.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

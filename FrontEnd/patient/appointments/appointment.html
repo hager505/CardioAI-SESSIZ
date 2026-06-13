@@ -1,0 +1,420 @@
+<!-- Appointments Page "patient/appointments/appointment.html" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments - CardioAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Unified Design System -->
+    <link rel="stylesheet" href="../../css/unified-design.css">
+    <link rel="stylesheet" href="../shared/shared.css">
+    <!-- Page Specific Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════════════════ -->
+    <nav class="dashboard-sidebar" id="dashboardSidebar">
+        <div class="dashboard-sidebar__header">
+            <div class="dashboard-sidebar__logo">
+                <a href="../dashboard/dashboard.html" class="navbar-brand">
+                    <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+                </a>
+            </div>
+            <button class="dashboard-sidebar__close" id="sidebarCloseBtn" aria-label="Close sidebar" title="Close sidebar">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+        <div class="dashboard-sidebar__nav">
+            <a href="../dashboard/dashboard.html" class="dashboard-sidebar__item">
+                <i class="fas fa-home"></i><span>Dashboard</span>
+            </a>
+            <a href="../profile/profile.html" class="dashboard-sidebar__item">
+                <i class="fas fa-user"></i><span>Profile</span>
+            </a>
+            <a href="../MedicalRecords/medicalrecords1.html" class="dashboard-sidebar__item">
+                <i class="fas fa-file-medical"></i><span>Medical Records</span>
+            </a>
+            <a href="appointment.html" class="dashboard-sidebar__item active">
+                <i class="fas fa-calendar-check"></i><span>Appointments</span>
+            </a>
+      <a href="../medications/medications.html" class="dashboard-sidebar__item">
+        <i class="fas fa-pills"></i><span>Medications</span>
+      </a>
+      <a href="../requests/requests.html" class="dashboard-sidebar__item">
+        <i class="fas fa-paper-plane"></i><span>Requests</span>
+      </a>
+      <a href="../notifications/notification.html" class="dashboard-sidebar__item">
+        <i class="fas fa-bell"></i><span>Notifications</span>
+      </a>
+        </div>
+        <div class="dashboard-sidebar__footer" id="sidebarFooterPanel">
+            <div class="sidebar-footer-trigger" id="footerPanelTrigger">
+                <div class="sidebar-footer-avatar" id="footerAvatar">P</div>
+                <div class="sidebar-footer-info">
+                    <span class="sidebar-footer-name" id="footerPatientName">Patient</span>
+                    <span class="sidebar-footer-role">Patient</span>
+                </div>
+                <i class="fas fa-chevron-up sidebar-footer-chevron"></i>
+            </div>
+            <div class="sidebar-footer-menu" id="footerPanelMenu">
+                <a href="../profile/profile.html" class="sidebar-footer-item">
+                    <i class="fas fa-user-cog"></i> Profile Settings
+                </a>
+                <button class="sidebar-footer-item danger" id="sidebarLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ══ MOBILE OVERLAY ══════════════════════════════════════════════════ -->
+    <div class="mobile-overlay" id="sidebarOverlay"></div>
+
+    <!-- ══ MAIN ════════════════════════════════════════════════════════════ -->
+    <main class="dashboard-main">
+
+        <!-- HEADER -->
+        <header class="dashboard-header">
+            <div class="dashboard-header__left">
+                <button class="hamburger" id="sidebarToggle" aria-label="Open menu" title="Open menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="dashboard-header__actions">
+                <button class="btn btn-icon btn-ghost" id="notificationsBtn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notifBadge" style="display:none;"></span>
+                </button>
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="profileAvatar" tabindex="0" role="button" onclick="window.location.href='../profile/profile.html'">
+                        <span class="avatar-initials" id="avatarInitials">P</span>
+                    </div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="user-name" id="dropdownUserName">Loading...</div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="../profile/profile.html" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="../dashboard/dashboard.html" class="dropdown-item"><i class="fas fa-home"></i> Dashboard</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item danger" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <div class="dashboard-content">
+            <!-- Page Header -->
+            <div class="content-header">
+                <div>
+                    <h1>Appointments</h1>
+                    <p class="page-subtitle">Smart follow-up scheduling based on your health data</p>
+                </div>
+            </div>
+
+            <!-- Patient Health Summary Cards -->
+            <div class="health-summary-cards">
+                <!-- Current Risk Status Card -->
+                <div class="card health-card">
+                    <div class="card-header">
+                        <h3 class="card-header-title"><i class="fas fa-heartbeat text-brand-primary mr-sm"></i>Current Risk Status</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="risk-status" id="riskStatus">
+                            <span class="badge badge-secondary">Loading...</span>
+                        </div>
+                        <p class="risk-description text-secondary mt-md">Loading your health data...</p>
+                        <div class="risk-details mt-lg">
+                            <div class="risk-metric">
+                                <span class="text-muted text-sm">Heart Rate</span>
+                                <span class="text-muted metric-value">—</span>
+                            </div>
+                            <div class="risk-metric">
+                                <span class="text-muted text-sm">Blood Pressure</span>
+                                <span class="text-muted metric-value">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Last AI Recommendation Card -->
+                <div class="card health-card">
+                    <div class="card-header">
+                        <h3 class="card-header-title"><i class="fas fa-robot text-brand-secondary mr-sm"></i>AI Recommendation</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="ai-recommendation">
+                            <i class="fas fa-lightbulb text-brand-secondary"></i>
+                            <p class="text-secondary" id="aiRecommendationText">Loading AI-powered recommendation...</p>
+                        </div>
+                        <button class="btn btn-outline-secondary btn-sm mt-lg" id="viewDetailedAnalysisBtn">
+                            <i class="fas fa-chart-line mr-sm"></i>
+                            View Detailed Analysis
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="appointments-split-layout">
+                <div class="appointments-left-panel">
+
+            <!-- Calendar Section -->
+            <div class="card calendar-section">
+                <div class="card-header">
+                    <h3 class="card-header-title"><i class="far fa-calendar-alt text-brand-primary mr-sm"></i>Schedule Appointment</h3>
+                    <div class="calendar-navigation">
+                        <button class="calendar-nav-btn" id="prevMonth" aria-label="Previous month" title="Previous month">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 class="mb-0" id="currentMonth">January 2025</h3>
+                        <button class="calendar-nav-btn" id="nextMonth" aria-label="Next month" title="Next month">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="calendar-container">
+                        <div class="calendar-weekdays">
+                            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                        </div>
+                        <div class="calendar-days" id="calendarDays">
+                            <!-- Calendar days will be populated by JavaScript -->
+                        </div>
+                        <div class="calendar-legend">
+                            <span><span class="dot green"></span> Today</span>
+                            <span><span class="dot primary"></span> Selected</span>
+                            <span><span class="dot blue"></span> Has appointment</span>
+                            <span><span class="dot gray"></span> Past / unavailable</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Appointments Section -->
+            <div class="card appointments-section">
+                <div class="card-header">
+                    <h3 class="card-header-title"><i class="far fa-list-alt text-brand-primary mr-sm"></i>My Appointments</h3>
+                </div>
+                <div class="card-body">
+                    <div class="appointments-tabs">
+                        <button class="tab active" data-tab="upcoming">
+                            <i class="fas fa-calendar-alt mr-sm"></i>Upcoming
+                        </button>
+                        <button class="tab" data-tab="past">
+                            <i class="fas fa-history mr-sm"></i>Past
+                        </button>
+                    </div>
+
+                    <!-- Upcoming Appointments -->
+                    <div class="appointments-list active" id="upcomingAppointments">
+                        <!-- Appointments will be loaded dynamically -->
+                    </div>
+
+                    <!-- Past Appointments -->
+                    <div class="appointments-list" id="pastAppointments">
+                        <!-- Past appointments will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+                </div><!-- END left-panel -->
+
+                <div class="appointments-right-panel">
+
+            <!-- Appointment Booking Form -->
+            <div class="card booking-section" id="bookingSection">
+                <div class="card-header">
+                    <h3 class="card-header-title" id="formTitle"><i class="fas fa-calendar-plus text-brand-primary mr-sm"></i>Book New Appointment</h3>
+                </div>
+                <div class="card-body">
+                    <!-- AI Recommendation Box -->
+                    <div class="ai-recommendation-box" id="aiRecommendationBox">
+                        <div class="d-flex align-items-center gap-md mb-md">
+                            <i class="fas fa-robot text-brand-secondary text-xl"></i>
+                            <h4 class="mb-0 text-brand-primary">AI Insight</h4>
+                        </div>
+                        <p class="text-secondary" id="aiInsightText">Based on your recent heart data, regular monitoring is recommended every 2 weeks.</p>
+                        <div class="ai-warning" id="aiWarning" style="display: none;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Warning: High-risk condition detected. Earlier appointment is strongly recommended.</span>
+                        </div>
+                    </div>
+
+                    <form id="appointmentForm">
+                        <div class="form-grid">
+                            <!-- Doctor Selection -->
+                            <div class="form-group">
+                                <label for="doctorSelect" class="form-label">Select Doctor</label>
+                                <select id="doctorSelect" class="form-control" required>
+                                    <option value="">Choose Doctor</option>
+                                </select>
+                            </div>
+
+                            <!-- Visit Type -->
+                            <div class="form-group">
+                                <label for="visitType" class="form-label">Visit Type</label>
+                                <select id="visitType" class="form-control" required>
+                                    <option value="Follow-up">Routine Follow-up</option>
+                                    <option value="Check-up">Post-Operation Review</option>
+                                    <option value="Consultation">AI Alert Follow-up</option>
+                                    <option value="Emergency">Urgent Consultation</option>
+                                </select>
+                            </div>
+
+                            <!-- Selected Date -->
+                            <div class="form-group">
+                                <label for="selectedDate" class="form-label">Selected Date</label>
+                                <input type="date" id="selectedDate" class="form-control" required>
+                            </div>
+
+                            <!-- Time Slot -->
+                            <div class="form-group">
+                                <label for="timeSlot" class="form-label">Time Slot</label>
+                                <div class="time-slots-grid" id="timeSlotsGrid">
+                                    <!-- Time slots will be populated by JavaScript -->
+                                </div>
+                                <input type="hidden" id="selectedTime" required>
+                            </div>
+
+                            <!-- Reason for Visit -->
+                            <div class="form-group form-group-full">
+                                <label for="reason" class="form-label">Reason for Visit</label>
+                                <textarea id="reason" rows="3" placeholder="Briefly describe the reason for your appointment..." class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="cancelBookingBtn">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="submitBookingBtn">
+                                <i class="fas fa-calendar-check mr-sm"></i>
+                                Confirm Booking
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Confirmation Section -->
+            <div class="card confirmation-section" id="confirmationSection" style="display: none;">
+                <div class="card-header">
+                    <h3 class="card-header-title text-success"><i class="fas fa-check-circle mr-sm"></i>Appointment Confirmed!</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-secondary mb-xl">Your appointment has been successfully scheduled.</p>
+
+                    <div class="appointment-summary">
+                        <h4 class="mb-lg">Appointment Details</h4>
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <strong>Appointment ID:</strong>
+                                <span id="summaryId">APT-2025-001</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>Date:</strong>
+                                <span id="summaryDate">January 25, 2025</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>Time:</strong>
+                                <span id="summaryTime">10:00 AM</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>Doctor:</strong>
+                                <span id="summaryDoctor">Dr. Emily White</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>Visit Type:</strong>
+                                <span id="summaryType">Routine Follow-up</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>Status:</strong>
+                                <span class="badge badge-success">Confirmed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-md mt-xl">
+                        <button class="btn btn-primary" id="backToBookingBtn">
+                            <i class="fas fa-calendar-plus mr-sm"></i>
+                            Book Another Appointment
+                        </button>
+                        <button class="btn btn-secondary" id="viewAppointmentsBtn">
+                            <i class="fas fa-list mr-sm"></i>
+                            View My Appointments
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+                </div><!-- END right-panel -->
+            </div>
+        </div><!-- END CONTENT -->
+
+        <!-- FOOTER -->
+        <footer class="dashboard-footer">
+            <div class="footer-brand">
+                <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+            </div>
+            <div class="footer-links">
+                <a href="../../index.html">Home</a>
+                <a href="../../index.html#about">About</a>
+                <a href="../../index.html#features">Features</a>
+                <a href="../../chatbot/mainpage.html">Chatbot</a>
+            </div>
+            <span class="footer-copyright">© 2025 CardioAI. All rights reserved.</span>
+        </footer>
+
+    </main>
+
+    <!-- Chat Bot Floating Button -->
+    <a href="../../chatbot/mainpage.html" class="floating-chat" title="AI Chatbot">
+        <img src="../../images/chatbot.png" alt="Chat Bot" class="chat-bot-img">
+    </a>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="modal" id="successModal">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3 class="modal-title">Success!</h3>
+                <button class="modal-close" id="closeSuccessModal">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="success-icon mb-lg">
+                    <i class="fas fa-check-circle text-success" style="font-size:60px;"></i>
+                </div>
+                <p id="successMessage">Appointment booked successfully!</p>
+                <button class="btn btn-primary mt-lg" id="okBtn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="cancelModal">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3 class="modal-title">Cancel Appointment</h3>
+                <button class="modal-close" id="closeCancelModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="cancelMessage">Are you sure you want to cancel this appointment?</p>
+                <div class="d-flex gap-md mt-xl justify-content-end">
+                    <button class="btn btn-secondary" id="cancelNoBtn">No, Keep It</button>
+                    <button class="btn btn-danger" id="cancelYesBtn">Yes, Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/auth-manager.js"></script>
+    <script>AuthManager.initSidebarFooterPanel();</script>
+    <script src="../shared/notification-count.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

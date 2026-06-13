@@ -1,0 +1,426 @@
+<!-- doctor/patient-search/view-patient-history/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Records — CardioAI</title>
+  <link rel="stylesheet" href="../../../css/unified-design.css">
+  <link rel="stylesheet" href="../../shared/shared.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ══ SIDEBAR ═════════════════════════════════════════════ -->
+  <nav class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="dashboard-sidebar__header">
+      <div class="dashboard-sidebar__logo">
+        <a href="../../dashboard/dashboard.html" class="navbar-brand">
+          <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+        </a>
+      </div>
+      <button class="dashboard-sidebar__close" id="sidebarCloseBtn" aria-label="Close sidebar" title="Close sidebar">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+    <div class="dashboard-sidebar__nav">
+      <a href="../../dashboard/dashboard.html" class="dashboard-sidebar__item">
+        <i class="fas fa-home"></i><span>Dashboard</span>
+      </a>
+      <a href="../patient-search/patient-search.html" class="dashboard-sidebar__item">
+        <i class="fas fa-search"></i><span>Patient Search</span>
+      </a>
+      <a href="../../my-patients/my-patients.html" class="dashboard-sidebar__item">
+        <i class="fas fa-users"></i><span>My Patients</span>
+      </a>
+      <a href="../../my-requests/my-requests.html" class="dashboard-sidebar__item">
+        <i class="fas fa-file-medical"></i><span>Requests</span>
+      </a>
+      <a href="../../appointments/appointments.html" class="dashboard-sidebar__item">
+        <i class="fas fa-calendar-alt"></i><span>Appointments</span>
+      </a>
+      <a href="../../schedule/schedule.html" class="dashboard-sidebar__item">
+        <i class="fas fa-clock"></i><span>Schedule</span>
+      </a>
+      <a href="../../profile/profile.html" class="dashboard-sidebar__item">
+        <i class="fas fa-user-cog"></i><span>Profile</span>
+      </a>
+    </div>
+    <div class="dashboard-sidebar__footer" id="sidebarFooterPanel">
+      <div class="sidebar-footer-trigger" id="footerPanelTrigger">
+        <div class="sidebar-footer-avatar" id="footerAvatar">DR</div>
+        <div class="sidebar-footer-info">
+          <span class="sidebar-footer-name" id="footerDoctorName">Doctor</span>
+          <span class="sidebar-footer-role">Cardiologist</span>
+        </div>
+        <i class="fas fa-chevron-up sidebar-footer-chevron"></i>
+      </div>
+      <div class="sidebar-footer-menu" id="footerPanelMenu">
+        <a href="../../profile/profile.html" class="sidebar-footer-item">
+          <i class="fas fa-user-cog"></i> Profile Settings
+        </a>
+        <button class="sidebar-footer-item danger" id="sidebarLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE OVERLAY ══════════════════════════════════════ -->
+  <div class="mobile-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══ MAIN ════════════════════════════════════════════════ -->
+  <main class="dashboard-main">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div class="dashboard-header__left">
+        <button class="hamburger" id="sidebarToggle" aria-label="Open menu" title="Open menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div>
+          <h1 style="font-size:var(--font-size-xl);font-weight:var(--font-weight-bold);color:var(--primary);margin:0;">
+            Patient Records
+          </h1>
+          <p style="font-size:var(--font-size-sm);color:var(--text-muted);margin:0;" id="headerSubtitle">
+            Viewing patient medical history
+          </p>
+        </div>
+      </div>
+      <div class="dashboard-header__actions">
+        <button class="btn btn-icon btn-ghost" id="notificationsBtn" title="Notifications">
+          <i class="fas fa-bell"></i>
+        </button>
+        <div class="user-menu" id="userMenu">
+          <div class="user-avatar" id="doctorAvatar" onclick="window.location.href='../../profile/profile.html'" style="cursor:pointer;">DR</div>
+          <div class="dropdown-menu" id="userDropdown">
+            <div class="dropdown-header">
+              <div class="user-name" id="doctorNamePill">Doctor</div>
+              <div class="user-email" id="doctorSpecialty">—</div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="../../dashboard/dashboard.html" class="dropdown-item">
+              <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="../../my-patients/my-patients.html" class="dropdown-item">
+              <i class="fas fa-users"></i> My Patients
+            </a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item danger" onclick="confirmLogout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SCROLLABLE CONTENT -->
+    <div class="dashboard-content">
+
+      <!-- ══ PATIENT INFO HEADER ══════════════════════════════════════ -->
+      <section class="patient-info-header card animate-fade-in-up">
+        <div class="patient-info-header__main">
+          <div class="patient-info-header__avatar">
+            <span class="avatar-initials-lg" id="patientAvatarInitials">—</span>
+          </div>
+          <div class="patient-info-header__details">
+            <h2 id="patientName" class="patient-info-header__name">Loading...</h2>
+            <p id="patientInfo" class="patient-info-header__info">—</p>
+            <div class="patient-info-header__tags" id="patientTags">
+              <span class="badge badge-primary" id="patientConditionTag">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="patient-info-header__contact">
+          <div class="patient-info-header__contact-item">
+            <i class="fas fa-envelope"></i>
+            <span id="patientEmail">—</span>
+          </div>
+          <div class="patient-info-header__contact-item">
+            <i class="fas fa-phone"></i>
+            <span id="patientPhone">—</span>
+          </div>
+          <div class="patient-info-header__contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span id="patientLocation">—</span>
+          </div>
+        </div>
+        <div class="patient-info-header__actions">
+          <a href="../../appointments/appointments.html#new-appointment" class="btn btn-primary btn-sm">
+            <i class="fas fa-calendar-plus"></i> Schedule
+          </a>
+        </div>
+      </section>
+
+      <!-- ══ TAB NAVIGATION ══════════════════════════════════════════ -->
+      <nav class="patient-tabs animate-fade-in-up delay-100">
+        <button class="patient-tab active" data-section="overview">
+          <i class="fas fa-info-circle"></i> Overview
+        </button>
+        <button class="patient-tab" data-section="visit-history">
+          <i class="fas fa-history"></i> Visit History
+        </button>
+        <button class="patient-tab" data-section="medical-reports">
+          <i class="fas fa-file-medical"></i> Medical Reports
+        </button>
+        <button class="patient-tab" data-section="medications">
+          <i class="fas fa-pills"></i> Medications
+        </button>
+        <button class="patient-tab" data-section="requests">
+          <i class="fas fa-file-medical"></i> Requests
+        </button>
+        <button class="patient-tab" data-section="clinical-notes">
+          <i class="fas fa-notes-medical"></i> Clinical Notes
+        </button>
+      </nav>
+
+      <!-- ══ TAB CONTENT ═════════════════════════════════════════════ -->
+
+      <!-- ───── Overview ───── -->
+      <section id="overview-section" class="section-content active animate-fade-in-up delay-200">
+        <div class="overview-grid">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-header-title">
+                <i class="fas fa-notes-medical text-brand-primary mr-sm"></i>
+                Medical Information
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="info-row">
+                <span class="info-label">Primary Condition</span>
+                <span class="info-value" id="primaryCondition">—</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Allergies</span>
+                <span class="info-value" id="allergies">—</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Current Medications</span>
+                <span class="info-value" id="currentMeds">—</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Emergency Contact</span>
+                <span class="info-value" id="emergencyContact">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-header-title">
+                <i class="fas fa-heartbeat text-danger mr-sm"></i>
+                Latest Vitals
+              </h3>
+              <span class="text-xs text-muted" id="lastVisitDate">—</span>
+            </div>
+            <div class="card-body">
+              <div class="vitals-grid">
+                <div class="vital-card">
+                  <div class="vital-card__header">
+                    <span class="vital-card__label">Blood Pressure</span>
+                    <i class="fas fa-tachometer-alt text-brand-primary"></i>
+                  </div>
+                  <div class="vital-card__value">
+                    <span id="bpValue">—</span>
+                    <span class="vital-card__unit">mmHg</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="bpProgress" style="width:0%"></div>
+                  </div>
+                </div>
+                <div class="vital-card">
+                  <div class="vital-card__header">
+                    <span class="vital-card__label">Heart Rate</span>
+                    <i class="fas fa-heart text-danger"></i>
+                  </div>
+                  <div class="vital-card__value">
+                    <span id="hrValue">—</span>
+                    <span class="vital-card__unit">bpm</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill progress-fill-success" id="hrProgress" style="width:0%"></div>
+                  </div>
+                </div>
+                <div class="vital-card">
+                  <div class="vital-card__header">
+                    <span class="vital-card__label">Temperature</span>
+                    <i class="fas fa-temperature-high text-warning"></i>
+                  </div>
+                  <div class="vital-card__value">
+                    <span id="tempValue">—</span>
+                    <span class="vital-card__unit">°C</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill progress-fill-warning" id="tempProgress" style="width:0%"></div>
+                  </div>
+                </div>
+                <div class="vital-card">
+                  <div class="vital-card__header">
+                    <span class="vital-card__label">SpO₂</span>
+                    <i class="fas fa-lungs text-info"></i>
+                  </div>
+                  <div class="vital-card__value">
+                    <span id="spo2Value">—</span>
+                    <span class="vital-card__unit">%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill progress-fill-info" id="spo2Progress" style="width:0%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── Visit History ───── -->
+      <section id="visit-history-section" class="section-content animate-fade-in-up delay-200">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-header-title">
+              <i class="fas fa-history text-brand-primary mr-sm"></i>
+              Visit History
+            </h3>
+          </div>
+          <div class="card-body" id="visitHistoryContainer">
+            <div class="empty-state">
+              <i class="fas fa-calendar-check"></i>
+              <p>Loading visit history...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── Medical Reports ───── -->
+      <section id="medical-reports-section" class="section-content animate-fade-in-up delay-200">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-header-title">
+              <i class="fas fa-file-medical text-brand-secondary mr-sm"></i>
+              Medical Reports
+            </h3>
+          </div>
+          <div class="card-body" id="medicalReportsContainer">
+            <div class="empty-state">
+              <i class="fas fa-file-medical"></i>
+              <p>Loading medical reports...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── Medications ───── -->
+      <section id="medications-section" class="section-content animate-fade-in-up delay-200">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-header-title">
+              <i class="fas fa-pills text-brand-secondary mr-sm"></i>
+              Current Medications
+            </h3>
+          </div>
+          <div class="card-body" id="medicationsContainer">
+            <div class="empty-state">
+              <i class="fas fa-pills"></i>
+              <p>Loading medications...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── Requests ───── -->
+      <section id="requests-section" class="section-content animate-fade-in-up delay-200">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-header-title">
+              <i class="fas fa-file-medical text-brand-primary mr-sm"></i>
+              Patient Requests
+            </h3>
+          </div>
+          <div class="card-body" id="requestsContainer">
+            <div class="empty-state">
+              <i class="fas fa-file-medical"></i>
+              <p>Loading patient requests...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── Clinical Notes ───── -->
+      <section id="clinical-notes-section" class="section-content animate-fade-in-up delay-200">
+        <div id="clinical-notes-overview">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-header-title">
+                <i class="fas fa-notes-medical text-brand-primary mr-sm"></i>
+                Clinical Notes
+              </h3>
+              <button class="btn btn-secondary btn-sm btn-add-notes">
+                <i class="fas fa-plus"></i> Add Notes
+              </button>
+            </div>
+            <div class="card-body">
+              <div id="clinicalNotesList"></div>
+              <div class="empty-state" id="clinicalNotesEmpty">
+                <i class="fas fa-file-medical"></i>
+                <p id="clinicalNotesEmptyText">No clinical notes yet</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="clinical-notes-form" class="clinical-notes-hidden">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-header-title">
+                <i class="fas fa-edit text-brand-primary mr-sm"></i>
+                New Clinical Note
+              </h3>
+            </div>
+            <div class="card-body">
+              <textarea class="form-control" id="clinicalNotesTextarea" rows="6"
+                placeholder="Enter your clinical observations and notes..."></textarea>
+              <div class="clinical-notes-form__actions">
+                <button class="btn btn-outline btn-sm btn-cancel-notes">
+                  <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-success btn-sm btn-save-notes">
+                  <i class="fas fa-save"></i> Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- END CONTENT -->
+
+    <!-- FOOTER -->
+    <footer class="dashboard-footer">
+      <div class="footer-brand">
+        <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+      </div>
+      <div class="footer-links">
+        <a href="../../../index.html">Home</a>
+        <a href="../../../index.html#about">About</a>
+        <a href="../../../index.html#features">Features</a>
+        <a href="../../../index.html#cta-section">Contact</a>
+      </div>
+      <span class="footer-copyright">&copy; 2025 CardioAI. All rights reserved.</span>
+    </footer>
+
+  </main>
+
+  <!-- Chat Bot Floating Button -->
+  <a href="../../../chatbot/mainpage.html" class="floating-chat" aria-label="Open Chatbot">
+    <img src="chatbot.png" alt="Chat Bot" onerror="this.parentElement.innerHTML='<i class=\'fas fa-robot\' style=\'color:white;font-size:22px;\'></i>'">
+  </a>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="../../../js/auth-manager.js"></script>
+  <script>AuthManager.initSidebarFooterPanel();</script>
+  <script src="navigation.js"></script>
+</body>
+</html>

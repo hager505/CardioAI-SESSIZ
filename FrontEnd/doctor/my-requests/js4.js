@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const avatarPill = document.getElementById("doctorAvatarPill");
   if (avatarPill) {
-    const photo = localStorage.getItem(`avatar_${user.id}`) ?? avatarUrl(user.full_name);
+    const photo = localStorage.getItem(`avatar_doctor_${user.id}`) ?? avatarUrl(user.full_name);
     avatarPill.src = photo;
   }
 
@@ -124,7 +124,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ── Logout ────────────────────────────────────────────────────────────────
   document.querySelector("footer button")?.addEventListener("click", () => {
-    if (confirm("Log out?")) { sessionStorage.clear(); window.location.href = "../../auth/login.html"; }
+    if (typeof AuthManager !== 'undefined' && AuthManager.handleLogout) {
+      AuthManager.handleLogout();
+    } else {
+      sessionStorage.clear();
+      window.location.href = "../../auth/login.html";
+    }
   });
 });
 

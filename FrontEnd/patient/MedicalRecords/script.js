@@ -1,3 +1,4 @@
+// patient/MedicalRecords/script.js
 document.addEventListener('DOMContentLoaded', function () {
 
   // ─── Auth Guard ───────────────────────────────────────────
@@ -75,6 +76,16 @@ document.addEventListener('DOMContentLoaded', function () {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   }
 
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   // Map DB record_type → UI category tab
   function dbTypeToCategory(record_type) {
     const map = {
@@ -106,6 +117,64 @@ document.addEventListener('DOMContentLoaded', function () {
       surgery:      'fas fa-syringe',
     };
     return icons[record_type] || 'fas fa-file-medical';
+  }
+
+  // Doctor avatar helpers — mirrors the doctor's-dashboard pattern so
+  // the patient dashboard shows a real doctor photo (or coloured
+  // initials via ui-avatars.com) in the same way across every page.
+  const BACKEND_ORIGIN = 'http://localhost:5000';
+  const AVATAR_BG_COLORS = ['1a56db', '10b981', 'ef4444', 'f59e0b', '1c8a8e', '6b7280'];
+  const doctorAvatarFallbacks = new Map();
+
+  function getDoctorInitials(name) {
+    if (!name) return 'DR';
+    const parts = String(name).trim().replace(/^Dr\.?\s*/i, '').split(/\s+/);
+    const first = (parts[0]?.[0] || 'D').toUpperCase();
+    const second = (parts[1]?.[0] || parts[0]?.[1] || 'R').toUpperCase();
+    return first + second;
+  }
+
+  function doctorAvatarFallbackUrl(name, doctorId) {
+    const id = String(doctorId ?? '0');
+    if (doctorAvatarFallbacks.has(id)) return doctorAvatarFallbacks.get(id);
+    const bg = AVATAR_BG_COLORS[parseInt(doctorId, 10) % AVATAR_BG_COLORS.length] || AVATAR_BG_COLORS[0];
+    const initials = getDoctorInitials(name);
+    const url = `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=${bg}&color=fff&size=128&bold=true`;
+    doctorAvatarFallbacks.set(id, url);
+    return url;
+  }
+
+  function resolveDoctorPhoto(record) {
+    const raw = record?.doctor_avatar_url;
+    if (!raw) return null;
+    if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('data:')) return raw;
+    if (raw.startsWith('/')) return BACKEND_ORIGIN + raw;
+    return BACKEND_ORIGIN + '/' + raw;
+  }
+
+  // Renders the doctor chip: real photo when present, initials under
+  // the photo as a fallback that hides itself once the photo loads.
+  function renderDoctorChip(record) {
+    if (!record || (!record.doctor_name && !record.doctor_id)) {
+      return '<span class="value text-muted">—</span>';
+    }
+    const name = record.doctor_name
+      ? (record.doctor_name.startsWith('Dr') ? record.doctor_name : `Dr. ${record.doctor_name}`)
+      : 'Doctor';
+    const initials = getDoctorInitials(record.doctor_name);
+    const photoUrl = resolveDoctorPhoto(record);
+    const fallbackUrl = doctorAvatarFallbackUrl(record.doctor_name, record.doctor_id);
+    const hasPhoto = Boolean(photoUrl);
+    const img = hasPhoto
+      ? `<img src="${escapeHtml(photoUrl)}" alt="${escapeHtml(name)}" onerror="this.onerror=null;this.src='${escapeHtml(fallbackUrl)}';">`
+      : '';
+    return `<span class="doctor-chip">
+        <span class="dc-avatar${hasPhoto ? ' has-photo' : ''}">
+          ${img}
+          <span class="dc-initials">${escapeHtml(initials)}</span>
+        </span>
+        <span class="dc-name">${escapeHtml(name)}</span>
+      </span>`;
   }
 
   function getReportTypeName(record_type) {
@@ -165,19 +234,38 @@ document.addEventListener('DOMContentLoaded', function () {
       el.className = `report-item ${selectedRecord?.id === record.id ? 'selected' : ''}`;
       el.dataset.id = record.id;
 
+      // Prescriptions get a "Request Refill" button next to download/delete
+      // so the patient can ask the doctor to renew this medication without
+      // leaving the medical reports page. The refill goes through the same
+      // /api/doctor/requests pipeline that the dedicated Requests page uses,
+      // so it shows up on the doctor's My Requests and (with patient_id
+      // filter) in this patient's view-patient-history "Requests" tab.
+      const isPrescription = record.record_type === 'prescription';
+      const refillBtn = isPrescription
+        ? `<button class="action-btn refill-action" title="Request Refill" aria-label="Request Refill">
+             <i class="fas fa-pills"></i>
+           </button>`
+        : '';
+
       el.innerHTML = `
         <div class="report-icon">
           <i class="${getReportIcon(record.record_type)}"></i>
         </div>
         <div class="report-content">
-          <div class="report-title">${record.title || '—'}</div>
-          <div class="report-meta">${formatDate(record.record_date)} • ${record.doctor_name || '—'}</div>
+          <div class="report-title">${escapeHtml(record.title) || '—'}</div>
+          <div class="report-meta">
+            <span>${formatDate(record.record_date)}</span>
+            <span> • </span>
+            <span style="color:var(--primary);font-weight:600;text-transform:capitalize;">${getReportTypeName(record.record_type)}</span>
+          </div>
+          ${record.doctor_name ? renderDoctorChip(record) : ''}
         </div>
         <div class="report-actions">
-          <button class="action-btn download-action" title="Download">
+          ${refillBtn}
+          <button class="action-btn download-action" title="Download" aria-label="Download">
             <i class="fas fa-download"></i>
           </button>
-          <button class="action-btn delete-action" title="Delete">
+          <button class="action-btn delete-action" title="Delete" aria-label="Delete">
             <i class="fas fa-trash"></i>
           </button>
         </div>`;
@@ -186,11 +274,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!e.target.closest('.action-btn')) selectRecord(record);
       });
 
+      el.querySelector('.refill-action')?.addEventListener('click', e => {
+        e.stopPropagation();
+        requestRefillForPrescription(record);
+      });
       el.querySelector('.download-action').addEventListener('click', e => {
         e.stopPropagation();
         downloadRecord(record);
       });
-
       el.querySelector('.delete-action').addEventListener('click', e => {
         e.stopPropagation();
         deleteRecord(record.id);
@@ -211,7 +302,10 @@ document.addEventListener('DOMContentLoaded', function () {
     previewTitle.textContent       = record.title       || '—';
     previewType.textContent        = getReportTypeName(record.record_type);
     previewDate.textContent        = formatDate(record.record_date);
-    previewDoctor.textContent      = record.doctor_name || '—';
+    // The Doctor value is now a doctor-chip with the doctor's photo (or
+    // ui-avatars.com fallback) so it matches the doctor's-dashboard
+    // pattern instead of being a flat text label.
+    previewDoctor.innerHTML        = renderDoctorChip(record);
     previewDescription.textContent = record.description || '—';
 
     if (record.report_file) {
@@ -278,6 +372,61 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // ─── Request Refill (from a prescription medical record) ──────────────────
+  // Posts to /api/doctor/requests with the same shape the dedicated
+  // /patient/requests page uses, so it shows up in:
+  //   • doctor's my-requests page
+  //   • doctor's view-patient-history "Requests" tab (filtered by patient_id)
+  //   • patient's notification center
+  // The doctor is taken from the prescription record (record.doctor_id /
+  // record.doctor_name) so the refill goes to the doctor who prescribed it.
+  async function requestRefillForPrescription(record) {
+    if (!confirm(`Request a refill for "${record.title || 'this prescription'}"? Your doctor will be notified.`)) return;
+
+    const doctorId = record.doctor_id;
+    if (!doctorId) {
+      showToast('No doctor is linked to this prescription — cannot send refill request.', 'error');
+      return;
+    }
+
+    try {
+      const res  = await fetch(`${API}/doctor/requests`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          patient_id:  parseInt(userId, 10),
+          doctor_id:   parseInt(doctorId, 10),
+          patientName: (JSON.parse(sessionStorage.getItem('user_data') || 'null')?.full_name) || null,
+          title:       `Refill: ${record.title || 'Prescription'}`,
+          message:     `Refill: ${record.title || 'Prescription'} — please approve a refill prescription.`,
+          priority:    'Medium',
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json?.message || 'Failed to send request');
+
+      // Also push a patient-facing notification so it shows up in the
+      // patient's notification center, just like the medications-page
+      // refill flow does.
+      try {
+        await fetch(`${API}/notifications`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            patient_id: parseInt(userId, 10),
+            title: 'Refill Request Sent',
+            message: `Your refill request for "${record.title}" was sent to ${record.doctor_name || 'your doctor'}.`,
+          }),
+        });
+      } catch (_) { /* non-blocking */ }
+
+      showToast('Refill request sent to your doctor ✓', 'success');
+      window.NotificationCount?.refresh();
+    } catch (err) {
+      showToast(err.message || 'Failed to send refill request.', 'error');
+    }
+  }
+
   // ─── Upload ───────────────────────────────────────────────
   async function handleUpload(e) {
     e.preventDefault();
@@ -307,6 +456,21 @@ document.addEventListener('DOMContentLoaded', function () {
       allRecords.unshift(data.record || data);
       applyFilters();
       if (allRecords.length > 0) selectRecord(allRecords[0]);
+
+      // Push a notification record so it shows up in the notifications page.
+      try {
+        await fetch(`${API}/notifications`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            patient_id: parseInt(userId, 10),
+            title: 'Medical Record Uploaded',
+            message: `${document.getElementById('reportTitle').value.trim()} has been added to your medical records.`,
+          }),
+        });
+        // Refresh the header/sidebar notification badge immediately
+        window.NotificationCount?.refresh();
+      } catch (_) { /* non-blocking */ }
 
       closeModal();
       showToast('Report uploaded successfully!', 'success');
@@ -452,7 +616,9 @@ document.addEventListener('DOMContentLoaded', function () {
     
     document.getElementById('logoutBtn')?.addEventListener('click', e => {
       e.preventDefault();
-      if (confirm('Are you sure you want to log out?')) {
+      if (typeof AuthManager !== 'undefined' && AuthManager.handleLogout) {
+        AuthManager.handleLogout();
+      } else {
         sessionStorage.clear();
         window.location.href = '../../auth/login.html';
       }
@@ -466,6 +632,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ─── Init ──────────────────────────────────────────────────
   setupEventListeners();
+
+  // Honour ?q= search query from dashboard
+  const urlQ = new URLSearchParams(window.location.search).get('q');
+  if (urlQ) {
+    searchInput.value = urlQ;
+  }
+
   loadRecords();
 
 });

@@ -1,0 +1,256 @@
+<!-- Patient Requests Page "patient/requests/requests.html" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Unified Design System -->
+    <link rel="stylesheet" href="../../css/unified-design.css">
+    <link rel="stylesheet" href="../shared/shared.css">
+    <!-- Page Specific Styles -->
+    <link rel="stylesheet" href="style.css">
+    <title>Requests - CardioAI</title>
+</head>
+<body>
+
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════════════════ -->
+    <nav class="dashboard-sidebar" id="dashboardSidebar">
+        <div class="dashboard-sidebar__header">
+            <div class="dashboard-sidebar__logo">
+                <a href="../dashboard/dashboard.html" class="navbar-brand">
+                    <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+                </a>
+            </div>
+            <button class="dashboard-sidebar__close" id="sidebarCloseBtn" aria-label="Close sidebar" title="Close sidebar">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+        <div class="dashboard-sidebar__nav">
+            <a href="../dashboard/dashboard.html" class="dashboard-sidebar__item">
+                <i class="fas fa-home"></i><span>Dashboard</span>
+            </a>
+            <a href="../profile/profile.html" class="dashboard-sidebar__item">
+                <i class="fas fa-user"></i><span>Profile</span>
+            </a>
+            <a href="../MedicalRecords/medicalrecords1.html" class="dashboard-sidebar__item">
+                <i class="fas fa-file-medical"></i><span>Medical Records</span>
+            </a>
+            <a href="../appointments/appointment.html" class="dashboard-sidebar__item">
+                <i class="fas fa-calendar-check"></i><span>Appointments</span>
+            </a>
+            <a href="../medications/medications.html" class="dashboard-sidebar__item">
+                <i class="fas fa-pills"></i><span>Medications</span>
+            </a>
+            <a href="requests.html" class="dashboard-sidebar__item active">
+                <i class="fas fa-paper-plane"></i><span>Requests</span>
+            </a>
+            <a href="../notifications/notification.html" class="dashboard-sidebar__item">
+                <i class="fas fa-bell"></i><span>Notifications</span>
+            </a>
+        </div>
+        <div class="dashboard-sidebar__footer" id="sidebarFooterPanel">
+            <div class="sidebar-footer-trigger" id="footerPanelTrigger">
+                <div class="sidebar-footer-avatar" id="footerAvatar">P</div>
+                <div class="sidebar-footer-info">
+                    <span class="sidebar-footer-name" id="footerPatientName">Patient</span>
+                    <span class="sidebar-footer-role">Patient</span>
+                </div>
+                <i class="fas fa-chevron-up sidebar-footer-chevron"></i>
+            </div>
+            <div class="sidebar-footer-menu" id="footerPanelMenu">
+                <a href="../profile/profile.html" class="sidebar-footer-item">
+                    <i class="fas fa-user-cog"></i> Profile Settings
+                </a>
+                <button class="sidebar-footer-item danger" id="sidebarLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ══ MOBILE OVERLAY ══════════════════════════════════════════════════ -->
+    <div class="mobile-overlay" id="sidebarOverlay"></div>
+
+    <!-- ══ MAIN ════════════════════════════════════════════════════════════ -->
+    <main class="dashboard-main">
+
+        <!-- HEADER -->
+        <header class="dashboard-header">
+            <div class="dashboard-header__left">
+                <button class="hamburger" id="sidebarToggle" aria-label="Open menu" title="Open menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="dashboard-header__actions">
+                <button class="btn btn-icon btn-ghost" id="notificationsBtn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notifBadge" style="display:none;"></span>
+                </button>
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="profileAvatar" tabindex="0" role="button" onclick="window.location.href='../profile/profile.html'">
+                        <span class="avatar-initials" id="avatarInitials">P</span>
+                    </div>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="user-name" id="dropdownUserName">Loading...</div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="../profile/profile.html" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="../dashboard/dashboard.html" class="dropdown-item"><i class="fas fa-home"></i> Dashboard</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item danger" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <div class="dashboard-content">
+
+            <!-- Page Header -->
+            <div class="requests-page-header">
+                <div>
+                    <h1>Requests</h1>
+                    <p>Send refills, lab reviews, or any custom request to your care team</p>
+                </div>
+            </div>
+
+            <div class="requests-grid">
+
+                <!-- ── New Request Form ── -->
+                <div class="card request-form-card">
+                    <div class="card-header">
+                        <h3 class="card-header-title">
+                            <i class="fas fa-paper-plane text-brand-primary mr-sm"></i>
+                            New Request
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="newRequestForm" novalidate>
+
+                            <div class="form-group">
+                                <label class="form-label">Request Type <span class="required">*</span></label>
+                                <div class="request-type-toggle" id="requestTypeToggle">
+                                    <button type="button" class="request-type-btn active" data-type="refill">
+                                        <i class="fas fa-pills"></i><span>Medication Refill</span>
+                                    </button>
+                                    <button type="button" class="request-type-btn" data-type="lab">
+                                        <i class="fas fa-flask"></i><span>Lab Review</span>
+                                    </button>
+                                    <button type="button" class="request-type-btn" data-type="custom">
+                                        <i class="fas fa-comment-dots"></i><span>Custom Request</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Refill: select medication -->
+                            <div class="form-group" id="refillMedicationGroup">
+                                <label for="refillMedication" class="form-label">Medication <span class="required">*</span></label>
+                                <select id="refillMedication" class="form-control form-select">
+                                    <option value="">Loading medications…</option>
+                                </select>
+                                <small class="form-hint">Only your active medications are listed.</small>
+                            </div>
+
+                            <!-- Lab / custom: free text message -->
+                            <div class="form-group" id="messageGroup" style="display:none;">
+                                <label for="requestMessage" class="form-label">Details <span class="required">*</span></label>
+                                <textarea id="requestMessage" class="form-control" rows="4"
+                                    placeholder="e.g., Please review the latest lipid panel results"></textarea>
+                                <small class="form-hint">The doctor will see this in their Requests inbox.</small>
+                            </div>
+
+                            <!-- Send to doctor -->
+                            <div class="form-group">
+                                <label for="requestDoctor" class="form-label">Send To <span class="required">*</span></label>
+                                <select id="requestDoctor" class="form-control form-select">
+                                    <option value="">Loading doctors…</option>
+                                </select>
+                                <small class="form-hint">Doctors you've had an appointment with.</small>
+                            </div>
+
+                            <!-- Priority -->
+                            <div class="form-group">
+                                <label for="requestPriority" class="form-label">Priority</label>
+                                <select id="requestPriority" class="form-control form-select">
+                                    <option value="Low">Low — when convenient</option>
+                                    <option value="Medium" selected>Medium — within a few days</option>
+                                    <option value="High">High — urgent, please respond soon</option>
+                                </select>
+                            </div>
+
+                            <div class="request-form-actions">
+                                <button type="button" class="btn btn-secondary" id="resetRequestBtn">Reset</button>
+                                <button type="submit" class="btn btn-primary" id="submitRequestBtn">
+                                    <i class="fas fa-paper-plane mr-sm"></i>
+                                    Send Request
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ── Past Requests ── -->
+                <div class="card past-requests-card">
+                    <div class="card-header">
+                        <h3 class="card-header-title">
+                            <i class="fas fa-history text-brand-secondary mr-sm"></i>
+                            Your Past Requests
+                            <span class="badge badge-primary ml-sm" id="requestsCount">0</span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="past-requests-toolbar">
+                            <select id="requestStatusFilter" class="form-control form-select" style="width:auto;height:38px;">
+                                <option value="all">All</option>
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="resolved">Resolved</option>
+                            </select>
+                        </div>
+                        <div id="pastRequestsList">
+                            <div class="patient-requests-empty">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading your requests…</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- END CONTENT -->
+
+        <!-- FOOTER -->
+        <footer class="dashboard-footer">
+            <div class="footer-brand">
+                <span class="brand-part1">Cardio</span><span class="brand-part2">AI</span>
+            </div>
+            <div class="footer-links">
+                <a href="../../index.html">Home</a>
+                <a href="../../index.html#about">About</a>
+                <a href="../../index.html#features">Features</a>
+                <a href="../../chatbot/mainpage.html">Chatbot</a>
+            </div>
+            <span class="footer-copyright">© 2025 CardioAI. All rights reserved.</span>
+        </footer>
+
+    </main>
+
+    <!-- Chat Bot Floating Button -->
+    <a href="../../chatbot/mainpage.html" class="floating-chat" title="AI Chatbot">
+        <img src="../../images/chatbot.png" alt="Chat Bot" class="chat-bot-img">
+    </a>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../../js/auth-manager.js"></script>
+    <script>AuthManager.initSidebarFooterPanel();</script>
+    <script src="../shared/notification-count.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

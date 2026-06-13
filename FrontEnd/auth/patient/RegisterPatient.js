@@ -1,12 +1,15 @@
+// Patient Registration Script "patient/RegisterPatient.js"
 document.addEventListener("DOMContentLoaded", function () {
 
   // ─── Elements ───────────────────────────────────────────
-  const checkbox        = document.getElementById("checkbox");
-  const privacyLink     = document.getElementById("privacyLink");
-  const completeBtn     = document.getElementById("completeBtn");
-  const loginBtn        = document.getElementById("loginBtn");
-  const passwordInput   = document.getElementById("password");
-  const confirmPassword = document.getElementById("confirmPassword");
+  const checkbox     = document.getElementById("checkbox");
+  const termsInput   = document.getElementById("termsCheckbox");
+  const privacyLink  = document.getElementById("privacyLink");
+  const completeBtn  = document.getElementById("completeBtn");
+  const loginBtn     = document.getElementById("loginBtn");
+  const passwordInput    = document.getElementById("password");
+  const confirmPassword  = document.getElementById("confirmPassword");
+  const header       = document.getElementById("header");
 
   const fields = {
     fullName:        document.getElementById("fullName"),
@@ -21,30 +24,76 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let isChecked = false;
 
+  // ─── Header scroll shadow ────────────────────────────────
+  window.addEventListener("scroll", () => {
+    header?.classList.toggle("scrolled", window.scrollY > 10);
+  });
+
+  // ─── Password toggles ────────────────────────────────────
+  function bindPasswordToggle(btn, input) {
+    btn?.addEventListener("click", function () {
+      input.type = input.type === "password" ? "text" : "password";
+      const icon = btn.querySelector("i");
+      const isHidden = input.type === "password";
+      icon.classList.toggle("fa-eye", isHidden);
+      icon.classList.toggle("fa-eye-slash", !isHidden);
+    });
+  }
+  bindPasswordToggle(document.getElementById("togglePassword1"), passwordInput);
+  bindPasswordToggle(document.getElementById("togglePassword2"), confirmPassword);
+
   // ─── Checkbox ────────────────────────────────────────────
-  function toggleCheckbox(e) {
-    e?.stopPropagation();
+  function applyCheckboxState() {
+    checkbox.style.backgroundColor = isChecked ? "var(--primary)" : "";
+    checkbox.style.borderColor     = isChecked ? "var(--primary)" : "";
+  }
+
+  function toggleCheckbox() {
     isChecked = !isChecked;
-
-    checkbox.style.backgroundColor = isChecked ? "#779f00" : "";
-    checkbox.style.borderColor     = isChecked ? "#779f00" : "#dee1e6";
-    checkbox.innerHTML = isChecked
-      ? `<svg width="12" height="12" viewBox="0 0 12 12">
-           <polyline points="1.5,6 4.5,9.5 10.5,2.5"
-             fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
-         </svg>`
-      : "";
-
+    if (termsInput) termsInput.checked = isChecked;
+    applyCheckboxState();
     checkFormCompletion();
   }
 
-  checkbox?.addEventListener("click", toggleCheckbox);
+  // Handle clicking anywhere on the custom checkbox or its label/text
+  const privacyLabel = document.getElementById("privacyLabel");
+  if (privacyLabel) {
+    privacyLabel.addEventListener("click", function (e) {
+      // If clicking the link, don't toggle (let link do its own thing)
+      if (e.target === privacyLink || e.target.closest("#privacyLink")) return;
+      // Prevent the default label click (which would toggle the input and fire change twice)
+      e.preventDefault();
+      toggleCheckbox();
+    });
+  } else {
+    checkbox?.addEventListener("click", function (e) {
+      e.preventDefault();
+      toggleCheckbox();
+    });
+  }
 
-  privacyLink?.addEventListener("click", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleCheckbox(e);
+  // Sync termsInput changes to visual state if termsInput is checked/unchecked directly
+  termsInput?.addEventListener("change", function () {
+    isChecked = termsInput.checked;
+    applyCheckboxState();
+    checkFormCompletion();
   });
+
+  // ─── Toast helper ────────────────────────────────────────
+  function showToast(message, type = "error") {
+    const container = document.getElementById("toastContainer");
+    if (!container) return;
+    const toast = document.createElement("div");
+    toast.className = `toast toast--${type}`;
+    const icon = type === "success" ? "fa-check-circle" : type === "error" ? "fa-exclamation-circle" : "fa-info-circle";
+    toast.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = "0";
+      toast.style.transform = "translateY(-20px)";
+      setTimeout(() => toast.remove(), 300);
+    }, 3500);
+  }
 
   // ─── Validation ──────────────────────────────────────────
   function isEmailValid(email) {
@@ -52,51 +101,51 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function checkFormCompletion() {
-    const allFilled   = Object.values(fields).every((el) => el?.value.trim() !== "");
-    const emailOk     = isEmailValid(fields.email?.value || "");
-    const passMatch   = passwordInput?.value === confirmPassword?.value && !!passwordInput?.value;
-    const valid       = allFilled && emailOk && passMatch && isChecked;
+    const allFilled = Object.values(fields).every((el) => el?.value.trim() !== "");
+    const emailOk   = isEmailValid(fields.email?.value || "");
+    const passMatch = passwordInput?.value === confirmPassword?.value && !!passwordInput?.value;
+    const valid     = allFilled && emailOk && passMatch && isChecked;
 
     if (completeBtn) {
+      completeBtn.disabled = !valid;
       completeBtn.style.opacity = valid ? "1" : "0.5";
-      completeBtn.style.cursor  = valid ? "pointer" : "not-allowed";
+      completeBtn.style.cursor = valid ? "pointer" : "not-allowed";
     }
 
     return valid;
   }
 
-  // Focus / blur effects
+  // ─── Input focus / blur effects ──────────────────────────
   Object.values(fields).forEach((el) => {
     if (!el) return;
-    el.addEventListener("input",  checkFormCompletion);
+    el.addEventListener("input", checkFormCompletion);
     el.addEventListener("change", checkFormCompletion);
     el.addEventListener("focus", () => {
-      if (el.parentElement?.classList.contains("sign-up__textfield"))
-        el.parentElement.style.borderColor = "#779f00";
+      el.closest(".input-wrapper")?.classList.add("focused");
     });
     el.addEventListener("blur", () => {
-      if (el.parentElement?.classList.contains("sign-up__textfield"))
-        el.parentElement.style.borderColor = "#dee1e6";
+      el.closest(".input-wrapper")?.classList.remove("focused");
     });
   });
 
-  // Password match indicator
+  // ─── Password match indicator ────────────────────────────
   function validatePasswords() {
     if (!passwordInput.value && !confirmPassword.value) return;
     const match = passwordInput.value === confirmPassword.value;
-    const color = match ? "#779f00" : "red";
-    passwordInput.parentElement.style.borderColor  = color;
-    confirmPassword.parentElement.style.borderColor = color;
+    passwordInput.classList.toggle("has-success", match && !!passwordInput.value);
+    passwordInput.classList.toggle("has-error", !match && !!confirmPassword.value);
+    confirmPassword.classList.toggle("has-success", match && !!confirmPassword.value);
+    confirmPassword.classList.toggle("has-error", !match && !!confirmPassword.value);
     checkFormCompletion();
   }
 
-  passwordInput?.addEventListener("input",  validatePasswords);
+  passwordInput?.addEventListener("input", validatePasswords);
   confirmPassword?.addEventListener("input", validatePasswords);
 
   // ─── Submit ──────────────────────────────────────────────
   completeBtn?.addEventListener("click", async function () {
     if (!checkFormCompletion()) {
-      alert("Please fill all required fields correctly.");
+      showToast("Please fill all required fields correctly.", "error");
       return;
     }
 
@@ -112,8 +161,8 @@ document.addEventListener("DOMContentLoaded", function () {
       agreed_terms:     true,
     };
 
-    completeBtn.style.opacity  = "0.7";
-    completeBtn.style.cursor   = "not-allowed";
+    completeBtn.disabled = true;
+    completeBtn.innerHTML = '<span class="spinner"></span> Creating account...';
 
     try {
       const res  = await fetch("http://localhost:5000/api/patients/register", {
@@ -124,25 +173,30 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = await res.json();
 
       if (!res.ok) {
-        alert("❌ " + data.message);
-        completeBtn.style.opacity = "1";
-        completeBtn.style.cursor  = "pointer";
+        showToast(data.message || "Registration failed", "error");
+        completeBtn.disabled = false;
+        completeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Complete My Account';
         return;
       }
 
       sessionStorage.setItem("patient_id", data.patient_id);
-      window.location.href = "../patient/complete.html";
+      showToast("Account created! Redirecting...", "success");
+
+      setTimeout(() => {
+        window.location.href = "./complete.html";
+      }, 800);
 
     } catch {
-      alert("Connection error. Is the server running on port 5000?");
-      completeBtn.style.opacity = "1";
-      completeBtn.style.cursor  = "pointer";
+      showToast("Connection error. Is the server running on port 5000?", "error");
+      completeBtn.disabled = false;
+      completeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Complete My Account';
     }
   });
 
   // ─── Login redirect ──────────────────────────────────────
-  loginBtn?.addEventListener("click", () => {
-    window.location.href = "../login/login.html";
+  loginBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.href = "../login.html";
   });
 
   // ─── Init ────────────────────────────────────────────────
