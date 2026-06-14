@@ -3,8 +3,8 @@ Welcome to the official documentation of the Best Model project — a hybrid dee
 
 🔗 Quick Links
 Resource	Link
-Kaggle Notebook (model code)	best-model on Kaggle
-PTB‑XL ECG Dataset	PTB‑XL on Kaggle
+Kaggle Notebook (model code)	https://www.kaggle.com/code/hagerabdelkaderr/best-model/edit
+PTB‑XL ECG Dataset	https://www.kaggle.com/datasets/khyeh0719/ptb-xl-dataset
 📊 1. Dataset – PTB‑XL
 The PTB‑XL ECG dataset is one of the largest publicly available ECG collections, widely used in research and clinical benchmarking.
 
